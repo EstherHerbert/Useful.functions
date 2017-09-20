@@ -17,3 +17,8 @@ Takes a dataframe and duplicates it n times, then creates a
              observation originally appeared int he dataset and 1 if the
              observation is one of the duplicates.
 }
+\examples{
+df <- data.frame(x = 1:5, y = c("a","b","c","d", "e"))
+stata_expand(df, 1)
+
+}
