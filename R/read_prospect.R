@@ -6,34 +6,34 @@
 #'              lookups.csv file into R.
 #'
 #' @param file The file to be read in
-#' @param lookups The file in which the lookups reside, default is \code{lookups}
+#' @param dictionary The file in which the lookups reside, default is \code{lookups}
 #' @param convert.date Convert fields ending in \code{_dt} to date format
 #'
 #' @export
 read_prospect <- function(file,
-                          lookups = lookups,
+                          dictionary = lookups,
                           convert.date = TRUE){
 
   new <- read.csv(file, stringsAsFactors = FALSE)
   names(new) <- gsub("_o$", "", names(new)) # get rid of _o because this
-  # doesn't appear in lookups
+  # doesn't appear in dictionary
 
   # filter the lookup table because there are duplicate fields in different
   # forms
   if(!"form_name" %in% names(new)){ # if there's no form name then check for a parent form name
     if("parent_form" %in% names(new)){
       if (!"subform_name" %in% names(new)) stop("No subform name in data")
-      if (!new$parent_form[1] %in% lookups$form){
-        stop("Form not listed in lookups")
+      if (!new$parent_form[1] %in% dictionary$form){
+        stop("Form not listed in dictionary")
       }
-      L <- filter(lookups, form == new$parent_form[1],
+      L <- filter(dictionary, form == new$parent_form[1],
                   subform == new$subform_name[1], field %in% names(new))
     } else stop("Form name not given in data")
   } else{
-    if(!new$form_name[1] %in% lookups$form){
-      stop("Form not listed in lookups")
+    if(!new$form_name[1] %in% dictionary$form){
+      stop("Form not listed in dictionary")
     }
-    L <- filter(lookups, form == new$form_name[1], subform == "",
+    L <- filter(dictionary, form == new$form_name[1], subform == "",
                 field %in% names(new))
   }
   L <- L %>%
