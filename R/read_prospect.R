@@ -14,6 +14,8 @@ read_prospect <- function(file,
                           dictionary = lookups,
                           convert.date = TRUE){
 
+  require(tidyverse)
+
   new <- read.csv(file, stringsAsFactors = FALSE)
   names(new) <- gsub("_o$", "", names(new)) # get rid of _o because this
   # doesn't appear in dictionary
