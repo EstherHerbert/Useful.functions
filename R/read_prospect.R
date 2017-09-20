@@ -14,6 +14,7 @@ read_prospect <- function(file,
                           dictionary = lookups,
                           convert.date = TRUE){
 
+  require(plyr)
   require(tidyverse)
 
   new <- read.csv(file, stringsAsFactors = FALSE)
@@ -40,7 +41,7 @@ read_prospect <- function(file,
   }
   L <- L %>%
     select(-c(form, subform)) %>%
-    plyr::dlply(.(field))
+    dlply(.(field))
 
   if(length(L) > 0){
     # Extract column names, levels, and labels
