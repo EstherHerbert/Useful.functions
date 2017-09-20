@@ -2,5 +2,6 @@
 
 export(continuous_table)
 export(discrete_table)
+export(forest_plot)
 export(read_prospect)
 export(stata_expand)
