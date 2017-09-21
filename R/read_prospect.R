@@ -54,10 +54,10 @@ read_prospect <- function (file         = .,
   if (convert.date == TRUE) {
     dates <- grep("_dt$", names(new))
     if (length(dates) == 1) {
-      new[, dates] <- lubridate::as_date(new[, dates])
+      new[, dates] <- as.Date(new[, dates], format = "%Y-%m-%d")
     }
     else if (length(dates > 1)) {
-      new[, dates] <- lapply(new[, dates], lubridate::as_date)
+      new[, dates] <- lapply(new[, dates], as.Date, format = "%Y-%m-%d")
     }
   }
 
