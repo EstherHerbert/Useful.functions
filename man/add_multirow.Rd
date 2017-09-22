@@ -10,7 +10,7 @@ add_multirow(x, width = "4cm")
 \item{x}{Character vector}
 
 \item{width}{Desired width of column to be passed to multirow in latex. e.g.
-\code{"4cm$}}
+\code{"4cm"}}
 }
 \description{
 Turns duplicate rows which occur together into NAs and adds

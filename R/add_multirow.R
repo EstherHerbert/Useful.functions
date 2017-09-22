@@ -5,7 +5,7 @@
 #'
 #' @param x Character vector
 #' @param width Desired width of column to be passed to multirow in latex. e.g.
-#'              \code{"4cm$}
+#'              \code{"4cm"}
 #'
 #' @examples
 #'     x <- c(rep("a", 5), rep("c", 2), rep("y", 7))
