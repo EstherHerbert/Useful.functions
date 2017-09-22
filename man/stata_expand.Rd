@@ -14,8 +14,8 @@ stata_expand(df, n)
 \description{
 Takes a dataframe and duplicates it n times, then creates a
              variable called Duplicate which has a value of 0 if the
-             observation originally appeared int he dataset and 1 if the
-             observation is one of the duplicates.
+             observation originally appeared int he dataset and i = 1,..,n
+             for each duplicate.
 }
 \examples{
 df <- data.frame(x = 1:5, y = c("a","b","c","d", "e"))
