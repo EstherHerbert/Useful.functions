@@ -4,13 +4,17 @@
 \alias{add_multirow}
 \title{For use with latex summary tables}
 \usage{
-add_multirow(x, width = "4cm")
+add_multirow(x, width = "4cm", pos = "t")
 }
 \arguments{
 \item{x}{Character vector}
 
 \item{width}{Desired width of column to be passed to multirow in latex. e.g.
 \code{"4cm"}}
+
+\item{pos}{Character defining the vertical positioning of the text in the
+multirow block. Default is "t" - top. Other options are "c" for
+centre or "b" for bottom.}
 }
 \description{
 Turns duplicate rows which occur together into NAs and adds
@@ -19,6 +23,6 @@ Turns duplicate rows which occur together into NAs and adds
 \examples{
     x <- c(rep("a", 5), rep("c", 2), rep("y", 7))
     add_multirow(x)
-    add_multirow(x, width = "2cm")
+    add_multirow(x, width = "2cm", pos = "c")
 
 }
