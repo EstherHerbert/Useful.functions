@@ -32,7 +32,7 @@ discrete_table <- function(df        = .,
     group_by(!!group, variable) %>%
     mutate(
       N = sum(n),
-      p = formatC(n/N*100, digits = 1, format = "f"),
+      p = round(n/N*100, 1),
       np = paste0(n, " (", p, "%)")
     ) %>%
     select(-c(n,N,p)) %>%
