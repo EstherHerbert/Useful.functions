@@ -26,7 +26,7 @@ discrete_table <- function(df        = .,
     df <- df %>%
       stata_expand(n = 1) %>%
       mutate(
-        !!quo_name(group) := if_else(Duplicate == 1, "Total", as.character(!!group))
+        !!quo_name(group) := if_else(Duplicate == 1, "All", as.character(!!group))
       )
   }
 
