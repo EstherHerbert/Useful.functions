@@ -1,26 +1,38 @@
 #' Produce a dataframe to summaries continuous variables
 #'
-#' @description Takes a dataframe and produces grouped summaries such as mean and
-#'              standard deviation for continuous variables.
+#' @description Takes a dataframe and produces grouped summaries such as mean
+#'              and standard deviation for continuous variables.
 #'
 #' @param df Data frame
 #' @param group Variable that defines the grouping
 #' @param variables Variables to be summarised
+#' @param total logical indicating wether a total column should be created
+#'
+#' @examples
+#'     continuous_table(df = iris, group = Species,
+#'                      variables = c(Petal.Length, Petal.Width))
+#'     continuous_table(df = iris, group = Species,
+#'                      variables = c(Sepal.Length, Sepal.Width),
+#'                      total = FALSE)
 #'
 #' @export
 continuous_table <- function(df        = .,
                              group     = group,
                              variables = c(),
+                             total     = TRUE,
                              ...){
+  require(tidyverse)
   group <- enquo(group)
   variables <- enquo(variables)
 
   # duplicating data to obtail totals
-  df <- df %>%
-    stata_expand(n = 1) %>%
-    mutate(
-      !!quo_name(group) := if_else(Duplicate == 1, "Total", as.character(!!group))
-    )
+  if(total){
+    df <- df %>%
+      stata_expand(n = 1) %>%
+      mutate(
+        !!quo_name(group) := if_else(Duplicate == 1, "All", as.character(!!group))
+      )
+  }
 
   new <- df %>%
     select(!!group, !!variables) %>%
