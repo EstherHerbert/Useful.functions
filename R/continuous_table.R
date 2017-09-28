@@ -58,6 +58,11 @@ continuous_table <- function(df        = .,
     gather(key = Scoring, value = value, -!!group, -variable) %>%
     spread(key = !!group, value = value)
 
+  new$Scoring <- factor(new$Scoring,
+                        levels = levels(as.factor(new$Scoring))[c(4,1:3)])
+
+  new <- arrange(new, variable, Scoring)
+
   return(new)
 
 }
