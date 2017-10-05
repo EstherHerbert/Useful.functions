@@ -50,7 +50,7 @@ discrete_table <- function(df        = .,
       group_by(!!group, variable) %>%
       mutate(
         N = sum(n),
-        p = round(n/N*100, 1),
+        p = round0(n/N*100, 1),
         np = paste0(n, " (", p, "%)")
       ) %>%
       select(-c(n,N,p)) %>%
@@ -66,7 +66,7 @@ discrete_table <- function(df        = .,
       group_by(!!set, !!group, variable) %>%
       mutate(
         N = sum(n),
-        p = round(n/N*100, 1),
+        p = round0(n/N*100, 1),
         np = paste0(n, " (", p, "%)")
       ) %>%
       select(-c(n,N,p)) %>%

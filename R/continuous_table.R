@@ -47,13 +47,13 @@ continuous_table <- function(df        = .,
       group_by(!!group, variable) %>%
       summarise(
         n = sum(!is.na(value)),
-        m = round(mean(value, na.rm = T), 1),
-        sd = round(sd(value, na.rm = T), 2),
-        med = round(median(value, na.rm = T), 1),
-        q25 = round(quantile(value, probs = 0.25, na.rm = T), 1),
-        q75 = round(quantile(value, probs = 0.75, na.rm = T), 1),
-        min = round(min(value, na.rm = T), 1),
-        max = round(max(value, na.rm = T), 1)
+        m = round0(mean(value, na.rm = T), 1),
+        sd = round0(sd(value, na.rm = T), 2),
+        med = round0(median(value, na.rm = T), 1),
+        q25 = round0(quantile(value, probs = 0.25, na.rm = T), 1),
+        q75 = round0(quantile(value, probs = 0.75, na.rm = T), 1),
+        min = round0(min(value, na.rm = T), 1),
+        max = round0(max(value, na.rm = T), 1)
       ) %>%
       mutate(
         n = paste0("n = ", n),
@@ -71,13 +71,13 @@ continuous_table <- function(df        = .,
       group_by(!!set, !!group, variable) %>%
       summarise(
         n = sum(!is.na(value)),
-        m = round(mean(value, na.rm = T), 1),
-        sd = round(sd(value, na.rm = T), 2),
-        med = round(median(value, na.rm = T), 1),
-        q25 = round(quantile(value, probs = 0.25, na.rm = T), 1),
-        q75 = round(quantile(value, probs = 0.75, na.rm = T), 1),
-        min = round(min(value, na.rm = T), 1),
-        max = round(max(value, na.rm = T), 1)
+        m = round0(mean(value, na.rm = T), 1),
+        sd = round0(sd(value, na.rm = T), 2),
+        med = round0(median(value, na.rm = T), 1),
+        q25 = round0(quantile(value, probs = 0.25, na.rm = T), 1),
+        q75 = round0(quantile(value, probs = 0.75, na.rm = T), 1),
+        min = round0(min(value, na.rm = T), 1),
+        max = round0(max(value, na.rm = T), 1)
       ) %>%
       mutate(
         n = paste0("n = ", n),
