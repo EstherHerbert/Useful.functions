@@ -18,6 +18,10 @@
 #' @export
 add_multirow <- function(x, width = "4cm", pos = "t"){
 
+  if(is.factor(x)){
+    x <- as.character(x)
+  }
+
   oldx <- c(FALSE, x[-1]==x[-length(x)])
   # is the value equal to the previous?
   res <- x
