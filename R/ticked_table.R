@@ -66,7 +66,7 @@ ticked_table <- function(df        = .,
         np = paste0(n, " (", p, "%)")
       ) %>%
       select(-c(n,N,p)) %>%
-      unite(temp, !!set, !!group)
+      unite(temp, !!set, !!group) %>%
       spread(temp, np)
   }
 
