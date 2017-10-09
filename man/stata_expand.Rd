@@ -4,18 +4,22 @@
 \alias{stata_expand}
 \title{Function to recreate the expand function in Stata}
 \usage{
-stata_expand(df, n)
+stata_expand(df, n, name = "Duplicate")
 }
 \arguments{
 \item{df}{Data frame}
 
-\item{n}{Number of times to duplicate (i.e. to end up with 2 copies of everything then n = 1)}
+\item{n}{Number of times to duplicate (i.e. to end up with 2 copies of
+everything then n = 1)}
+
+\item{name}{Character string indicating the name of the variable indicating
+which rows are duplicates}
 }
 \description{
 Takes a dataframe and duplicates it n times, then creates a
-             variable called Duplicate which has a value of 0 if the
-             observation originally appeared int he dataset and i = 1,..,n
-             for each duplicate.
+             variable (default name is Duplicate) which has a value of 0 if
+             the observation originally appeared int he dataset and
+             i = 1,..,n for each duplicate.
 }
 \examples{
 df <- data.frame(x = 1:5, y = c("a","b","c","d", "e"))
