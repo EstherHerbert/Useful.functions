@@ -21,6 +21,10 @@
 #' forest_plot(df)
 #' forest_plot(df, theme = NULL, zeroline = FALSE)
 #'
+#' # adding other ggplot2 features
+#' p <- forest_plot(df)
+#' p + geom_hline(yintercept = 1.5)
+#'
 #' @export
 forest_plot <- function(df = .,
                         names = x,
