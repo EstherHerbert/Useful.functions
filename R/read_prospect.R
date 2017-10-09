@@ -17,8 +17,11 @@ read_prospect <- function (file         = .,
   require(tidyverse)
 
   new <- read.csv(file, stringsAsFactors = FALSE)
-  names(new) <- gsub("_o$", "", names(new))
+  names(new) <- gsub("_o$", "", names(new)) #suffix of "_o" won't be in lookups
 
+  # create a filtered version of dictionary depending on whether the file is a
+  # form or sub-form. Stops process if the file isn't listed in dictionary or
+  # if the form/subform name aren't given in the file.
   if (!"form_name" %in% names(new)) {
     if ("parent_form" %in% names(new)) {
       if (!"subform_name" %in% names(new))
@@ -38,6 +41,7 @@ read_prospect <- function (file         = .,
                   "", field %in% names(new))
   }
 
+  # chaning L into a list
   L <- L %>% select(-c(form, subform)) %>%
     plyr::dlply(plyr::.(field))
 
@@ -51,6 +55,7 @@ read_prospect <- function (file         = .,
     }
   }
 
+  # Convert dates
   if (convert.date == TRUE) {
     dates <- grep("_dt$", names(new))
     if (length(dates) == 1) {
