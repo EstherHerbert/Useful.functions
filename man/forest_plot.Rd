@@ -6,7 +6,7 @@
 \usage{
 forest_plot(df = ., names = x, estimate = y, lower = ymin,
   upper = ymax, xlab = "", ylab = "", title = "", theme = theme_bw(),
-  zeroline = TRUE, ...)
+  zeroline = TRUE, scale.x = TRUE, xlim = ., ...)
 }
 \arguments{
 \item{df}{A data frame containing the names of each analysis as well as the
@@ -29,6 +29,13 @@ confidence intervals.}
 theme is used.}
 
 \item{zeroline}{Logical. Should a line be added to indicate zero effect?}
+
+\item{scale.x}{Logical, if true the x axis will be scaled so that the zero
+line is in the centre and no points are off the edge of the
+graph.}
+
+\item{xlim}{Vector of two numbers to determine the limits of the x axis.
+Cannot be used if \code{scale.x = TRUE}.}
 }
 \description{
 Forest plots are often used when comparing different analyses.
@@ -36,8 +43,19 @@ Forest plots are often used when comparing different analyses.
 }
 \examples{
 df <- data.frame(x = c("A", "B", "C"), y = 1:3, ymin = 0:2, ymax = 2:4)
+# Basic plot
 forest_plot(df)
+
+# Change theme and zeroline
 forest_plot(df, theme = NULL, zeroline = FALSE)
+
+# Play with x axis limits
+forest_plot(df, scale.x = TRUE)
+forest_plot(df, xlim = c(-1,5))
+# This gives an error
+\dontrun{
+forest_plot(df, scale.x = TRUE, xlim = c(-1,5))
+}
 
 # adding other ggplot2 features
 p <- forest_plot(df)

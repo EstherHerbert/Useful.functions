@@ -15,11 +15,27 @@
 #' @param theme ggplot theme. If \code{theme = NULL} then the default ggplot
 #'              theme is used.
 #' @param zeroline Logical. Should a line be added to indicate zero effect?
+#' @param scale.x Logical, if true the x axis will be scaled so that the zero
+#'                line is in the centre and no points are off the edge of the
+#'                graph.
+#' @param xlim Vector of two numbers to determine the limits of the x axis.
+#'             Cannot be used if \code{scale.x = TRUE}.
 #'
 #' @examples
 #' df <- data.frame(x = c("A", "B", "C"), y = 1:3, ymin = 0:2, ymax = 2:4)
+#' # Basic plot
 #' forest_plot(df)
+#'
+#' # Change theme and zeroline
 #' forest_plot(df, theme = NULL, zeroline = FALSE)
+#'
+#' # Play with x axis limits
+#' forest_plot(df, scale.x = TRUE)
+#' forest_plot(df, xlim = c(-1,5))
+#' # This gives an error
+#' \dontrun{
+#' forest_plot(df, scale.x = TRUE, xlim = c(-1,5))
+#' }
 #'
 #' # adding other ggplot2 features
 #' p <- forest_plot(df)
@@ -36,6 +52,8 @@ forest_plot <- function(df = .,
                         title = "",
                         theme = theme_bw(),
                         zeroline = TRUE,
+                        scale.x = TRUE,
+                        xlim = .,
                         ...){
   names <- quo_name(enquo(names))
   estimate <- quo_name(enquo(estimate))
@@ -50,6 +68,17 @@ forest_plot <- function(df = .,
          title = title)
 
   if(zeroline) p <- p + geom_hline(yintercept = 0, lty = 3)
+
+  if(scale.x){
+    lim <<- max(abs(select(df, upper)), abs(select(df, lower)))
+    p <- p + ylim(-lim, lim)
+  }
+
+  if(!missing(xlim) & !scale.x){
+    p <- p + ylim(xlim)
+  } else if(!missing(xlim) & scale.x){
+    stop("Can't provide xlim when scale.x = TRUE")
+  }
 
   p
 }
