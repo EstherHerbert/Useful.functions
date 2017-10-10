@@ -48,6 +48,8 @@ table_with_footnotes <- function(df,
                             label,
                             ...){
 
+  require(xtable)
+
   cat(paste0("\\begin{table}[",table.pos,"]\n",
              "\\begin{threeparttable}\n"))
   if(!missing(caption)){
