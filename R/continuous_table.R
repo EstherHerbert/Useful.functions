@@ -6,7 +6,7 @@
 #' @param df Data frame
 #' @param group Variable that defines the grouping
 #' @param variables Variables to be summarised
-#' @param total logical indicating wether a total column should be created
+#' @param total Logical indicating wether a total column should be created
 #' @param set Optional variable that defines extra grouping. This is grouping
 #'            obove the grouping given in \code{group}
 #'
@@ -16,6 +16,8 @@
 #'     continuous_table(df = iris, group = Species,
 #'                      variables = c(Sepal.Length, Sepal.Width),
 #'                      total = FALSE)
+#'
+#' @return A tibble data frame summarising the data
 #'
 #' @export
 continuous_table <- function(df        = .,

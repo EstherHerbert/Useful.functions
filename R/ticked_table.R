@@ -6,9 +6,11 @@
 #' @param df Data Frame
 #' @param group Variable that defines the grouping
 #' @param variables Variables to be summarised
-#' @param total logical indicating wether a total column should be created
+#' @param total Logical indicating wether a total column should be created
 #' @param set Optional variable that defines extra grouping. This is grouping
 #'            obove the grouping given in \code{group}
+#'
+#' @return A tibble data frame summarising the data
 #'
 #' @export
 ticked_table <- function(df        = .,

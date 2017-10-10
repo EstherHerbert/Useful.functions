@@ -16,6 +16,9 @@ add_multirow(x, width = "4cm", pos = "t")
 multirow block. Default is "t" - top. Other options are "c" for
 centre or "b" for bottom.}
 }
+\value{
+A character string/vector
+}
 \description{
 Turns duplicate rows which occur together into NAs and adds
              multirow to the remaining rows.

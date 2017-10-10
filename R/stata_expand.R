@@ -11,6 +11,8 @@
 #' @param name Character string indicating the name of the variable indicating
 #'             which rows are duplicates
 #'
+#' @return A data frame
+#'
 #' @examples
 #' df <- data.frame(x = 1:5, y = c("a","b","c","d", "e"))
 #' stata_expand(df, 1)

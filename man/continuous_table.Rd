@@ -14,10 +14,13 @@ continuous_table(df = ., group = group, variables = c(), total = TRUE,
 
 \item{variables}{Variables to be summarised}
 
-\item{total}{logical indicating wether a total column should be created}
+\item{total}{Logical indicating wether a total column should be created}
 
 \item{set}{Optional variable that defines extra grouping. This is grouping
 obove the grouping given in \code{group}}
+}
+\value{
+A tibble data frame summarising the data
 }
 \description{
 Takes a dataframe and produces grouped summaries such as mean

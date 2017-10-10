@@ -21,6 +21,8 @@
 #' @param xlim Vector of two numbers to determine the limits of the x axis.
 #'             Cannot be used if \code{scale.x = TRUE}.
 #'
+#' @return A ggplot forest plot
+#'
 #' @examples
 #' df <- data.frame(x = c("A", "B", "C"), y = 1:3, ymin = 0:2, ymax = 2:4)
 #' # Basic plot

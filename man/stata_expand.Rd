@@ -15,6 +15,9 @@ everything then n = 1)}
 \item{name}{Character string indicating the name of the variable indicating
 which rows are duplicates}
 }
+\value{
+A data frame
+}
 \description{
 Takes a dataframe and duplicates it n times, then creates a
              variable (default name is Duplicate) which has a value of 0 if

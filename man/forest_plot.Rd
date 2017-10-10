@@ -37,6 +37,9 @@ graph.}
 \item{xlim}{Vector of two numbers to determine the limits of the x axis.
 Cannot be used if \code{scale.x = TRUE}.}
 }
+\value{
+A ggplot forest plot
+}
 \description{
 Forest plots are often used when comparing different analyses.
              This function uses ggplot2 to create a forest plot.

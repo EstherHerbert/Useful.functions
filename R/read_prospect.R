@@ -9,6 +9,8 @@
 #' @param dictionary The file in which the lookups reside, default is \code{lookups}
 #' @param convert.date Convert fields ending in \code{_dt} to date format
 #'
+#' @return A data frame formatted as required
+#'
 #' @export
 read_prospect <- function (file         = .,
                            dictionary   = lookups,

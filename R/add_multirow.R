@@ -10,6 +10,8 @@
 #'            multirow block. Default is "t" - top. Other options are "c" for
 #'            centre or "b" for bottom.
 #'
+#' @return A character string/vector
+#'
 #' @examples
 #'     x <- c(rep("a", 5), rep("c", 2), rep("y", 7))
 #'     add_multirow(x)
