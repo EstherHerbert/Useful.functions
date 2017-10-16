@@ -9,6 +9,7 @@
 #' @param pos Character defining the vertical positioning of the text in the
 #'            multirow block. Default is "t" - top. Other options are "c" for
 #'            centre or "b" for bottom.
+#' @param rows Number of rows to use
 #'
 #' @return A character string/vector
 #'
@@ -18,7 +19,7 @@
 #'     add_multirow(x, width = "2cm", pos = "c")
 #'
 #' @export
-add_multirow <- function(x, width = "4cm", pos = "t"){
+add_multirow <- function(x, width = "4cm", pos = "t", rows = 2){
 
   if(is.factor(x)){
     x <- as.character(x)
@@ -30,7 +31,7 @@ add_multirow <- function(x, width = "4cm", pos = "t"){
   res[oldx] <- NA
 
   # add multirow
-  res[!is.na(res)] <- paste0("\\multirow[", pos, "]{2}{", width, "}{",
+  res[!is.na(res)] <- paste0("\\multirow[", pos, "]{",rows,"}{", width, "}{",
                              res[!is.na(res)], "}")
 
   return(res)

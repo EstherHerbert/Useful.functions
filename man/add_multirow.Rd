@@ -4,7 +4,7 @@
 \alias{add_multirow}
 \title{For use with latex summary tables}
 \usage{
-add_multirow(x, width = "4cm", pos = "t")
+add_multirow(x, width = "4cm", pos = "t", rows = 2)
 }
 \arguments{
 \item{x}{Character vector}
@@ -15,6 +15,8 @@ add_multirow(x, width = "4cm", pos = "t")
 \item{pos}{Character defining the vertical positioning of the text in the
 multirow block. Default is "t" - top. Other options are "c" for
 centre or "b" for bottom.}
+
+\item{rows}{Number of rows to use}
 }
 \value{
 A character string/vector
