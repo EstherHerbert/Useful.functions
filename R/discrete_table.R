@@ -4,32 +4,31 @@
 #'              discrete variables.
 #'
 #' @param df Data Frame
-#' @param group Variable that defines the grouping
+#' @param group Optional variable that defines the grouping
 #' @param variables Variables to be summarised
 #' @param total Logical indicating wether a total column should be created
-#' @param set Optional variable that defines extra grouping. This is grouping
-#'            obove the grouping given in \code{group}
 #'
 #' @examples
 #'     library(ggplot2)
 #'     discrete_table(df = mpg, group = manufacturer, variables = c(drv, year))
+#'     discrete_table(df = mpg, variables = drv)
 #'
 #' @return A tibble data frame summarising the data
 #'
 #' @export
 discrete_table <- function(df        = .,
-                           group     = group,
+                           group     = .,
                            variables = c(),
                            total     = TRUE,
-                           set       = .,
                            ...){
 
   require(tidyverse)
 
-  group <- enquo(group)
   variables <- enquo(variables)
-  if(!missing(set)){
-    set <- enquo(set)
+  if(!missing(group)){
+    group <- enquo(group)
+  } else {
+    total <- FALSE
   }
 
   # duplicating data to obtail totals
@@ -41,7 +40,7 @@ discrete_table <- function(df        = .,
       )
   }
 
-  if(missing(set)){
+  if(!missing(group)){
     new <- df %>%
       select(!!group, !!variables) %>%
       gather(key = variable, value = Scoring, -!!group)
@@ -70,8 +69,8 @@ discrete_table <- function(df        = .,
       spread(key = !!group, value = np)
   } else {
     new <- df %>%
-      select(!!set, !!group, !!variables) %>%
-      gather(key = variable, value = Scoring, -!!set, -!!group)
+      select(!!variables) %>%
+      gather(key = variable, value = Scoring)
 
     dims <- length(unique(new$variable)) # to correct the column totals
 
@@ -81,11 +80,11 @@ discrete_table <- function(df        = .,
         variable = if_else(Duplicate == 1, "N", variable),
         Scoring = if_else(Duplicate == 1, "", Scoring)
       ) %>%
-      group_by(!!set, !!group, variable, Scoring) %>%
+      group_by(variable, Scoring) %>%
       summarise(
         n = n()
       ) %>%
-      group_by(!!set, !!group, variable) %>%
+      group_by(variable) %>%
       mutate(
         N = sum(n),
         p = round0(n/N*100, 1),
@@ -93,9 +92,7 @@ discrete_table <- function(df        = .,
                      paste("N =", N/dims),
                      paste0(n, " (", p, "%)"))
       ) %>%
-      select(-c(n,N,p)) %>%
-      unite(temp, !!set, !!group) %>%
-      spread(key = temp, value = np)
+      select(-c(n,N,p))
   }
 
   # Putting column totals at the top

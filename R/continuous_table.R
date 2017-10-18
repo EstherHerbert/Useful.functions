@@ -1,14 +1,12 @@
 #' Produce a dataframe to summaries continuous variables
 #'
-#' @description Takes a dataframe and produces grouped summaries such as mean
-#'              and standard deviation for continuous variables.
+#' @description Takes a dataframe and produces grouped or ungrouped summaries
+#'              such as mean and standard deviation for continuous variables.
 #'
 #' @param df Data frame
-#' @param group Variable that defines the grouping
+#' @param group Optional variable that defines the grouping
 #' @param variables Variables to be summarised
 #' @param total Logical indicating wether a total column should be created
-#' @param set Optional variable that defines extra grouping. This is grouping
-#'            obove the grouping given in \code{group}
 #'
 #' @examples
 #'     continuous_table(df = iris, group = Species,
@@ -21,17 +19,17 @@
 #'
 #' @export
 continuous_table <- function(df        = .,
-                             group     = group,
+                             group = .,
                              variables = c(),
                              total     = TRUE,
-                             set       = .,
                              ...){
   require(tidyverse)
-  group <- enquo(group)
-  variables <- enquo(variables)
-  if(!missing(set)){
-    set <- enquo(set)
+  if(!missing(group)){
+    group <- enquo(group)
+  } else {
+    total <- FALSE
   }
+  variables <- enquo(variables)
 
   # duplicating data to obtail totals
   if(total){
@@ -42,11 +40,13 @@ continuous_table <- function(df        = .,
       )
   }
 
-  if(missing(set)){ # if no higher level setting given
+  if(!missing(group)){
     new <- df %>%
       select(!!group, !!variables) %>%
       gather(key = variable, value = value, -!!group)
+
     dims <- length(unique(new$variable))
+
     new <- new %>%
       group_by(!!group, variable) %>%
       summarise(
@@ -74,13 +74,15 @@ continuous_table <- function(df        = .,
       mutate(
         variable = if_else(Scoring == "N", "N", variable)
       )
-  } else { # if higher level setting given
+  } else{
     new <- df %>%
-      select(!!set, !!group, !!variables) %>%
-      gather(key = variable, value = value, -!!set, -!!group)
-    dims <- length(unique(new$variable))*2
+      select(!!variables) %>%
+      gather(key = variable, value = value)
+
+    dims <- length(unique(new$variable))
+
     new <- new %>%
-      group_by(!!set, !!group, variable) %>%
+      group_by(variable) %>%
       summarise(
         N = n(),
         m = round0(mean(value, na.rm = T), 1),
@@ -101,9 +103,7 @@ continuous_table <- function(df        = .,
         Missing = paste0(mis," (",p,"%)")
       ) %>%
       select(-c(m,sd,med,q25,q75,min,max,mis,p)) %>%
-      gather(key = Scoring, value = value, -!!set, -!!group, -variable) %>%
-      unite(temp, !!set, !!group) %>%
-      spread(key = temp, value = value) %>%
+      gather(key = Scoring, value = value, -variable) %>%
       mutate(
         variable = if_else(Scoring == "N", "N", variable)
       )
