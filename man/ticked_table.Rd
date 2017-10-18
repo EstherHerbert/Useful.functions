@@ -4,20 +4,16 @@
 \alias{ticked_table}
 \title{Produce a dataframe to summarise ticked variables}
 \usage{
-ticked_table(df = ., group = group, variables = c(), total = TRUE,
-  set = ., ...)
+ticked_table(df = ., group = ., variables = c(), total = TRUE, ...)
 }
 \arguments{
 \item{df}{Data Frame}
 
-\item{group}{Variable that defines the grouping}
+\item{group}{Optional variable that defines the grouping}
 
 \item{variables}{Variables to be summarised}
 
 \item{total}{Logical indicating wether a total column should be created}
-
-\item{set}{Optional variable that defines extra grouping. This is grouping
-obove the grouping given in \code{group}}
 }
 \value{
 A tibble data frame summarising the data
@@ -25,4 +21,16 @@ A tibble data frame summarising the data
 \description{
 Takes a dataframe and produces the number and percentage for
              ticked variables.
+}
+\examples{
+  df <- data.frame(pet_cat = sample(c("Yes", NA), size = 100, replace = T),
+                   pet_dog = sample(c("Yes", NA), size = 100, replace = T),
+                   pet_pig = sample(c("Yes", NA), size = 100, replace = T),
+                   group = sample(c("A", "B", "C"), size = 100, replace = T))
+
+  ticked_table(df, group = group,
+               variables = grep("pet_", colnames(df), value = T))
+
+  ticked_table(df, variables = grep("pet_", colnames(df), value = T))
+
 }
