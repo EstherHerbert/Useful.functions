@@ -40,37 +40,53 @@ ticked_table <- function(df        = .,
   if(missing(set)){
     new <- df %>%
       select(!!group, !!variables) %>%
-      gather(Scoring, tick, -!!group) %>%
+      gather(Scoring, tick, -!!group)
+    dims <- length(unique(new$Scoring))
+    new <- new %>%
       group_by(!!group, Scoring) %>%
       summarise(
-        n = sum(!is.na(tick))
-      ) %>%
-      group_by(!!group) %>%
-      mutate(
-        N = sum(n),
+        N = n(),
+        n = sum(!is.na(tick)),
         p = round0(n/N*100, 1),
-        np = paste0(n, " (", p, "%)")
+        np = paste0(n," (",p,"%)"),
+        N = paste0("N = ", N)
+      )%>%
+      select(-c(n,p)) %>%
+      gather(variable, value, -!!group, -Scoring) %>%
+      spread(!!group, value) %>%
+      mutate(
+        Scoring = if_else(variable == "N", "N", Scoring)
       ) %>%
-      select(-c(n,N,p)) %>%
-      spread(!!group, np)
+      select(-variable)
   } else {
     new <- df %>%
       select(!!set, !!group, !!variables) %>%
-      gather(Scoring, tick, -!!set, -!!group) %>%
+      gather(Scoring, tick, -!!set, -!!group)
+    dims <- length(unique(new$Scoring))
+    new <- new %>%
       group_by(!!set, !!group, Scoring) %>%
       summarise(
-        n = sum(!is.na(tick))
-      ) %>%
-      group_by(!!group) %>%
-      mutate(
-        N = sum(n),
+        N = n(),
+        n = sum(!is.na(tick)),
         p = round0(n/N*100, 1),
-        np = paste0(n, " (", p, "%)")
+        np = paste0(n," (",p,"%)"),
+        N = paste0("N = ", N)
       ) %>%
-      select(-c(n,N,p)) %>%
+      select(-c(n,p)) %>%
       unite(temp, !!set, !!group) %>%
-      spread(temp, np)
+      gather(variable, value, -temp, -Scoring) %>%
+      spread(temp, value) %>%
+      mutate(
+        Scoring = if_else(variable == "N", "N", Scoring)
+      ) %>%
+      select(-variable)
   }
+
+  new$Scoring <- as.factor(new$Scoring) %>%
+    relevel("N")
+
+  new <- arrange(new, Scoring) %>%
+    .[-c(1:dims-1),]
 
   return(new)
 

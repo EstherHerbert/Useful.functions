@@ -44,7 +44,16 @@ discrete_table <- function(df        = .,
   if(missing(set)){
     new <- df %>%
       select(!!group, !!variables) %>%
-      gather(key = variable, value = Scoring, -!!group) %>%
+      gather(key = variable, value = Scoring, -!!group)
+
+    dims <- length(unique(new$variable)) # to correct the column totals
+
+    new <- new %>%
+      stata_expand(1) %>%
+      mutate(
+        variable = if_else(Duplicate == 1, "N", variable),
+        Scoring = if_else(Duplicate == 1, "", Scoring)
+      ) %>%
       group_by(!!group, variable, Scoring) %>%
       summarise(
         n = n()
@@ -53,14 +62,25 @@ discrete_table <- function(df        = .,
       mutate(
         N = sum(n),
         p = round0(n/N*100, 1),
-        np = paste0(n, " (", p, "%)")
+        np = if_else(variable == "N",
+                     paste("N =", N/dims),
+                     paste0(n, " (", p, "%)"))
       ) %>%
       select(-c(n,N,p)) %>%
       spread(key = !!group, value = np)
   } else {
     new <- df %>%
       select(!!set, !!group, !!variables) %>%
-      gather(key = variable, value = Scoring, -!!set, -!!group) %>%
+      gather(key = variable, value = Scoring, -!!set, -!!group)
+
+    dims <- length(unique(new$variable)) # to correct the column totals
+
+    new <- new %>%
+      stata_expand(1) %>%
+      mutate(
+        variable = if_else(Duplicate == 1, "N", variable),
+        Scoring = if_else(Duplicate == 1, "", Scoring)
+      ) %>%
       group_by(!!set, !!group, variable, Scoring) %>%
       summarise(
         n = n()
@@ -69,12 +89,18 @@ discrete_table <- function(df        = .,
       mutate(
         N = sum(n),
         p = round0(n/N*100, 1),
-        np = paste0(n, " (", p, "%)")
+        np = if_else(variable == "N",
+                     paste("N =", N/dims),
+                     paste0(n, " (", p, "%)"))
       ) %>%
       select(-c(n,N,p)) %>%
       unite(temp, !!set, !!group) %>%
       spread(key = temp, value = np)
   }
+
+  # Putting column totals at the top
+  new$variable <- as.factor(new$variable) %>%
+    relevel("N")
 
   new <- new %>%
     ungroup() %>%
@@ -86,7 +112,8 @@ discrete_table <- function(df        = .,
     ) %>%
     mutate(
       Scoring = if_else(is.na(Scoring), "Missing", Scoring)
-    )
+    ) %>%
+    arrange(variable)
 
   return(new)
 
