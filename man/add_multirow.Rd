@@ -4,7 +4,7 @@
 \alias{add_multirow}
 \title{For use with latex summary tables}
 \usage{
-add_multirow(x, width = "4cm", pos = "t", rows = 2)
+add_multirow(x, width = "4cm", pos = "t", rows = ., reverse = FALSE)
 }
 \arguments{
 \item{x}{Character vector}
@@ -16,7 +16,13 @@ add_multirow(x, width = "4cm", pos = "t", rows = 2)
 multirow block. Default is "t" - top. Other options are "c" for
 centre or "b" for bottom.}
 
-\item{rows}{Number of rows to use}
+\item{rows}{Optional number of rows to use, if not given then
+\code{add_multirow} calculates how many rows to use.}
+
+\item{reverse}{If \code{TRUE} then all by the last duplicate will be
+removed. If rows isn't given then the calculated number of
+rows will be negated. This features is useful when colouring
+tables.}
 }
 \value{
 A character string/vector
@@ -28,6 +34,7 @@ Turns duplicate rows which occur together into NAs and adds
 \examples{
     x <- c(rep("a", 5), rep("c", 2), rep("y", 7))
     add_multirow(x)
+    add_multirow(x, reverse = T)
     add_multirow(x, width = "2cm", pos = "c")
 
 }
