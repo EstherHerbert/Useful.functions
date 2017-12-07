@@ -2,7 +2,7 @@
 % Please edit documentation in R/round0.R
 \name{round0}
 \alias{round0}
-\title{Rounds numners but keeps trailing zeros}
+\title{Rounds numbers but keeps trailing zeros}
 \usage{
 round0(x, digits)
 }

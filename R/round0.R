@@ -1,4 +1,4 @@
-#' Rounds numners but keeps trailing zeros
+#' Rounds numbers but keeps trailing zeros
 #'
 #' @description This function is a shortcut for
 #'              \code{formatC(x, digits, format = "f")}.
