@@ -4,7 +4,7 @@
 \alias{read_prospect}
 \title{Reads in csv files as exported by Prospect}
 \usage{
-read_prospect(file = ., dictionary = lookups, convert.date = TRUE)
+read_prospect(file = ., dictionary = lookups, convert.date = TRUE, ...)
 }
 \arguments{
 \item{file}{The file to be read in}

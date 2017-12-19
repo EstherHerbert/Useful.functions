@@ -14,11 +14,12 @@
 #' @export
 read_prospect <- function (file         = .,
                            dictionary   = lookups,
-                           convert.date = TRUE) {
+                           convert.date = TRUE,
+                           ...) {
 
   require(tidyverse)
 
-  new <- read.csv(file, stringsAsFactors = FALSE)
+  new <- read.csv(file, stringsAsFactors = FALSE, ...)
   names(new) <- gsub("_o$", "", names(new)) #suffix of "_o" won't be in lookups
 
   # create a filtered version of dictionary depending on whether the file is a
