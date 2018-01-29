@@ -4,111 +4,90 @@
 #'              discrete variables.
 #'
 #' @param df Data Frame
+#' @param ... Variables to be summarised
 #' @param group Optional variable that defines the grouping
-#' @param variables Variables to be summarised
 #' @param total Logical indicating wether a total column should be created
 #'
 #' @examples
-#'     library(ggplot2)
-#'     discrete_table(df = mpg, group = manufacturer, variables = c(drv, year))
-#'     discrete_table(df = mpg, variables = drv)
+#'     library(ggplot2) # for the data
+#'     discrete_table(df = mpg, drv, year, group = manufacturer)
+#'     discrete_table(df = mpg, drv)
 #'
 #' @return A tibble data frame summarising the data
 #'
 #' @export
-discrete_table <- function(df        = .,
-                           group     = .,
-                           variables = c(),
-                           total     = TRUE,
-                           ...){
+discrete_table <- function(df = .,
+                           ...,
+                           group = .,
+                           total = TRUE){
 
-  require(tidyverse)
+  variables <- quos(...)
 
-  variables <- enquo(variables)
   if(!missing(group)){
     group <- enquo(group)
   } else {
-    total <- FALSE
+    total = FALSE
   }
 
-  # duplicating data to obtail totals
+  # For totals
   if(total){
     df <- df %>%
-      stata_expand(n = 1) %>%
+      stata_expand(1) %>%
       mutate(
-        !!quo_name(group) := if_else(Duplicate == 1, "All", as.character(!!group))
+        !!quo_name(group) := if_else(Duplicate == 1,
+                                     "Total",
+                                     as.character(!!group))
       )
   }
 
   if(!missing(group)){
     new <- df %>%
-      select(!!group, !!variables) %>%
-      gather(key = variable, value = Scoring, -!!group)
-
-    dims <- length(unique(new$variable)) # to correct the column totals
-
-    new <- new %>%
-      stata_expand(1) %>%
-      mutate(
-        variable = if_else(Duplicate == 1, "N", variable),
-        Scoring = if_else(Duplicate == 1, "", Scoring)
-      ) %>%
-      group_by(!!group, variable, Scoring) %>%
-      summarise(
-        n = n()
-      ) %>%
+      select(!!group, !!!variables) %>%
+      gather(variable, scoring, -!!group) %>%
+      count(!!group, variable, scoring) %>%
       group_by(!!group, variable) %>%
       mutate(
         N = sum(n),
         p = round0(n/N*100, 1),
-        np = if_else(variable == "N",
-                     paste("N =", N/dims),
-                     paste0(n, " (", p, "%)"))
+        np = paste0(n, " (", p, "%)")
       ) %>%
-      select(-c(n,N,p)) %>%
-      spread(key = !!group, value = np)
+      ungroup() %>%
+      select(-c(n,p)) %>%
+      gather(stat, value, -!!group, -variable, -scoring) %>%
+      spread(vs, value, fill = "0 (0.0%)") %>%
+      mutate_at(
+        vars(variable, scoring),
+        funs(if_else(stat == "N", "N", as.character(.)))
+      ) %>%
+      .[!duplicated(.[1:3]),] %>%
+      select(-stat)
   } else {
     new <- df %>%
-      select(!!variables) %>%
-      gather(key = variable, value = Scoring)
-
-    dims <- length(unique(new$variable)) # to correct the column totals
-
-    new <- new %>%
-      stata_expand(1) %>%
-      mutate(
-        variable = if_else(Duplicate == 1, "N", variable),
-        Scoring = if_else(Duplicate == 1, "", Scoring)
-      ) %>%
-      group_by(variable, Scoring) %>%
-      summarise(
-        n = n()
-      ) %>%
+      select(!!!variables) %>%
+      gather(variable, scoring) %>%
+      count(variable, scoring) %>%
       group_by(variable) %>%
       mutate(
         N = sum(n),
         p = round0(n/N*100, 1),
-        np = if_else(variable == "N",
-                     paste("N =", N/dims),
-                     paste0(n, " (", p, "%)"))
+        np = paste0(n, " (", p, "%)")
       ) %>%
-      select(-c(n,N,p))
+      ungroup() %>%
+      select(-c(n,p)) %>%
+      gather(stat, value, -variable, -scoring) %>%
+      mutate_at(
+        vars(variable, scoring),
+        funs(if_else(stat == "N", "N", as.character(.)))
+      ) %>%
+      .[!duplicated(.),] %>%
+      select(-stat)
   }
 
-  # Putting column totals at the top
-  new$variable <- as.factor(new$variable) %>%
-    relevel("N")
+  order <- sapply(variables, FUN = quo_name)
 
-  new <- new %>%
-    ungroup() %>%
-    select(-(variable:Scoring)) %>%
-    names() %>%
-    mutate_at(new,
-              .,
-              funs(if_else(is.na(.), "0 (0.0%)", .))
-    ) %>%
+  new %<>%
     mutate(
-      Scoring = if_else(is.na(Scoring), "Missing", Scoring)
+      variable = parse_factor(variable, c("N",order))
     ) %>%
     arrange(variable)
 
