@@ -4,14 +4,14 @@
 \alias{continuous_table}
 \title{Produce a dataframe to summaries continuous variables}
 \usage{
-continuous_table(df = ., group = ., variables = c(), total = TRUE, ...)
+continuous_table(df = ., ..., group = ., total = TRUE)
 }
 \arguments{
 \item{df}{Data frame}
 
-\item{group}{Optional variable that defines the grouping}
+\item{...}{Variables to be summarised}
 
-\item{variables}{Variables to be summarised}
+\item{group}{Optional variable that defines the grouping}
 
 \item{total}{Logical indicating wether a total column should be created}
 }
@@ -23,10 +23,9 @@ Takes a dataframe and produces grouped or ungrouped summaries
              such as mean and standard deviation for continuous variables.
 }
 \examples{
-    continuous_table(df = iris, group = Species,
-                     variables = c(Petal.Length, Petal.Width))
-    continuous_table(df = iris, group = Species,
-                     variables = c(Sepal.Length, Sepal.Width),
+    continuous_table(df = iris, Petal.Length, Petal.Width, group = Species)
+    continuous_table(df = iris, Sepal.Length, Sepal.Width, group = Species,
                      total = FALSE)
+    continuous_table(df = iris, Petal.Length, Sepal.Length)
 
 }

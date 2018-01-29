@@ -4,14 +4,14 @@
 \alias{discrete_table}
 \title{Produce a dataframe to summarise discrete variables}
 \usage{
-discrete_table(df = ., group = ., variables = c(), total = TRUE, ...)
+discrete_table(df = ., ..., group = ., total = TRUE)
 }
 \arguments{
 \item{df}{Data Frame}
 
-\item{group}{Optional variable that defines the grouping}
+\item{...}{Variables to be summarised}
 
-\item{variables}{Variables to be summarised}
+\item{group}{Optional variable that defines the grouping}
 
 \item{total}{Logical indicating wether a total column should be created}
 }
@@ -23,8 +23,8 @@ Takes a dataframe and produces the number and percentage for
              discrete variables.
 }
 \examples{
-    library(ggplot2)
-    discrete_table(df = mpg, group = manufacturer, variables = c(drv, year))
-    discrete_table(df = mpg, variables = drv)
+    library(ggplot2) # for the data
+    discrete_table(df = mpg, drv, year, group = manufacturer)
+    discrete_table(df = mpg, drv)
 
 }
