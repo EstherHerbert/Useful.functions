@@ -85,11 +85,22 @@ discrete_table <- function(df = .,
 
   order <- sapply(variables, FUN = quo_name)
 
+  order2 <- df %>%
+    select(!!!variables) %>%
+    mutate_all(funs(as.factor(.))) %>%
+    as.list() %>%
+    map(~levels(.)) %>%
+    unlist(.) %>%
+    unname()
+
+  print(order2)
+
   new %<>%
     mutate(
-      variable = parse_factor(variable, c("N",order))
+      variable = parse_factor(variable, c("N",order)),
+      scoring = parse_factor(scoring, c("N", order2))
     ) %>%
-    arrange(variable)
+    arrange(variable, scoring)
 
   return(new)
 
