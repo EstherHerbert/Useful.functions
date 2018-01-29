@@ -54,7 +54,7 @@ discrete_table <- function(df = .,
       ungroup() %>%
       select(-c(n,p)) %>%
       gather(stat, value, -!!group, -variable, -scoring) %>%
-      spread(vs, value, fill = "0 (0.0%)") %>%
+      spread(!!group, value, fill = "0 (0.0%)") %>%
       mutate_at(
         vars(variable, scoring),
         funs(if_else(stat == "N", "N", as.character(.)))
@@ -92,8 +92,6 @@ discrete_table <- function(df = .,
     map(~levels(.)) %>%
     unlist(.) %>%
     unname()
-
-  print(order2)
 
   new %<>%
     mutate(
