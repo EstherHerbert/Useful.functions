@@ -19,6 +19,8 @@
 totals <- function(df = .,
                    ...){
 
+  require(rlang)
+
   vars <- enquos(...)
   quo_vars <- sapply(vars, quo_name)
 
