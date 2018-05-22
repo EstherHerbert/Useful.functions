@@ -19,28 +19,28 @@
 discrete_table <- function(df = .,
                            ...,
                            group = .,
-                           total = TRUE){
-
+                           total = TRUE) {
   variables <- quos(...)
 
-  if(!missing(group)){
+  if (!missing(group)) {
     group <- enquo(group)
   } else {
-    total = FALSE
+    total <- FALSE
   }
 
   # For totals
-  if(total){
+  if (total) {
     df <- df %>%
       stata_expand(1) %>%
       mutate(
         !!quo_name(group) := if_else(Duplicate == 1,
-                                     "Total",
-                                     as.character(!!group))
+          "Total",
+          as.character(!!group)
+        )
       )
   }
 
-  if(!missing(group)){
+  if (!missing(group)) {
     new <- df %>%
       select(!!group, !!!variables) %>%
       gather(variable, scoring, -!!group) %>%
@@ -48,18 +48,18 @@ discrete_table <- function(df = .,
       group_by(!!group, variable) %>%
       mutate(
         N = sum(n),
-        p = round0(n/N*100, 1),
+        p = round0(n / N * 100, 1),
         np = paste0(n, " (", p, "%)")
       ) %>%
       ungroup() %>%
-      select(-c(n,p)) %>%
+      select(-c(n, p)) %>%
       gather(stat, value, -!!group, -variable, -scoring) %>%
       spread(!!group, value, fill = "0 (0.0%)") %>%
       mutate_at(
         vars(variable, scoring),
         funs(if_else(stat == "N", "N", as.character(.)))
       ) %>%
-      .[!duplicated(.[1:3]),] %>%
+      .[!duplicated(.[1:3]), ] %>%
       select(-stat)
   } else {
     new <- df %>%
@@ -69,17 +69,17 @@ discrete_table <- function(df = .,
       group_by(variable) %>%
       mutate(
         N = sum(n),
-        p = round0(n/N*100, 1),
+        p = round0(n / N * 100, 1),
         np = paste0(n, " (", p, "%)")
       ) %>%
       ungroup() %>%
-      select(-c(n,p)) %>%
+      select(-c(n, p)) %>%
       gather(stat, value, -variable, -scoring) %>%
       mutate_at(
         vars(variable, scoring),
         funs(if_else(stat == "N", "N", as.character(.)))
       ) %>%
-      .[!duplicated(.),] %>%
+      .[!duplicated(.), ] %>%
       select(-stat)
   }
 
@@ -89,17 +89,16 @@ discrete_table <- function(df = .,
     select(!!!variables) %>%
     mutate_all(funs(as.factor(.))) %>%
     as.list() %>%
-    map(~levels(.)) %>%
+    map(~ levels(.)) %>%
     unlist(.) %>%
     unname()
 
   new %<>%
     mutate(
-      variable = parse_factor(variable, c("N",order)),
+      variable = parse_factor(variable, c("N", order)),
       scoring = parse_factor(scoring, c("N", order2))
     ) %>%
     arrange(variable, scoring)
 
   return(new)
-
 }

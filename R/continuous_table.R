@@ -20,26 +20,26 @@
 continuous_table <- function(df = .,
                              ...,
                              group = .,
-                             total = TRUE){
-
+                             total = TRUE) {
   variables <- quos(...)
-  if(!missing(group)){
+  if (!missing(group)) {
     group <- enquo(group)
   } else {
     total <- FALSE
   }
 
-  if(total){
+  if (total) {
     df %<>%
       stata_expand(1) %>%
       mutate(
         !!quo_name(group) := if_else(Duplicate == 1,
-                                     "Total",
-                                     as.character(!!group))
+          "Total",
+          as.character(!!group)
+        )
       )
   }
 
-  if(!missing(group)){
+  if (!missing(group)) {
     new <- df %>%
       select(!!group, !!!variables) %>%
       gather(variable, value, -!!group) %>%
@@ -60,13 +60,13 @@ continuous_table <- function(df = .,
         `Min to Max` = paste(min, "to", max)
       ) %>%
       ungroup() %>%
-      select(-c(m,sd,med,iqr,min,max))%>%
+      select(-c(m, sd, med, iqr, min, max)) %>%
       gather(scoring, value, -!!group, -variable) %>%
       spread(!!group, value) %>%
       mutate(
         variable = if_else(scoring == "N", "N", as.character(variable))
       ) %>%
-      .[!duplicated(.),]
+      .[!duplicated(.), ]
   } else {
     new <- df %>%
       select(!!!variables) %>%
@@ -88,12 +88,12 @@ continuous_table <- function(df = .,
         `Min to Max` = paste(min, "to", max)
       ) %>%
       ungroup() %>%
-      select(-c(m,sd,med,iqr,min,max)) %>%
+      select(-c(m, sd, med, iqr, min, max)) %>%
       gather(scoring, value, -variable) %>%
       mutate(
         variable = if_else(scoring == "N", "N", as.character(variable))
       ) %>%
-      .[!duplicated(.),]
+      .[!duplicated(.), ]
   }
 
   order <- sapply(variables, FUN = quo_name)
@@ -107,5 +107,4 @@ continuous_table <- function(df = .,
     arrange(variable, scoring)
 
   return(new)
-
 }

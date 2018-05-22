@@ -26,19 +26,19 @@ ticked_table <- function(df        = .,
                          group     = .,
                          variables = c(),
                          total     = TRUE,
-                         ...){
+                         ...) {
   require(tidyverse)
 
   variables <- enquo(variables)
 
-  if(!missing(group)){
+  if (!missing(group)) {
     group <- enquo(group)
   } else {
     total <- FALSE
   }
 
   # duplicating data to obtail totals
-  if(total){
+  if (total) {
     df <- df %>%
       stata_expand(n = 1) %>%
       mutate(
@@ -47,7 +47,7 @@ ticked_table <- function(df        = .,
       select(-Duplicate)
   }
 
-  if(!missing(group)){
+  if (!missing(group)) {
     new <- df %>%
       select(!!group, !!variables) %>%
       gather(Scoring, tick, -!!group)
@@ -59,11 +59,11 @@ ticked_table <- function(df        = .,
       summarise(
         N = n(),
         n = sum(!is.na(tick)),
-        p = round0(n/N*100, 1),
-        np = paste0(n," (",p,"%)"),
+        p = round0(n / N * 100, 1),
+        np = paste0(n, " (", p, "%)"),
         N = paste0("N = ", N)
-      )%>%
-      select(-c(n,p)) %>%
+      ) %>%
+      select(-c(n, p)) %>%
       gather(variable, value, -!!group, -Scoring) %>%
       spread(!!group, value) %>%
       mutate(
@@ -82,11 +82,11 @@ ticked_table <- function(df        = .,
       summarise(
         N = n(),
         n = sum(!is.na(tick)),
-        p = round0(n/N*100, 1),
-        np = paste0(n," (",p,"%)"),
+        p = round0(n / N * 100, 1),
+        np = paste0(n, " (", p, "%)"),
         N = paste0("N = ", N)
-      )%>%
-      select(-c(n,p)) %>%
+      ) %>%
+      select(-c(n, p)) %>%
       gather(variable, value, -Scoring) %>%
       mutate(
         Scoring = if_else(variable == "N", "N", Scoring)
@@ -98,8 +98,7 @@ ticked_table <- function(df        = .,
     relevel("N")
 
   new <- arrange(new, Scoring) %>%
-    .[-c(1:dims-1),]
+    .[-c(1:dims - 1), ]
 
   return(new)
-
 }

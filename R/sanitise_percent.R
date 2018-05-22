@@ -10,10 +10,8 @@
 #'     sanitise_percent(str)
 #'
 #' @export
-sanitise_percent <- function (str){
-
+sanitise_percent <- function(str) {
   result <- gsub("%", "\\%", str, fixed = TRUE)
 
   return(result)
-
 }

@@ -13,7 +13,7 @@
 #' round0(5.601, 2)
 #'
 #' @export
-round0 <- function(x, digits){
+round0 <- function(x, digits) {
   x <- formatC(x, digits = digits, format = "f")
   return(x)
 }

@@ -13,13 +13,12 @@
 #'
 #' @export
 
-makerow <- function(x){
-  if(!is.vector(x)){
+makerow <- function(x) {
+  if (!is.vector(x)) {
     x <- unlist(x)
   }
 
   x[is.na(x)] <- ""
 
   paste0(x, collapse = " & ")
-
 }

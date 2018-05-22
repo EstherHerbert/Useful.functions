@@ -56,7 +56,7 @@ forest_plot <- function(df = .,
                         zeroline = TRUE,
                         scale.x = TRUE,
                         xlim = .,
-                        ...){
+                        ...) {
   names <- quo_name(enquo(names))
   estimate <- quo_name(enquo(estimate))
   lower <- quo_name(enquo(lower))
@@ -65,20 +65,22 @@ forest_plot <- function(df = .,
     geom_pointrange() +
     coord_flip() +
     theme +
-    labs(x = ylab,
-         y = xlab,
-         title = title)
+    labs(
+      x = ylab,
+      y = xlab,
+      title = title
+    )
 
-  if(zeroline) p <- p + geom_hline(yintercept = 0, lty = 3)
+  if (zeroline) p <- p + geom_hline(yintercept = 0, lty = 3)
 
-  if(scale.x){
+  if (scale.x) {
     lim <<- max(abs(select(df, upper)), abs(select(df, lower)))
     p <- p + ylim(-lim, lim)
   }
 
-  if(!missing(xlim) & !scale.x){
+  if (!missing(xlim) & !scale.x) {
     p <- p + ylim(xlim)
-  } else if(!missing(xlim) & scale.x){
+  } else if (!missing(xlim) & scale.x) {
     stop("Can't provide xlim when scale.x = TRUE")
   }
 

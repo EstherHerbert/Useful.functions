@@ -25,30 +25,29 @@
 #'     add_multirow(x, width = "2cm", pos = "c")
 #'
 #' @export
-add_multirow <- function(x, width = "4cm", pos = "t", rows = ., reverse = FALSE){
-
+add_multirow <- function(x, width = "4cm", pos = "t", rows = ., reverse = FALSE) {
   n <- rle(x[!is.na(x)])$lengths
 
-  if(is.factor(x)){
+  if (is.factor(x)) {
     x <- as.character(x)
   }
 
-  if(!reverse){
+  if (!reverse) {
     x[duplicated(x)] <- NA
-
-  } else if(reverse){
+  } else if (reverse) {
     x[rev(duplicated(rev(x)))] <- NA
     n <- -1 * n
   }
 
-  if(missing(rows)){
+  if (missing(rows)) {
     rows <- n
   }
 
   # add multirow
-  x[!is.na(x)] <- paste0("\\multirow[", pos, "]{",rows,"}{", width, "}{",
-                         x[!is.na(x)], "}")
+  x[!is.na(x)] <- paste0(
+    "\\multirow[", pos, "]{", rows, "}{", width, "}{",
+    x[!is.na(x)], "}"
+  )
 
   return(x)
-
 }

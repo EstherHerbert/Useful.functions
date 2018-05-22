@@ -20,11 +20,10 @@
 #' @export
 stata_expand <- function(df,
                          n,
-                         name = "Duplicate"){
-
+                         name = "Duplicate") {
   old <- cbind(df, data.frame(temp = 0))
   copy <- list()
-  for(i in 1:n){
+  for (i in 1:n) {
     copy[[i]] <- cbind(df, data.frame(temp = i))
   }
   copy <- do.call("rbind", copy)
@@ -33,5 +32,4 @@ stata_expand <- function(df,
   colnames(new)[ncol(new)] <- name
 
   return(new)
-
 }

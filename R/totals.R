@@ -17,36 +17,36 @@
 #'
 #' @export
 totals <- function(df = .,
-                   ...){
-
+                   ...) {
   require(rlang)
 
   vars <- enquos(...)
   quo_vars <- sapply(vars, quo_name)
 
-  if(length(vars) == 1){
+  if (length(vars) == 1) {
     out <- df %>%
       stata_expand(1) %>%
       mutate(
         !!quo_vars := if_else(Duplicate == 1, "Total", as.character(!!!vars))
       )
-  } else if (length(vars) == 2){
+  } else if (length(vars) == 2) {
     var1 <- vars[[1]]
     var2 <- vars[[2]]
     out <- df %>%
       stata_expand(3) %>%
       mutate(
-        !!quo_vars[[1]] := if_else(Duplicate %in% c(1,3),
-                                 "Total",
-                                 as.character(!!!var1)),
-        !!quo_vars[[2]] := if_else(Duplicate %in% c(2,3),
-                                 "Total",
-                                 as.character(!!!var2))
+        !!quo_vars[[1]] := if_else(Duplicate %in% c(1, 3),
+          "Total",
+          as.character(!!!var1)
+        ),
+        !!quo_vars[[2]] := if_else(Duplicate %in% c(2, 3),
+          "Total",
+          as.character(!!!var2)
+        )
       )
   } else {
     stop("totals only takes one or two column arguments")
   }
 
   return(out)
-
 }

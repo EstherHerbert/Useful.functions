@@ -39,35 +39,41 @@
 #'
 #' @export
 table_with_footnotes <- function(df,
-                            align,
-                            include.rownames = FALSE,
-                            include.colnames = FALSE,
-                            table.pos = "h!",
-                            footnotes = list(i, text),
-                            caption,
-                            label,
-                            ...){
-
+                                 align,
+                                 include.rownames = FALSE,
+                                 include.colnames = FALSE,
+                                 table.pos = "h!",
+                                 footnotes = list(i, text),
+                                 caption,
+                                 label,
+                                 ...) {
   require(xtable)
 
-  cat(paste0("\\begin{table}[",table.pos,"]\n",
-             "\\begin{threeparttable}\n"))
-  if(!missing(caption)){
-    cat(paste0("\\caption{",caption,"}\n"))
+  cat(paste0(
+    "\\begin{table}[", table.pos, "]\n",
+    "\\begin{threeparttable}\n"
+  ))
+  if (!missing(caption)) {
+    cat(paste0("\\caption{", caption, "}\n"))
   }
-  if(!missing(label)){
-    cat(paste0("\\label{",label,"}\n"))
+  if (!missing(label)) {
+    cat(paste0("\\label{", label, "}\n"))
   }
   xtable(df,
-         align = align,...) %>%
-    print(floating = F,
-          include.rownames = include.rownames,
-          include.colnames = include.colnames,
-          sanitize.text.function = sanitise_percent,
-          ...)
-  cat(paste0("\\begin{tablenotes}\n",
-             paste0("\\item[",footnotes$i,"] ", footnotes$text, collapse = "\n"),
-             "\n\\end{tablenotes}\n",
-             "\\end{threeparttable}\n",
-             "\\end{table}"))
+    align = align, ...
+  ) %>%
+    print(
+      floating = F,
+      include.rownames = include.rownames,
+      include.colnames = include.colnames,
+      sanitize.text.function = sanitise_percent,
+      ...
+    )
+  cat(paste0(
+    "\\begin{tablenotes}\n",
+    paste0("\\item[", footnotes$i, "] ", footnotes$text, collapse = "\n"),
+    "\n\\end{tablenotes}\n",
+    "\\end{threeparttable}\n",
+    "\\end{table}"
+  ))
 }

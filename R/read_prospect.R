@@ -12,40 +12,45 @@
 #' @return A data frame formatted as required
 #'
 #' @export
-read_prospect <- function (file         = .,
-                           dictionary   = lookups,
-                           convert.date = TRUE,
-                           ...) {
-
+read_prospect <- function(file         = .,
+                          dictionary   = lookups,
+                          convert.date = TRUE,
+                          ...) {
   require(tidyverse)
 
   new <- read.csv(file, stringsAsFactors = FALSE, ...)
-  names(new) <- gsub("_o$", "", names(new)) #suffix of "_o" won't be in lookups
+  names(new) <- gsub("_o$", "", names(new)) # suffix of "_o" won't be in lookups
 
   # create a filtered version of dictionary depending on whether the file is a
   # form or sub-form. Stops process if the file isn't listed in dictionary or
   # if the form/subform name aren't given in the file.
   if (!"form_name" %in% names(new)) {
     if ("parent_form" %in% names(new)) {
-      if (!"subform_name" %in% names(new))
+      if (!"subform_name" %in% names(new)) {
         stop("No subform name in data")
+      }
       if (!new$parent_form[1] %in% dictionary$form) {
         stop("Form not listed in dictionary")
       }
-      L <- filter(dictionary, form == new$parent_form[1],
-                  subform == new$subform_name[1], field %in% names(new))
+      L <- filter(
+        dictionary, form == new$parent_form[1],
+        subform == new$subform_name[1], field %in% names(new)
+      )
     }
-    else stop("Form name not given in data")
+    else {
+      stop("Form name not given in data")
+    }
   } else {
     if (!new$form_name[1] %in% dictionary$form) {
       stop("Form not listed in dictionary")
     }
     L <- filter(dictionary, form == new$form_name[1], subform ==
-                  "", field %in% names(new))
+      "", field %in% names(new))
   }
 
   # chaning L into a list
-  L <- L %>% select(-c(form, subform)) %>%
+  L <- L %>%
+    select(-c(form, subform)) %>%
     plyr::dlply(plyr::.(field))
 
   if (length(L) > 0) {
@@ -53,8 +58,10 @@ read_prospect <- function (file         = .,
     codes <- lapply(L, "[[", 2)
     labels <- lapply(L, "[[", 3)
     for (i in 1:length(L)) {
-      new[cols[i]] <- factor(new[, cols[i]], levels = codes[[i]],
-                             labels = labels[[i]])
+      new[cols[i]] <- factor(new[, cols[i]],
+        levels = codes[[i]],
+        labels = labels[[i]]
+      )
     }
   }
 
@@ -70,5 +77,4 @@ read_prospect <- function (file         = .,
   }
 
   return(new)
-
 }
