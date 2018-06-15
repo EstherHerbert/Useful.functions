@@ -91,12 +91,14 @@ discrete_table <- function(df = .,
     as.list() %>%
     map(~ levels(.)) %>%
     unlist(.) %>%
-    unname()
+    unname() %>%
+    .[!duplicated(.)]
 
   new %<>%
     mutate(
       variable = parse_factor(variable, c("N", order)),
-      scoring = parse_factor(scoring, c("N", order2))
+      scoring = parse_factor(scoring, c("N", order2)) %>%
+        fct_relevel("Other", after = Inf)
     ) %>%
     arrange(variable, scoring)
 
