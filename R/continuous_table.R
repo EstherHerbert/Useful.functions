@@ -104,7 +104,15 @@ continuous_table <- function(df = .,
       scoring = as.factor(scoring),
       scoring = relevel(scoring, "n")
     ) %>%
-    arrange(variable, scoring)
+    arrange(variable, scoring) %>%
+    mutate_at(
+      vars(-variable, -scoring),
+      funs(if_else(variable == "N", paste("N =", .), .))
+    ) %>%
+    mutate_at(
+      vars(variable, scoring),
+      funs(if_else(variable == "N", NA_character_, as.character(.)))
+    )
 
   return(new)
 }

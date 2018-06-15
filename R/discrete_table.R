@@ -60,7 +60,11 @@ discrete_table <- function(df = .,
         funs(if_else(stat == "N", "N", as.character(.)))
       ) %>%
       .[!duplicated(.[1:3]), ] %>%
-      select(-stat)
+      select(-stat) %>%
+      mutate_at(
+        vars(-variable, -scoring),
+        funs(if_else(scoring == "N", paste("N =", .), .))
+      )
   } else {
     new <- df %>%
       select(!!!variables) %>%
@@ -80,7 +84,11 @@ discrete_table <- function(df = .,
         funs(if_else(stat == "N", "N", as.character(.)))
       ) %>%
       .[!duplicated(.), ] %>%
-      select(-stat)
+      select(-stat) %>%
+      mutate_at(
+        vars(-variable, -scoring),
+        funs(if_else(scoring == "N", paste("N =", .), .))
+      )
   }
 
   order <- sapply(variables, FUN = quo_name)
@@ -100,7 +108,11 @@ discrete_table <- function(df = .,
       scoring = parse_factor(scoring, c("N", order2) %>% .[!duplicated(.)]) %>%
         fct_relevel("Other", after = Inf)
     ) %>%
-    arrange(variable, scoring)
+    arrange(variable, scoring) %>%
+    mutate_at(
+      vars(variable, scoring),
+      funs(if_else(scoring == "N", NA_character_, as.character(.)))
+    )
 
   return(new)
 }
