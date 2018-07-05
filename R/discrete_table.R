@@ -63,7 +63,7 @@ discrete_table <- function(df = .,
       select(-stat) %>%
       mutate_at(
         vars(-variable, -scoring),
-        funs(if_else(scoring == "N", paste("N =", .), .))
+        funs(if_else(variable == "N", paste("N =", .), .))
       )
   } else {
     new <- df %>%
@@ -87,7 +87,7 @@ discrete_table <- function(df = .,
       select(-stat) %>%
       mutate_at(
         vars(-variable, -scoring),
-        funs(if_else(scoring == "N", paste("N =", .), .))
+        funs(if_else(variable == "N", paste("N =", .), .))
       )
   }
 
