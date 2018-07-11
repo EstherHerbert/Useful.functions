@@ -21,6 +21,10 @@ continuous_table <- function(df = .,
                              ...,
                              group = .,
                              total = TRUE) {
+
+  require(tidyverse)
+  require(qwraps2)
+
   variables <- quos(...)
   if (!missing(group)) {
     group <- enquo(group)
@@ -66,7 +70,7 @@ continuous_table <- function(df = .,
       summarise(
         N = n(),
         n = sum(!is.na(value)),
-        `Mean (SD)` = mean_sd(value, na.rm = T, denote_sd = "paren"),
+        `Mean (SD)` = mean_sd(value, na_rm = T, denote_sd = "paren"),
         `Median (IQR)` = median_iqr(value, na_rm = T),
         `Min, Max` = paste0(min(value, na.rm = T), ", ", max(value, na.rm = T))
       ) %>%
