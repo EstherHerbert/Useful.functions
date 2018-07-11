@@ -47,20 +47,11 @@ continuous_table <- function(df = .,
       summarise(
         N = n(),
         n = sum(!is.na(value)),
-        m = round0(mean(value, na.rm = T), 1),
-        sd = round0(sd(value, na.rm = T), 2),
-        med = round0(median(value, na.rm = T), 1),
-        iqr = round0(IQR(value, na.rm = T), 2),
-        min = min(value, na.rm = T),
-        max = max(value, na.rm = T),
-      ) %>%
-      mutate(
-        `Mean(SD)` = paste0(m, " (", sd, ")"),
-        `Median (IQR)` = paste0(med, " (", iqr, ")"),
-        `Min to Max` = paste(min, "to", max)
+        `Mean (SD)` = mean_sd(value, na_rm = T, denote_sd = "paren"),
+        `Median (IQR)` = median_iqr(value, na_rm = T),
+        `Min, Max` = paste0(min = min(value, na.rm = T), ", ", max(value, na.rm = T))
       ) %>%
       ungroup() %>%
-      select(-c(m, sd, med, iqr, min, max)) %>%
       gather(scoring, value, -!!group, -variable) %>%
       spread(!!group, value) %>%
       mutate(
@@ -75,20 +66,11 @@ continuous_table <- function(df = .,
       summarise(
         N = n(),
         n = sum(!is.na(value)),
-        m = round0(mean(value, na.rm = T), 1),
-        sd = round0(sd(value, na.rm = T), 2),
-        med = round0(median(value, na.rm = T), 1),
-        iqr = round0(IQR(value, na.rm = T), 2),
-        min = min(value, na.rm = T),
-        max = max(value, na.rm = T)
-      ) %>%
-      mutate(
-        `Mean(SD)` = paste0(m, " (", sd, ")"),
-        `Median (IQR)` = paste0(med, " (", iqr, ")"),
-        `Min to Max` = paste(min, "to", max)
+        `Mean (SD)` = mean_sd(value, na.rm = T, denote_sd = "paren"),
+        `Median (IQR)` = median_iqr(value, na_rm = T),
+        `Min, Max` = paste0(min(value, na.rm = T), ", ", max(value, na.rm = T))
       ) %>%
       ungroup() %>%
-      select(-c(m, sd, med, iqr, min, max)) %>%
       gather(scoring, value, -variable) %>%
       mutate(
         variable = if_else(scoring == "N", "N", as.character(variable))
