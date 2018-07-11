@@ -25,6 +25,9 @@ continuous_table <- function(df = .,
   require(tidyverse)
   require(qwraps2)
 
+  formals(mean_sd)$show_n <- "never"
+  formals(median_iqr)$show_n <- "never"
+
   variables <- quos(...)
   if (!missing(group)) {
     group <- enquo(group)
