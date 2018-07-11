@@ -12,5 +12,5 @@ Imports: lubridate (>= 1.6.0),
     tidyverse (>= 1.1.1),
     plyr (>= 1.8.4),
     xtable (>= 1.8-2),
-    rlang (>= 0.1.6.9002)
+    rlang (>= 0.1.6.9002),
     qwraps2 (>= 0.3.0)
