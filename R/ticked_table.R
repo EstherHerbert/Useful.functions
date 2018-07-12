@@ -11,94 +11,76 @@
 #' @return A tibble data frame summarising the data
 #'
 #' @examples
-#'   df <- data.frame(pet_cat = sample(c("Yes", NA), size = 100, replace = T),
-#'                    pet_dog = sample(c("Yes", NA), size = 100, replace = T),
-#'                    pet_pig = sample(c("Yes", NA), size = 100, replace = T),
+#'   df <- data.frame(pet_cat = sample(c("Ticked", ""), size = 100, replace = T),
+#'                    pet_dog = sample(c("Ticked", ""), size = 100, replace = T),
+#'                    pet_pig = sample(c("Ticked", ""), size = 100, replace = T),
 #'                    group = sample(c("A", "B", "C"), size = 100, replace = T))
 #'
-#'   ticked_table(df, group = group,
-#'                variables = grep("pet_", colnames(df), value = T))
+#'   ticked_table(df, grep("pet_", colnames(df), value = T), group = group)
 #'
-#'   ticked_table(df, variables = grep("pet_", colnames(df), value = T))
+#'   ticked_table(df, grep("pet_", colnames(df), value = T))
 #'
 #' @export
-ticked_table <- function(df        = .,
-                         group     = .,
-                         variables = c(),
-                         total     = TRUE,
-                         ...) {
-  require(tidyverse)
+ticked_table <- function (df = ., ..., group = ., total = TRUE){
 
-  variables <- enquo(variables)
+  require(tidyverse)
+  require(qwraps2)
+
+  variables <- quos(...)
 
   if (!missing(group)) {
     group <- enquo(group)
-  } else {
+  }
+  else {
     total <- FALSE
   }
 
-  # duplicating data to obtail totals
-  if (total) {
+  if(total){
     df <- df %>%
-      stata_expand(n = 1) %>%
-      mutate(
-        !!quo_name(group) := if_else(Duplicate == 1, "All", as.character(!!group))
-      ) %>%
-      select(-Duplicate)
+      totals(!!group)
   }
 
-  if (!missing(group)) {
+  if(!missing(group)){
     new <- df %>%
-      select(!!group, !!variables) %>%
-      gather(Scoring, tick, -!!group)
-
-    dims <- length(unique(new$Scoring))
-
-    new <- new %>%
-      group_by(!!group, Scoring) %>%
-      summarise(
-        N = n(),
-        n = sum(!is.na(tick)),
-        p = round0(n / N * 100, 1),
-        np = paste0(n, " (", p, "%)"),
-        N = paste0("N = ", N)
+      select(!!group, !!!variables) %>%
+      gather(scoring, value, -!!group) %>%
+      mutate(
+        value = if_else(value == "Ticked", 1, 0)
       ) %>%
-      select(-c(n, p)) %>%
-      gather(variable, value, -!!group, -Scoring) %>%
+      group_by(!!group, scoring) %>%
+      summarise(
+        N = paste("N =", n()),
+        np = n_perc(value, digits = 1, show_denom = "never", na_rm = T)
+      ) %>%
+      gather(stat, value, -!!group, -scoring) %>%
       spread(!!group, value) %>%
       mutate(
-        Scoring = if_else(variable == "N", "N", Scoring)
+        scoring = if_else(stat == "N", "N", scoring)
       ) %>%
-      select(-variable)
+      select(-stat) %>%
+      .[!duplicated(.),] %>%
+      arrange(scoring)
   } else {
     new <- df %>%
-      select(!!variables) %>%
-      gather(Scoring, tick)
-
-    dims <- length(unique(new$Scoring))
-
-    new <- new %>%
-      group_by(Scoring) %>%
-      summarise(
-        N = n(),
-        n = sum(!is.na(tick)),
-        p = round0(n / N * 100, 1),
-        np = paste0(n, " (", p, "%)"),
-        N = paste0("N = ", N)
-      ) %>%
-      select(-c(n, p)) %>%
-      gather(variable, value, -Scoring) %>%
+      select(!!!variables) %>%
+      gather(scoring, value) %>%
       mutate(
-        Scoring = if_else(variable == "N", "N", Scoring)
+        value = if_else(value == "Ticked", 1, 0)
       ) %>%
-      select(-variable)
+      group_by(scoring) %>%
+      summarise(
+        N = paste("N =", n()),
+        np = n_perc(value, digits = 1, show_denom = "never", na_rm = T)
+      ) %>%
+      gather(stat, value, -scoring) %>%
+      mutate(
+        scoring = if_else(stat == "N", "N", scoring)
+      ) %>%
+      select(-stat) %>%
+      .[!duplicated(.),] %>%
+      arrange(scoring)
   }
 
-  new$Scoring <- as.factor(new$Scoring) %>%
-    relevel("N")
-
-  new <- arrange(new, Scoring) %>%
-    .[-c(1:dims - 1), ]
-
   return(new)
+
 }
