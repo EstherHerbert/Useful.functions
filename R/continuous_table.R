@@ -7,12 +7,13 @@
 #' @param ... Variables to be summarised
 #' @param group Optional variable that defines the grouping
 #' @param total Logical indicating wether a total column should be created
+#' @param digits Number of digits to the right of the decimal point
 #'
 #' @examples
 #'     continuous_table(df = iris, Petal.Length, Petal.Width, group = Species)
 #'     continuous_table(df = iris, Sepal.Length, Sepal.Width, group = Species,
 #'                      total = FALSE)
-#'     continuous_table(df = iris, Petal.Length, Sepal.Length)
+#'     continuous_table(df = iris, Petal.Length, Sepal.Length, digits = 1)
 #'
 #' @return A tibble data frame summarising the data
 #'
@@ -20,7 +21,8 @@
 continuous_table <- function(df = .,
                              ...,
                              group = .,
-                             total = TRUE) {
+                             total = TRUE,
+                             digits = 2) {
 
   require(tidyverse)
   require(qwraps2)
@@ -54,8 +56,8 @@ continuous_table <- function(df = .,
       summarise(
         N = n(),
         n = sum(!is.na(value)),
-        `Mean (SD)` = mean_sd(value, na_rm = T, denote_sd = "paren"),
-        `Median (IQR)` = median_iqr(value, na_rm = T),
+        `Mean (SD)` = mean_sd(value, na_rm = T, denote_sd = "paren", digits = digits),
+        `Median (IQR)` = median_iqr(value, na_rm = T, digits = digits),
         `Min, Max` = paste0(min = min(value, na.rm = T), ", ", max(value, na.rm = T))
       ) %>%
       ungroup() %>%

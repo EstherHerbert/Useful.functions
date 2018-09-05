@@ -4,7 +4,7 @@
 \alias{continuous_table}
 \title{Produce a dataframe to summaries continuous variables}
 \usage{
-continuous_table(df = ., ..., group = ., total = TRUE)
+continuous_table(df = ., ..., group = ., total = TRUE, digits = 2)
 }
 \arguments{
 \item{df}{Data frame}
@@ -14,6 +14,8 @@ continuous_table(df = ., ..., group = ., total = TRUE)
 \item{group}{Optional variable that defines the grouping}
 
 \item{total}{Logical indicating wether a total column should be created}
+
+\item{digits}{Number of digits to the right of the decimal point}
 }
 \value{
 A tibble data frame summarising the data
@@ -26,6 +28,6 @@ Takes a dataframe and produces grouped or ungrouped summaries
     continuous_table(df = iris, Petal.Length, Petal.Width, group = Species)
     continuous_table(df = iris, Sepal.Length, Sepal.Width, group = Species,
                      total = FALSE)
-    continuous_table(df = iris, Petal.Length, Sepal.Length)
+    continuous_table(df = iris, Petal.Length, Sepal.Length, digits = 1)
 
 }
