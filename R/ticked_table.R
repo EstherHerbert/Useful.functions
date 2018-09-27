@@ -6,8 +6,8 @@
 #' @param df Data Frame
 #' @param ... Variables to be summarised
 #' @param group Optional variable that defines the grouping
-#' @param sep Separator between columns for splitting variable into variable
-#'            and scoring. See ?separate for more information.
+#' @param sep Optional separator between columns for splitting variable into
+#'            variable and scoring. See ?separate for more information.
 #' @param total Logical indicating wether a total column should be created
 #'
 #' @return A tibble data frame summarising the data
@@ -20,7 +20,7 @@
 #'
 #'   ticked_table(df, pet_cat, pet_dog, group = group, sep = "_")
 #'
-#'   ticked_table(df, pet_pig, pet_dog, sep = "_")
+#'   ticked_table(df, pet_pig, pet_dog)
 #'
 #' @export
 ticked_table <- function (df = .,
@@ -31,6 +31,7 @@ ticked_table <- function (df = .,
 
   require(tidyverse)
   require(qwraps2)
+  require(magrittr)
 
   variables <- quos(...)
   if (!missing(group)) {
@@ -51,8 +52,8 @@ ticked_table <- function (df = .,
       gather(scoring, value, -!!group) %>%
       mutate(
         value = case_when(
-            value == "Ticked" ~ 1,
-            TRUE ~ 0
+          value == "Ticked" ~ 1,
+          TRUE ~ 0
         )
       ) %>%
       group_by(!!group, scoring) %>%
@@ -73,8 +74,8 @@ ticked_table <- function (df = .,
       gather(scoring, value) %>%
       mutate(
         value = case_when(
-            value == "Ticked" ~ 1,
-            TRUE ~ 0
+          value == "Ticked" ~ 1,
+          TRUE ~ 0
         )
       ) %>%
       group_by(scoring) %>%
@@ -96,13 +97,17 @@ ticked_table <- function (df = .,
     mutate(
       scoring = parse_factor(scoring, c("N", order))
     ) %>%
-    arrange(scoring)  %>%
-    separate(scoring, into = c("variable", "scoring"),
-             sep = sep, fill = "right") %>%
+    arrange(scoring)%>%
     mutate(
-      variable = if_else(variable == "N", NA_character_,
-                         as.character(variable))
+      scoring = if_else(scoring == "N", NA_character_,
+                         as.character(scoring))
     )
+
+  if(!missing(sep)){
+    new %<>%
+      separate(scoring, into = c("variable", "scoring"),
+               sep = sep, fill = "right")
+  }
 
   return(new)
 

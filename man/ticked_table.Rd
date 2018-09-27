@@ -13,8 +13,8 @@ ticked_table(df = ., ..., group = ., sep = ., total = TRUE)
 
 \item{group}{Optional variable that defines the grouping}
 
-\item{sep}{Separator between columns for splitting variable into variable
-and scoring. See ?separate for more information.}
+\item{sep}{Optional separator between columns for splitting variable into
+variable and scoring. See ?separate for more information.}
 
 \item{total}{Logical indicating wether a total column should be created}
 }
@@ -33,6 +33,6 @@ Takes a dataframe and produces the number and percentage for
 
   ticked_table(df, pet_cat, pet_dog, group = group, sep = "_")
 
-  ticked_table(df, pet_pig, pet_dog, sep = "_")
+  ticked_table(df, pet_pig, pet_dog)
 
 }
