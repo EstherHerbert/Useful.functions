@@ -4,8 +4,10 @@
 #'              ticked variables.
 #'
 #' @param df Data Frame
+#' @param ... Variables to be summarised
 #' @param group Optional variable that defines the grouping
-#' @param variables Variables to be summarised
+#' @param sep Separator between columns for splitting variable into variable
+#'            and scoring. See ?separate for more information.
 #' @param total Logical indicating wether a total column should be created
 #'
 #' @return A tibble data frame summarising the data
@@ -16,18 +18,21 @@
 #'                    pet_pig = sample(c("Ticked", ""), size = 100, replace = T),
 #'                    group = sample(c("A", "B", "C"), size = 100, replace = T))
 #'
-#'   ticked_table(df, grep("pet_", colnames(df), value = T), group = group)
+#'   ticked_table(df, pet_cat, pet_dog, group = group, sep = "_")
 #'
-#'   ticked_table(df, grep("pet_", colnames(df), value = T))
+#'   ticked_table(df, pet_pig, pet_dog, sep = "_")
 #'
 #' @export
-ticked_table <- function (df = ., ..., group = ., total = TRUE){
+ticked_table <- function (df = .,
+                          ...,
+                          group = .,
+                          sep = .,
+                          total = TRUE){
 
   require(tidyverse)
   require(qwraps2)
 
   variables <- quos(...)
-
   if (!missing(group)) {
     group <- enquo(group)
   }
@@ -61,8 +66,7 @@ ticked_table <- function (df = ., ..., group = ., total = TRUE){
         scoring = if_else(stat == "N", "N", scoring)
       ) %>%
       select(-stat) %>%
-      .[!duplicated(.),] %>%
-      arrange(scoring)
+      .[!duplicated(.),]
   } else {
     new <- df %>%
       select(!!!variables) %>%
@@ -83,9 +87,22 @@ ticked_table <- function (df = ., ..., group = ., total = TRUE){
         scoring = if_else(stat == "N", "N", scoring)
       ) %>%
       select(-stat) %>%
-      .[!duplicated(.),] %>%
-      arrange(scoring)
+      .[!duplicated(.),]
   }
+
+  order <- sapply(variables, FUN = quo_name)
+
+  new %<>%
+    mutate(
+      scoring = parse_factor(scoring, c("N", order))
+    ) %>%
+    arrange(scoring)  %>%
+    separate(scoring, into = c("variable", "scoring"),
+             sep = sep, fill = "right") %>%
+    mutate(
+      variable = if_else(variable == "N", NA_character_,
+                         as.character(variable))
+    )
 
   return(new)
 
