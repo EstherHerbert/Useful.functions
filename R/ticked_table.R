@@ -45,7 +45,10 @@ ticked_table <- function (df = ., ..., group = ., total = TRUE){
       select(!!group, !!!variables) %>%
       gather(scoring, value, -!!group) %>%
       mutate(
-        value = if_else(value == "Ticked", 1, 0)
+        value = case_when(
+            value == "Ticked" ~ 1,
+            TRUE ~ 0
+        )
       ) %>%
       group_by(!!group, scoring) %>%
       summarise(
@@ -65,7 +68,10 @@ ticked_table <- function (df = ., ..., group = ., total = TRUE){
       select(!!!variables) %>%
       gather(scoring, value) %>%
       mutate(
-        value = if_else(value == "Ticked", 1, 0)
+        value = case_when(
+            value == "Ticked" ~ 1,
+            TRUE ~ 0
+        )
       ) %>%
       group_by(scoring) %>%
       summarise(
