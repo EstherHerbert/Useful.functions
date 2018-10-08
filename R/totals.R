@@ -6,18 +6,20 @@
 #'
 #' @param df A data frame
 #' @param ... one or two columns for which we require totals
+#' @param name Character string for the name of the total row/column
 #'
 #' @examples
 #'     totals(mtcars, cyl) %>%
 #'     count(cyl)
 #'
-#'     totals(mtcars, cyl, vs) %>%
+#'     totals(mtcars, cyl, vs, name = "All") %>%
 #'     count(cyl, vs) %>%
 #'     spread(cyl, n)
 #'
 #' @export
 totals <- function(df = .,
-                   ...) {
+                   ...,
+                   name = "Total") {
   require(rlang)
 
   vars <- enquos(...)
@@ -27,7 +29,7 @@ totals <- function(df = .,
     out <- df %>%
       stata_expand(1) %>%
       mutate(
-        !!quo_vars := if_else(Duplicate == 1, "Total", as.character(!!!vars))
+        !!quo_vars := if_else(Duplicate == 1, name , as.character(!!!vars))
       )
   } else if (length(vars) == 2) {
     var1 <- vars[[1]]
@@ -36,11 +38,11 @@ totals <- function(df = .,
       stata_expand(3) %>%
       mutate(
         !!quo_vars[[1]] := if_else(Duplicate %in% c(1, 3),
-          "Total",
+          name,
           as.character(!!!var1)
         ),
         !!quo_vars[[2]] := if_else(Duplicate %in% c(2, 3),
-          "Total",
+          name,
           as.character(!!!var2)
         )
       )

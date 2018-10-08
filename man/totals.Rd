@@ -4,12 +4,14 @@
 \alias{totals}
 \title{Mutates data frame so that summary tables give totals}
 \usage{
-totals(df = ., ...)
+totals(df = ., ..., name = "Total")
 }
 \arguments{
 \item{df}{A data frame}
 
 \item{...}{one or two columns for which we require totals}
+
+\item{name}{Character string for the name of the total row/column}
 }
 \description{
 This function uses \code{stat_expand} and \code{mutate} to give
@@ -20,7 +22,7 @@ This function uses \code{stat_expand} and \code{mutate} to give
     totals(mtcars, cyl) \%>\%
     count(cyl)
 
-    totals(mtcars, cyl, vs) \%>\%
+    totals(mtcars, cyl, vs, name = "All") \%>\%
     count(cyl, vs) \%>\%
     spread(cyl, n)
 
