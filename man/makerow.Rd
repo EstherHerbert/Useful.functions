@@ -4,11 +4,13 @@
 \alias{makerow}
 \title{For use with \code{xtable}'s \code{add.to.row}}
 \usage{
-makerow(x)
+makerow(x, hline = F)
 }
 \arguments{
 \item{x}{A vector or single row of a data frame (which is then converted to
 a vector within the function)}
+
+\item{hline}{Logical indicating whether a hline is needed after the row}
 }
 \value{
 A single character string
@@ -19,5 +21,6 @@ Collapses a vector into a character string seperated by "&".
 \examples{
   x <- c("A", 125, "Apple", 0.2, "75g")
   makerow(x)
+  makerow(x, hline = T)
 
 }
