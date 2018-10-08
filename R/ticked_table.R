@@ -59,7 +59,8 @@ ticked_table <- function (df = .,
       group_by(!!group, scoring) %>%
       summarise(
         N = paste("N =", n()),
-        np = n_perc(value, digits = 1, show_denom = "never", na_rm = T)
+        np = n_perc(value, digits = 1, show_denom = "never", na_rm = T,
+                    markup = "markdown")
       ) %>%
       gather(stat, value, -!!group, -scoring) %>%
       spread(!!group, value) %>%
@@ -81,7 +82,8 @@ ticked_table <- function (df = .,
       group_by(scoring) %>%
       summarise(
         N = paste("N =", n()),
-        np = n_perc(value, digits = 1, show_denom = "never", na_rm = T)
+        np = n_perc(value, digits = 1, show_denom = "never", na_rm = T,
+                    markup = "markdown")
       ) %>%
       gather(stat, value, -scoring) %>%
       mutate(
