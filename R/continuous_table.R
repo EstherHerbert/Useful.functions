@@ -57,7 +57,8 @@ continuous_table <- function(df = .,
         N = n(),
         n = sum(!is.na(value)),
         `Mean (SD)` = mean_sd(value, na_rm = T, denote_sd = "paren", digits = digits),
-        `Median (IQR)` = median_iqr(value, na_rm = T, digits = digits),
+        `Median (IQR)` = paste0(round0(median(value, na.rm = T), digits), " (",
+                                round0(IQR(value, na.rm = T), digits), ")"),
         `Min, Max` = paste0(min = min(value, na.rm = T), ", ", max(value, na.rm = T))
       ) %>%
       ungroup() %>%
