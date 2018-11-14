@@ -20,6 +20,9 @@ discrete_table <- function(df = .,
                            ...,
                            group = .,
                            total = TRUE) {
+  require(tidyverse)
+  require(magrittr)
+
   variables <- quos(...)
 
   if (!missing(group)) {
