@@ -34,11 +34,17 @@ discrete_table <- function(df = .,
       stata_expand(1) %>%
       mutate(
         !!quo_name(group) := if_else(Duplicate == 1,
-          "Total",
-          as.character(!!group)
+                                     "Total",
+                                     as.character(!!group)
         )
       )
   }
+
+  df %<>%
+    mutate_at(
+      vars(!!!variables),
+      funs(fct_explicit_na(., na_level = "Missing"))
+    )
 
   if (!missing(group)) {
     new <- df %>%
@@ -106,7 +112,8 @@ discrete_table <- function(df = .,
     mutate(
       variable = parse_factor(variable, c("N", order)),
       scoring = parse_factor(scoring, c("N", order2) %>% .[!duplicated(.)]) %>%
-        fct_relevel("Other", after = Inf)
+        fct_relevel("Other", after = Inf) %>%
+        fct_relevel("Missing", after = Inf)
     ) %>%
     arrange(variable, scoring) %>%
     mutate_at(
