@@ -7,7 +7,7 @@ insert_section <- function(){
 
   current_col <- context$selection[[1]]$range[[1]][[2]]
 
-  num_dashes <- 80 - current_col + 1
+  num_dashes <- 80 - current_col
 
   rstudioapi::insertText(strrep("-", num_dashes))
 }
