@@ -19,7 +19,15 @@ read_prospect <- function(file         = .,
   require(tidyverse)
 
   new <- read.csv(file, stringsAsFactors = FALSE, ...)
-  names(new) <- gsub("_o$", "", names(new)) # suffix of "_o" won't be in lookups
+  new %<>%
+    rename_at(
+      vars(str_subset(colnames(.), "_oth$")), # avoid duplicate variable neames
+      # when _oth and _oth_o is used
+      funs(str_replace(., "_oth", "_other"))
+    ) %>%
+    rename_all(
+      funs(str_remove(., "_o$")) # suffix of "_o" won't be in lookups
+    )
 
   # create a filtered version of dictionary depending on whether the file is a
   # form or sub-form. Stops process if the file isn't listed in dictionary or
