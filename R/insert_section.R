@@ -1,6 +1,3 @@
-#' Create sectioning
-#'
-#' @usage insert_section()
 insert_section <- function(){
 
   context <- rstudioapi::getActiveDocumentContext()
