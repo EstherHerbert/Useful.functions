@@ -1,0 +1,4 @@
+Name: Insert Section
+Description: Inserts dashes to end
+Binding: insert_section
+Interactive: false
