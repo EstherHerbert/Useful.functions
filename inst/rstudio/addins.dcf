@@ -2,3 +2,8 @@ Name: Insert Section
 Description: Inserts dashes to end
 Binding: insert_section
 Interactive: false
+
+Name: End Box
+Description: Completes a row of a header box
+Binding: end_box
+Interactive: false
