@@ -5,8 +5,11 @@
 #'              by Prospect. When using this function you must first read the
 #'              lookups.csv file into R.
 #'
+#' @usage read_prospect(file, dictionary=lookups, convert.date=TRUE, ...)
+#'
 #' @param file The file to be read in
-#' @param dictionary The file in which the lookups reside, default is \code{lookups}
+#' @param dictionary The file in which the lookups reside, default is
+#'                   \code{lookups}
 #' @param convert.date Convert fields ending in \code{_dt} to date format
 #'
 #' @return A data frame formatted as required
@@ -21,7 +24,7 @@ read_prospect <- function(file         = .,
   new <- read.csv(file, stringsAsFactors = FALSE, ...)
   new %<>%
     rename_at(
-      vars(str_subset(colnames(.), "_oth$")), # avoid duplicate variable neames
+      vars(str_subset(colnames(.), "_oth_o$")), # avoid duplicate variable neames
       # when _oth and _oth_o is used
       funs(str_replace(., "_oth", "_other"))
     ) %>%
