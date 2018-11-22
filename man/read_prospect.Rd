@@ -4,13 +4,13 @@
 \alias{read_prospect}
 \title{Reads in csv files as exported by Prospect}
 \usage{
-read_prospect(file = ., dictionary = lookups, convert.date = TRUE,
-  ...)
+read_prospect(file, dictionary=lookups, convert.date=TRUE, ...)
 }
 \arguments{
 \item{file}{The file to be read in}
 
-\item{dictionary}{The file in which the lookups reside, default is \code{lookups}}
+\item{dictionary}{The file in which the lookups reside, default is
+\code{lookups}}
 
 \item{convert.date}{Convert fields ending in \code{_dt} to date format}
 }
