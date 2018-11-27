@@ -19,7 +19,7 @@ A data frame formatted as required
 }
 \description{
 Takes a .csv file exported from Prospect and reads it in to R
-             along with the factor labels from the looups.csv file produced
+             along with the factor labels from the lookups.csv file produced
              by Prospect. When using this function you must first read the
              lookups.csv file into R.
 }
