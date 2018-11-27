@@ -4,7 +4,7 @@
 \alias{search_list}
 \title{Searches a list of dataframes.}
 \usage{
-search_list(ls, string, exact = TRUE)
+search_list(ls, string, exact = TRUE, ignore.case = FALSE)
 }
 \arguments{
 \item{ls}{A list of dataframes}
@@ -16,6 +16,9 @@ for.}
 the exact variable, if \code{exact = FALSE} then
 \code{search_list} finds all variable names containing that
 string using \code{stringr::str_detect()}.}
+
+\item{ignore.case}{Logical. Determines whether to ignore case when
+\code{exact = FALSE}.}
 }
 \value{
 A data.frame
