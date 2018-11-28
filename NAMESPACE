@@ -3,6 +3,7 @@
 export(add_multirow)
 export(continuous_table)
 export(discrete_table)
+export(discrete_table_r)
 export(makerow)
 export(read_prospect)
 export(remove_duplicates)
