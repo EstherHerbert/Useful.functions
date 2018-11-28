@@ -61,6 +61,17 @@ continuous_table <- function(df = .,
                                 round0(IQR(value, na.rm = T), digits), ")"),
         `Min, Max` = paste0(min = min(value, na.rm = T), ", ", max(value, na.rm = T))
       ) %>%
+      mutate_at(
+        vars(`Mean (SD)`:`Min, Max`),
+        funs(ifelse(n == 0, "-", .))
+      ) %>%
+      mutate(
+        `Mean (SD)` = ifelse(n == 1, str_replace(`Mean (SD)`, " NA", " - "),
+                             `Mean (SD)`),
+        `Median (IQR)` = ifelse(n == 1, str_replace(`Median (IQR)`, "0.00", " - "),
+                                `Median (IQR)`),
+        `Min, Max` = ifelse(n == 1, str_remove(`Min, Max`, ",.*"), `Min, Max`)
+      ) %>%
       ungroup() %>%
       gather(scoring, value, -!!group, -variable) %>%
       spread(!!group, value) %>%
@@ -79,6 +90,17 @@ continuous_table <- function(df = .,
         `Mean (SD)` = mean_sd(value, na_rm = T, denote_sd = "paren", digits = digits),
         `Median (IQR)` = median_iqr(value, na_rm = T, digits = digits),
         `Min, Max` = paste0(min(value, na.rm = T), ", ", max(value, na.rm = T))
+      ) %>%
+      mutate_at(
+        vars(`Mean (SD)`:`Min, Max`),
+        funs(ifelse(n == 0, "-", .))
+      ) %>%
+      mutate(
+        `Mean (SD)` = ifelse(n == 1, str_replace(`Mean (SD)`, " NA", " - "),
+                             `Mean (SD)`),
+        `Median (IQR)` = ifelse(n == 1, str_replace(`Median (IQR)`, "0.00", " - "),
+                                `Median (IQR)`),
+        `Min, Max` = ifelse(n == 1, str_remove(`Min, Max`, ",.*"), `Min, Max`)
       ) %>%
       ungroup() %>%
       gather(scoring, value, -variable) %>%
