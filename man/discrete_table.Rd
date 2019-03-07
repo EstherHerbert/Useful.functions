@@ -4,7 +4,7 @@
 \alias{discrete_table}
 \title{Produce a dataframe to summarise discrete variables}
 \usage{
-discrete_table(df = ., ..., group = ., total = TRUE)
+discrete_table(df = ., ..., group = ., total = TRUE, n = FALSE)
 }
 \arguments{
 \item{df}{Data Frame}
@@ -13,7 +13,10 @@ discrete_table(df = ., ..., group = ., total = TRUE)
 
 \item{group}{Optional variable that defines the grouping}
 
-\item{total}{Logical indicating wether a total column should be created}
+\item{total}{Logical indicating whether a total column should be created}
+
+\item{n}{Logical indicating whether percentages should be out of n
+(\code{n = TRUE}) or N (\code{n = FALSE})}
 }
 \value{
 A tibble data frame summarising the data

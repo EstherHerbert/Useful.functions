@@ -6,7 +6,9 @@
 #' @param df Data Frame
 #' @param ... Variables to be summarised
 #' @param group Optional variable that defines the grouping
-#' @param total Logical indicating wether a total column should be created
+#' @param total Logical indicating whether a total column should be created
+#' @param n Logical indicating whether percentages should be out of n
+#'          (\code{n = TRUE}) or N (\code{n = FALSE})
 #'
 #' @examples
 #'     library(ggplot2) # for the data
@@ -19,7 +21,8 @@
 discrete_table <- function(df = .,
                            ...,
                            group = .,
-                           total = TRUE) {
+                           total = TRUE,
+                           n = FALSE) {
   require(tidyverse)
   require(magrittr)
 
@@ -34,20 +37,16 @@ discrete_table <- function(df = .,
   # For totals
   if (total) {
     df <- df %>%
-      stata_expand(1) %>%
-      mutate(
-        !!quo_name(group) := if_else(Duplicate == 1,
-                                     "Total",
-                                     as.character(!!group)
-        )
-      )
+      totals(!!group)
   }
 
-  df %<>%
-    mutate_at(
-      vars(!!!variables),
-      funs(fct_explicit_na(., na_level = "Missing"))
-    )
+  if(!n){
+    df %<>%
+      mutate_at(
+        vars(!!!variables),
+        funs(fct_explicit_na(., na_level = "Missing"))
+      )
+  }
 
   if (!missing(group)) {
     new <- df %>%
@@ -56,19 +55,21 @@ discrete_table <- function(df = .,
       count(!!group, variable, scoring) %>%
       group_by(!!group, variable) %>%
       mutate(
-        N = sum(n),
-        p = round0(n / N * 100, 1),
-        np = paste0(n, " (", p, "%)")
+        N = sum(n)
+      ) %>%
+      filter(!is.na(scoring)) %>%
+      mutate(
+        p = paste0(n, " (", scales::percent(n/sum(n)), ")"),
+        n = sum(n)
       ) %>%
       ungroup() %>%
-      select(-c(n, p)) %>%
       gather(stat, value, -!!group, -variable, -scoring) %>%
       spread(!!group, value, fill = "0 (0.0%)") %>%
-      mutate_at(
-        vars(variable, scoring),
-        funs(if_else(stat == "N", "N", as.character(.)))
+      mutate(
+        variable = if_else(stat == "N", stat, variable),
+        scoring = ifelse(stat %in% c("N", "n"), stat, scoring)
       ) %>%
-      .[!duplicated(.[1:3]), ] %>%
+      .[!duplicated(.[1:3]),] %>%
       select(-stat) %>%
       mutate_at(
         vars(-variable, -scoring),
@@ -81,16 +82,18 @@ discrete_table <- function(df = .,
       count(variable, scoring) %>%
       group_by(variable) %>%
       mutate(
-        N = sum(n),
-        p = round0(n / N * 100, 1),
-        np = paste0(n, " (", p, "%)")
+        N = sum(n)
+      ) %>%
+      filter(!is.na(scoring)) %>%
+      mutate(
+        p = paste0(n, " (", scales::percent(n/sum(n)), ")"),
+        n = sum(n)
       ) %>%
       ungroup() %>%
-      select(-c(n, p)) %>%
       gather(stat, value, -variable, -scoring) %>%
-      mutate_at(
-        vars(variable, scoring),
-        funs(if_else(stat == "N", "N", as.character(.)))
+      mutate(
+        variable = if_else(stat == "N", stat, variable),
+        scoring = if_else(stat %in% c("N", "n"), stat, scoring)
       ) %>%
       .[!duplicated(.), ] %>%
       select(-stat) %>%
@@ -111,10 +114,16 @@ discrete_table <- function(df = .,
     unname() %>%
     .[!duplicated(.)]
 
+  if(!n){
+    new %<>%
+      filter(scoring != "n" | is.na(scoring))
+  }
+
   new %<>%
     mutate(
       variable = parse_factor(variable, c("N", order)),
-      scoring = parse_factor(scoring, c("N", order2) %>% .[!duplicated(.)]) %>%
+      scoring = parse_factor(scoring, c("N", "n", order2) %>%
+                               .[!duplicated(.)]) %>%
         fct_relevel("Other", after = Inf) %>%
         fct_relevel("Missing", after = Inf)
     ) %>%
