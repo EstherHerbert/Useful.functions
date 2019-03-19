@@ -31,8 +31,7 @@ missing_table <- function (df = .,
   }
 
   if (total) {
-    df <- df %>%
-      totals(!!group)
+    df <- df %>% totals(!!group)
   }
 
   if (!missing(group)) {
@@ -40,6 +39,7 @@ missing_table <- function (df = .,
       select(!!group, !!!variables) %>%
       gather(variable, value, -!!group) %>%
       count(!!group, variable, is.na(value)) %>%
+      tidyr::complete(!!group, variable, `is.na(value)`, fill = list(n = 0)) %>%
       group_by(!!group, variable) %>%
       mutate(
         n = paste0(n, " (", scales::percent(n/sum(n)), ")"),
@@ -53,6 +53,7 @@ missing_table <- function (df = .,
       select(!!!variables) %>%
       gather(variable, value) %>%
       count(variable, is.na(value)) %>%
+      tidyr::complete(variable, `is.na(value)`, fill = list(n = 0)) %>%
       group_by(variable) %>%
       mutate(
         n = paste0(n, " (", scales::percent(n/sum(n)), ")"),
