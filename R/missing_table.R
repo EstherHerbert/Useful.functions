@@ -46,7 +46,7 @@ missing_table <- function (df = .,
         Missing = if_else(`is.na(value)`, "Missing", "Present")
       ) %>%
       select(-`is.na(value)`) %>%
-      spread(group, n)
+      spread(!!group, n)
   }
   else {
     new <- df %>%
