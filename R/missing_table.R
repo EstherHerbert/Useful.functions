@@ -42,11 +42,24 @@ missing_table <- function (df = .,
       tidyr::complete(!!group, variable, `is.na(value)`, fill = list(n = 0)) %>%
       group_by(!!group, variable) %>%
       mutate(
-        n = paste0(n, " (", scales::percent(n/sum(n)), ")"),
+        N = sum(n),
+        n = paste0(n, " (", scales::percent(n/N, accuracy = 0.1), ")"),
         Missing = if_else(`is.na(value)`, "Missing", "Present")
       ) %>%
       select(-`is.na(value)`) %>%
-      spread(!!group, n)
+      ungroup %>%
+      gather(stat, value, n, N) %>%
+      spread(!!group, value) %>%
+      mutate_at(
+        vars(variable, Missing),
+        ~if_else(stat == "N", "N", .)
+      ) %>%
+      .[!duplicated(.),] %>%
+      select(-stat) %>%
+      mutate_at(
+        vars(-variable, -Missing),
+        funs(if_else(variable == "N", paste("N =", .), .))
+      )
   }
   else {
     new <- df %>%
@@ -56,14 +69,33 @@ missing_table <- function (df = .,
       tidyr::complete(variable, `is.na(value)`, fill = list(n = 0)) %>%
       group_by(variable) %>%
       mutate(
-        n = paste0(n, " (", scales::percent(n/sum(n)), ")"),
+        N = sum(n),
+        n = paste0(n, " (", scales::percent(n/N, accuracy = 0.1), ")"),
         Missing = if_else(`is.na(value)`, "Missing", "Present")
       ) %>%
-      select(-`is.na(value)`)
+      select(-`is.na(value)`) %>%
+      ungroup %>%
+      gather(stat, value, n, N) %>%
+      mutate_at(
+        vars(variable, Missing),
+        ~if_else(stat == "N", "N", .)
+      ) %>%
+      .[!duplicated(.),] %>%
+      select(-stat) %>%
+      mutate_at(
+        vars(-variable, -Missing),
+        funs(if_else(variable == "N", paste("N =", .), .))
+      )
   }
 
+  order <- sapply(variables, FUN = quo_name)
+
   new <- new %>%
-    filter(Missing == format) %>%
+    mutate(
+      variable = parse_factor(variable, c("N", order))
+    ) %>%
+    arrange(variable) %>%
+    filter(Missing %in% c(format, "N")) %>%
     select(-Missing)
 
   return(new)
