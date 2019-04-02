@@ -53,6 +53,7 @@ discrete_table <- function(df = .,
       select(!!group, !!!variables) %>%
       gather(variable, scoring, -!!group) %>%
       count(!!group, variable, scoring) %>%
+      tidyr::complete(!!group, nesting(variable, scoring), fill = list(n = 0)) %>%
       group_by(!!group, variable) %>%
       mutate(
         N = sum(n)
@@ -64,12 +65,12 @@ discrete_table <- function(df = .,
       ) %>%
       ungroup() %>%
       gather(stat, value, -!!group, -variable, -scoring) %>%
-      spread(!!group, value, fill = "0 (0.0%)") %>%
+      spread(!!group, value) %>%
       mutate(
         variable = if_else(stat == "N", stat, variable),
         scoring = ifelse(stat %in% c("N", "n"), stat, scoring)
       ) %>%
-      .[!duplicated(.[1:3]),] %>%
+      .[!duplicated(.),] %>%
       select(-stat) %>%
       mutate_at(
         vars(-variable, -scoring),
