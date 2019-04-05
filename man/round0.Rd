@@ -7,7 +7,7 @@
 round0(x, digits)
 }
 \arguments{
-\item{x}{a number}
+\item{x}{a numeric vector}
 
 \item{digits}{an integer indicating the number of decimal places}
 }
