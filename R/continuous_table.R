@@ -42,8 +42,8 @@ continuous_table <- function(df = .,
       stata_expand(1) %>%
       mutate(
         !!quo_name(group) := if_else(Duplicate == 1,
-          "Total",
-          as.character(!!group)
+                                     "Total",
+                                     as.character(!!group)
         )
       )
   }
@@ -58,7 +58,10 @@ continuous_table <- function(df = .,
         n = sum(!is.na(value)),
         `Mean (SD)` = mean_sd(value, na_rm = T, denote_sd = "paren", digits = digits),
         `Median (IQR)` = median_iqr(value, na_rm = T, digits = digits),
-        `Min, Max` = paste0(min = min(value, na.rm = T), ", ", max(value, na.rm = T))
+        `Min, Max` = paste0(
+          min = round(min(value, na.rm = T), digits), ", ",
+          round(max(value, na.rm = T), digits)
+        )
       ) %>%
       mutate_at(
         vars(`Mean (SD)`:`Min, Max`),
@@ -88,7 +91,10 @@ continuous_table <- function(df = .,
         n = sum(!is.na(value)),
         `Mean (SD)` = mean_sd(value, na_rm = T, denote_sd = "paren", digits = digits),
         `Median (IQR)` = median_iqr(value, na_rm = T, digits = digits),
-        `Min, Max` = paste0(min(value, na.rm = T), ", ", max(value, na.rm = T))
+        `Min, Max` = paste0(
+          round(min(value, na.rm = T), digits), ", ",
+          round(max(value, na.rm = T), digits)
+        )
       ) %>%
       mutate_at(
         vars(`Mean (SD)`:`Min, Max`),
