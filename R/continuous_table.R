@@ -6,6 +6,8 @@
 #' @param df Data frame
 #' @param ... Variables to be summarised
 #' @param group Optional variable that defines the grouping
+#' @param time Optional variable for repeated measures
+#'             (currenlty must me used with group)
 #' @param total Logical indicating wether a total column should be created
 #' @param digits Number of digits to the right of the decimal point
 #'
@@ -21,21 +23,29 @@
 continuous_table <- function(df = .,
                              ...,
                              group = .,
+                             time = .,
                              total = TRUE,
                              digits = 2) {
 
   require(tidyverse)
   require(qwraps2)
 
+  if(!missing(time) & missing(group)) {
+    stop("Time can currenlty only be used with a group variable")
+  }
+
   formals(mean_sd)$show_n <- "never"
   formals(median_iqr)$show_n <- "never"
 
   variables <- quos(...)
+
   if (!missing(group)) {
     group <- enquo(group)
   } else {
     total <- FALSE
   }
+
+  if(!missing(time)) time <- enquo(time)
 
   if (total) {
     df %<>%
@@ -48,7 +58,7 @@ continuous_table <- function(df = .,
       )
   }
 
-  if (!missing(group)) {
+  if (!missing(group) & missing(time)) {
     new <- df %>%
       select(!!group, !!!variables) %>%
       gather(variable, value, -!!group) %>%
@@ -81,7 +91,7 @@ continuous_table <- function(df = .,
         variable = if_else(scoring == "N", "N", as.character(variable))
       ) %>%
       .[!duplicated(.), ]
-  } else {
+  } else if (missing(group) & missing(time)) {
     new <- df %>%
       select(!!!variables) %>%
       gather(variable, value) %>%
@@ -113,25 +123,82 @@ continuous_table <- function(df = .,
         variable = if_else(scoring == "N", "N", as.character(variable))
       ) %>%
       .[!duplicated(.), ]
+  } else {
+    new <- df %>%
+      select(!!group, !!time, !!!variables) %>%
+      gather(variable, value, -!!group, -!!time) %>%
+      group_by(!!group, variable, !!time) %>%
+      summarise(
+        N = n(),
+        n = sum(!is.na(value)),
+        `Mean (SD)` = mean_sd(value, na_rm = T, denote_sd = "paren", digits = digits),
+        `Median (IQR)` = median_iqr(value, na_rm = T, digits = digits),
+        `Min, Max` = paste0(
+          min = round(min(value, na.rm = T), digits), ", ",
+          round(max(value, na.rm = T), digits)
+        )
+      ) %>%
+      mutate_at(
+        vars(`Mean (SD)`:`Min, Max`),
+        funs(ifelse(n == 0, "-", .))
+      ) %>%
+      mutate(
+        `Mean (SD)` = ifelse(n == 1, str_replace(`Mean (SD)`, " NA", " - "),
+                             `Mean (SD)`),
+        `Median (IQR)` = ifelse(n == 1, str_replace(`Median (IQR)`, "0.00", " - "),
+                                `Median (IQR)`),
+        `Min, Max` = ifelse(n == 1, str_remove(`Min, Max`, ",.*"), `Min, Max`)
+      ) %>%
+      ungroup() %>%
+      gather(scoring, value, -!!group, -!!time, -variable) %>%
+      spread(!!group, value) %>%
+      mutate_at(
+        vars(time, variable),
+        ~if_else(scoring == "N", "N", as.character(.))
+      ) %>%
+      .[!duplicated(.), ]
   }
 
   order <- sapply(variables, FUN = quo_name)
 
-  new %<>%
-    mutate(
-      variable = parse_factor(variable, c("N", order)),
-      scoring = as.factor(scoring),
-      scoring = relevel(scoring, "n")
-    ) %>%
-    arrange(variable, scoring) %>%
-    mutate_at(
-      vars(-variable, -scoring),
-      funs(if_else(variable == "N", paste("N =", .), .))
-    ) %>%
-    mutate_at(
-      vars(variable, scoring),
-      funs(if_else(variable == "N", NA_character_, as.character(.)))
-    )
+  if(!missing(time)){
+
+    order2 <- df %>% select(!!time) %>% map(levels) %>% .[[1]]
+
+    new %<>%
+      mutate(
+        !!time := parse_factor(!!time, c("N", order2)),
+        variable = parse_factor(variable, c("N", order)),
+        scoring = as.factor(scoring),
+        scoring = relevel(scoring, "n")
+      ) %>%
+      arrange(variable, !!time, scoring) %>%
+      mutate_at(
+        vars(-variable, -scoring, -!!time),
+        funs(if_else(variable == "N", paste("N =", .), .))
+      ) %>%
+      mutate_at(
+        vars(variable, scoring, !!time),
+        funs(if_else(variable == "N", NA_character_, as.character(.)))
+      )
+
+  } else {
+    new %<>%
+      mutate(
+        variable = parse_factor(variable, c("N", order)),
+        scoring = as.factor(scoring),
+        scoring = relevel(scoring, "n")
+      ) %>%
+      arrange(variable, scoring) %>%
+      mutate_at(
+        vars(-variable, -scoring),
+        funs(if_else(variable == "N", paste("N =", .), .))
+      ) %>%
+      mutate_at(
+        vars(variable, scoring),
+        funs(if_else(variable == "N", NA_character_, as.character(.)))
+      )
+  }
 
   return(new)
 }
