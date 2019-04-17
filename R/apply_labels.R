@@ -9,7 +9,7 @@ apply_labels <- function(df, col, dataspec = dataspec){
 
   col_q <- enquo(col)
   quo_name(col_q)
-  vars <- filter(table, !is.na(!!col_q))  %>%
+  vars <- filter(df, !is.na(!!col_q))  %>%
     extract2(quo_name(col_q)) %>%
     unique() %>%
     paste0(collapse = "|")
@@ -19,7 +19,7 @@ apply_labels <- function(df, col, dataspec = dataspec){
     mutate(Identifier = str_remove_all(Identifier, "\\[calculated\\] ")) %>%
     select(Identifier, Label)
 
-  table %>%
+  df %>%
     mutate(
       !!col_q := factor(!!col_q, levels = labs$Identifier, labels = labs$Label)
     )
