@@ -75,7 +75,7 @@ continuous_table <- function(df = .,
       ) %>%
       mutate_at(
         vars(`Mean (SD)`:`Min, Max`),
-        funs(ifelse(n == 0, "-", .))
+        ~ifelse(n == 0, "-", .)
       ) %>%
       mutate(
         `Mean (SD)` = ifelse(n == 1, str_replace(`Mean (SD)`, " NA", " - "),
@@ -108,7 +108,7 @@ continuous_table <- function(df = .,
       ) %>%
       mutate_at(
         vars(`Mean (SD)`:`Min, Max`),
-        funs(ifelse(n == 0, "-", .))
+        ~ifelse(n == 0, "-", .)
       ) %>%
       mutate(
         `Mean (SD)` = ifelse(n == 1, str_replace(`Mean (SD)`, " NA", " - "),
@@ -140,7 +140,7 @@ continuous_table <- function(df = .,
       ) %>%
       mutate_at(
         vars(`Mean (SD)`:`Min, Max`),
-        funs(ifelse(n == 0, "-", .))
+        ~ifelse(n == 0, "-", .)
       ) %>%
       mutate(
         `Mean (SD)` = ifelse(n == 1, str_replace(`Mean (SD)`, " NA", " - "),
@@ -153,7 +153,7 @@ continuous_table <- function(df = .,
       gather(scoring, value, -!!group, -!!time, -variable) %>%
       spread(!!group, value) %>%
       mutate_at(
-        vars(time, variable),
+        vars(!!time, variable),
         ~if_else(scoring == "N", "N", as.character(.))
       ) %>%
       .[!duplicated(.), ]
@@ -163,7 +163,11 @@ continuous_table <- function(df = .,
 
   if(!missing(time)){
 
-    order2 <- df %>% select(!!time) %>% map(levels) %>% .[[1]]
+    order2 <- df %>%
+      mutate(!!time := as.factor(!!time)) %>%
+      select(!!time) %>%
+      map(levels) %>%
+      .[[1]]
 
     new %<>%
       mutate(
@@ -175,11 +179,11 @@ continuous_table <- function(df = .,
       arrange(variable, !!time, scoring) %>%
       mutate_at(
         vars(-variable, -scoring, -!!time),
-        funs(if_else(variable == "N", paste("N =", .), .))
+        ~if_else(variable == "N", paste("N =", .), .)
       ) %>%
       mutate_at(
         vars(variable, scoring, !!time),
-        funs(if_else(variable == "N", NA_character_, as.character(.)))
+        ~if_else(variable == "N", NA_character_, as.character(.))
       )
 
   } else {
@@ -192,11 +196,11 @@ continuous_table <- function(df = .,
       arrange(variable, scoring) %>%
       mutate_at(
         vars(-variable, -scoring),
-        funs(if_else(variable == "N", paste("N =", .), .))
+        ~if_else(variable == "N", paste("N =", .), .)
       ) %>%
       mutate_at(
         vars(variable, scoring),
-        funs(if_else(variable == "N", NA_character_, as.character(.)))
+        ~if_else(variable == "N", NA_character_, as.character(.))
       )
   }
 
