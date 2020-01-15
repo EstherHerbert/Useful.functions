@@ -4,7 +4,7 @@
 \alias{discrete_table}
 \title{Produce a dataframe to summarise discrete variables}
 \usage{
-discrete_table(df = ., ..., group = ., total = TRUE, n = FALSE)
+discrete_table(df = ., ..., group = ., total = TRUE, n = FALSE, accuracy = 0.1)
 }
 \arguments{
 \item{df}{Data Frame}
@@ -17,6 +17,8 @@ discrete_table(df = ., ..., group = ., total = TRUE, n = FALSE)
 
 \item{n}{Logical indicating whether percentages should be out of n
 (\code{n = TRUE}) or N (\code{n = FALSE})}
+
+\item{accuracy}{see details of \code{scales::percent}}
 }
 \value{
 A tibble data frame summarising the data

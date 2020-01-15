@@ -4,8 +4,7 @@
 \alias{add_multirow}
 \title{For use with latex summary tables}
 \usage{
-add_multirow(x, width = "4cm", pos = "t", rows = .,
-  reverse = FALSE)
+add_multirow(x, width = "4cm", pos = "t", rows = ., reverse = FALSE)
 }
 \arguments{
 \item{x}{Character vector}

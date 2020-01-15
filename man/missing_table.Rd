@@ -4,8 +4,7 @@
 \alias{missing_table}
 \title{Produce a dataframe to summarise data completeness for variables}
 \usage{
-missing_table(df = ., ..., group = ., format = "Missing",
-  total = TRUE)
+missing_table(df = ., ..., group = ., format = "Missing", total = TRUE)
 }
 \arguments{
 \item{df}{Data Frame}

@@ -4,8 +4,7 @@
 \alias{continuous_table}
 \title{Produce a dataframe to summaries continuous variables}
 \usage{
-continuous_table(df = ., ..., group = ., time = ., total = TRUE,
-  digits = 2)
+continuous_table(df = ., ..., group = ., time = ., total = TRUE, digits = 2)
 }
 \arguments{
 \item{df}{Data frame}

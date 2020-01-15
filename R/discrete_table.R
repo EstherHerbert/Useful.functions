@@ -9,6 +9,7 @@
 #' @param total Logical indicating whether a total column should be created
 #' @param n Logical indicating whether percentages should be out of n
 #'          (\code{n = TRUE}) or N (\code{n = FALSE})
+#' @param accuracy see details of \code{scales::percent}
 #'
 #' @examples
 #'     library(ggplot2) # for the data
@@ -22,7 +23,8 @@ discrete_table <- function(df = .,
                            ...,
                            group = .,
                            total = TRUE,
-                           n = FALSE) {
+                           n = FALSE,
+                           accuracy = 0.1) {
   require(tidyverse)
   require(magrittr)
 
@@ -60,7 +62,7 @@ discrete_table <- function(df = .,
       ) %>%
       filter(!is.na(scoring)) %>%
       mutate(
-        p = paste0(n, " (", scales::percent(n/sum(n)), ")"),
+        p = paste0(n, " (", scales::percent(n/sum(n), accuracy), ")"),
         n = sum(n)
       ) %>%
       ungroup() %>%
@@ -87,7 +89,7 @@ discrete_table <- function(df = .,
       ) %>%
       filter(!is.na(scoring)) %>%
       mutate(
-        p = paste0(n, " (", scales::percent(n/sum(n)), ")"),
+        p = paste0(n, " (", scales::percent(n/sum(n), accuracy), ")"),
         n = sum(n)
       ) %>%
       ungroup() %>%
