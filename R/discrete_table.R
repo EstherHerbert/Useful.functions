@@ -46,7 +46,7 @@ discrete_table <- function(df = .,
     df %<>%
       mutate_at(
         vars(!!!variables),
-        funs(fct_explicit_na(., na_level = "Missing"))
+        ~fct_explicit_na(., na_level = "Missing")
       )
   }
 
@@ -76,7 +76,7 @@ discrete_table <- function(df = .,
       select(-stat) %>%
       mutate_at(
         vars(-variable, -scoring),
-        funs(if_else(variable == "N", paste("N =", .), .))
+        ~if_else(variable == "N", paste("N =", .), .)
       )
   } else {
     new <- df %>%
@@ -102,7 +102,7 @@ discrete_table <- function(df = .,
       select(-stat) %>%
       mutate_at(
         vars(-variable, -scoring),
-        funs(if_else(variable == "N", paste("N =", .), .))
+        ~if_else(variable == "N", paste("N =", .), .)
       )
   }
 
@@ -110,7 +110,7 @@ discrete_table <- function(df = .,
 
   order2 <- df %>%
     select(!!!variables) %>%
-    mutate_all(funs(as.factor(.))) %>%
+    mutate_all(~as.factor(.)) %>%
     as.list() %>%
     map(~ levels(.)) %>%
     unlist(.) %>%
@@ -122,19 +122,21 @@ discrete_table <- function(df = .,
       filter(scoring != "n" | is.na(scoring))
   }
 
-  new %<>%
-    mutate(
-      variable = parse_factor(variable, c("N", order)),
-      scoring = parse_factor(scoring, c("N", "n", order2) %>%
-                               .[!duplicated(.)]) %>%
-        fct_relevel("Other", after = Inf) %>%
-        fct_relevel("Missing", after = Inf)
-    ) %>%
-    arrange(variable, scoring) %>%
-    mutate_at(
-      vars(variable, scoring),
-      funs(if_else(scoring == "N", NA_character_, as.character(.)))
-    )
+  suppressWarnings(
+    new %<>%
+      mutate(
+        variable = parse_factor(variable, c("N", order)),
+        scoring = parse_factor(scoring, c("N", "n", order2) %>%
+                                 .[!duplicated(.)]) %>%
+          fct_relevel("Other", after = Inf) %>%
+          fct_relevel("Missing", after = Inf)
+      ) %>%
+      arrange(variable, scoring) %>%
+      mutate_at(
+        vars(variable, scoring),
+        ~if_else(scoring == "N", NA_character_, as.character(.))
+      )
+  )
 
   return(new)
 }
