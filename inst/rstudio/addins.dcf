@@ -7,3 +7,8 @@ Name: End Box
 Description: Completes a row of a header box
 Binding: end_box
 Interactive: false
+
+Name: Month Year
+Description: Inserts the current month and year
+Binding: monthyear
+Interactive: false
