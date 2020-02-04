@@ -1,3 +1,3 @@
 monthyear <- function(){
-  format(Sys.time(), "%B %Y")
+  rstudioapi::insertText(format(Sys.time(), "%B %Y"))
 }
