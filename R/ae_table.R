@@ -33,9 +33,9 @@ ae_table <- function(df = .,
       individuals = n_distinct(!!ID)
     ) %>%
     ungroup() %>%
-    left_join(N) %>%
     complete(!!group, nesting(variable, scoring),
              fill = list(events = 0, individuals = 0)) %>%
+    left_join(N) %>%
     mutate(
       individuals = paste0(individuals, " (",
                            scales::percent(individuals/N, accuracy = accuracy),
