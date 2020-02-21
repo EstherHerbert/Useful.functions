@@ -4,7 +4,15 @@
 \alias{discrete_table}
 \title{Produce a dataframe to summarise discrete variables}
 \usage{
-discrete_table(df = ., ..., group = ., total = TRUE, n = FALSE, accuracy = 0.1)
+discrete_table(
+  df = .,
+  ...,
+  group = .,
+  time = .,
+  total = TRUE,
+  n = FALSE,
+  accuracy = 0.1
+)
 }
 \arguments{
 \item{df}{Data Frame}
@@ -12,6 +20,9 @@ discrete_table(df = ., ..., group = ., total = TRUE, n = FALSE, accuracy = 0.1)
 \item{...}{Variables to be summarised}
 
 \item{group}{Optional variable that defines the grouping}
+
+\item{time}{Optional variable for repeated measures
+(currenlty must me used with group)}
 
 \item{total}{Logical indicating whether a total column should be created}
 
