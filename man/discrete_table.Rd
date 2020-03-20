@@ -11,6 +11,7 @@ discrete_table(
   time = .,
   total = TRUE,
   n = FALSE,
+  missing = "Missing",
   accuracy = 0.1
 )
 }
@@ -28,6 +29,9 @@ discrete_table(
 
 \item{n}{Logical indicating whether percentages should be out of n
 (\code{n = TRUE}) or N (\code{n = FALSE})}
+
+\item{missing}{String determining what missing data will be called
+(if \code{n = TRue}). Default is "Missing".}
 
 \item{accuracy}{see details of \code{scales::percent}}
 }

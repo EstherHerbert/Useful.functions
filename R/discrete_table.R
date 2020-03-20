@@ -11,6 +11,8 @@
 #' @param total Logical indicating whether a total column should be created
 #' @param n Logical indicating whether percentages should be out of n
 #'          (\code{n = TRUE}) or N (\code{n = FALSE})
+#' @param missing String determining what missing data will be called
+#'                (if \code{n = TRue}). Default is "Missing".
 #' @param accuracy see details of \code{scales::percent}
 #'
 #' @examples
@@ -27,6 +29,7 @@ discrete_table <- function(df = .,
                            time = .,
                            total = TRUE,
                            n = FALSE,
+                           missing = "Missing",
                            accuracy = 0.1) {
   require(tidyverse)
   require(magrittr)
@@ -55,7 +58,7 @@ discrete_table <- function(df = .,
     df %<>%
       mutate_at(
         vars(!!!variables),
-        ~fct_explicit_na(., na_level = "Missing")
+        ~fct_explicit_na(., na_level = missing)
       )
   }
 
