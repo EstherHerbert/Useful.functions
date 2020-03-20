@@ -168,7 +168,7 @@ discrete_table <- function(df = .,
           scoring = parse_factor(scoring, c("N", "n", order2) %>%
                                    .[!duplicated(.)]) %>%
             fct_relevel("Other", after = Inf) %>%
-            fct_relevel("Missing", after = Inf)
+            fct_relevel(missing, after = Inf)
         ) %>%
         arrange(variable, scoring) %>%
         mutate_at(
