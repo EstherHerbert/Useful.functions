@@ -6,7 +6,7 @@ This package brings together some functions I have created to perform repetitive
 
 ```
 install.packages('devtools')
-devtools::install_git("https://gitlab.com/EstherHerbert/Useful.functions.git")
+devtools::install_github("EstherHerbert/Useful.functions")
 library(Useful.functions)
 ```
 
