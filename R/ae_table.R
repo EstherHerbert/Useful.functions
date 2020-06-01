@@ -30,7 +30,7 @@ ae_table <- function(df = .,
     group_by(!!group, variable, scoring) %>%
     summarise(
       events = n(),
-      individuals = n_distinct(!!ID)
+      across(!!ID, n_distinct, .names = "individuals")
     ) %>%
     ungroup() %>%
     complete(!!group, nesting(variable, scoring),
