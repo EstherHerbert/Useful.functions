@@ -88,7 +88,7 @@ continuous_table <- function(df = .,
       pivot_longer(cols = c(-!!group, -variable), names_to = "scoring",
                    values_to = "value",
                    values_transform = list(value = as.character)) %>%
-      spread(!!group, value) %>%
+      pivot_wider(names_from = !!group, values_from = value) %>%
       mutate(
         variable = if_else(scoring == "N", "N", as.character(variable))
       ) %>%
@@ -158,7 +158,7 @@ continuous_table <- function(df = .,
       pivot_longer(cols = c(-!!group, -!!time, -variable), names_to = "scoring",
                    values_to = "value",
                    values_transform = list(value = as.character)) %>%
-      spread(!!group, value) %>%
+      pivot_wider(names_from = !!group, values_from = value) %>%
       mutate_at(
         vars(!!time, variable),
         ~if_else(scoring == "N", "N", as.character(.))
