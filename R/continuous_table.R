@@ -71,7 +71,8 @@ continuous_table <- function(df = .,
         `Min, Max` = paste0(
           min = round(min(value, na.rm = T), digits), ", ",
           round(max(value, na.rm = T), digits)
-        )
+        ),
+        .groups = "drop"
       ) %>%
       mutate_at(
         vars(`Mean (SD)`:`Min, Max`),
@@ -106,7 +107,8 @@ continuous_table <- function(df = .,
         `Min, Max` = paste0(
           round(min(value, na.rm = T), digits), ", ",
           round(max(value, na.rm = T), digits)
-        )
+        ),
+        .groups = "drop"
       ) %>%
       mutate_at(
         vars(`Mean (SD)`:`Min, Max`),
@@ -141,7 +143,8 @@ continuous_table <- function(df = .,
         `Min, Max` = paste0(
           min = round(min(value, na.rm = T), digits), ", ",
           round(max(value, na.rm = T), digits)
-        )
+        ),
+        .groups = "drop"
       ) %>%
       mutate_at(
         vars(`Mean (SD)`:`Min, Max`),
