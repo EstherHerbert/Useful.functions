@@ -61,7 +61,7 @@ continuous_table <- function(df = .,
   if (!missing(group) & missing(time)) {
     new <- df %>%
       select(!!group, !!!variables) %>%
-      gather(variable, value, -!!group) %>%
+      pivot_longer(-!!group, names_to = "variable", values_to = "value") %>%
       group_by(!!group, variable) %>%
       summarise(
         N = n(),
@@ -85,7 +85,9 @@ continuous_table <- function(df = .,
         `Min, Max` = ifelse(n == 1, str_remove(`Min, Max`, ",.*"), `Min, Max`)
       ) %>%
       ungroup() %>%
-      gather(scoring, value, -!!group, -variable) %>%
+      pivot_longer(cols = c(-!!group, -variable), names_to = "scoring",
+                   values_to = "value",
+                   values_transform = list(value = as.character)) %>%
       spread(!!group, value) %>%
       mutate(
         variable = if_else(scoring == "N", "N", as.character(variable))
@@ -94,7 +96,7 @@ continuous_table <- function(df = .,
   } else if (missing(group) & missing(time)) {
     new <- df %>%
       select(!!!variables) %>%
-      gather(variable, value) %>%
+      pivot_longer(everything(), names_to = "variable", values_to = "value") %>%
       group_by(variable) %>%
       summarise(
         N = n(),
@@ -118,7 +120,8 @@ continuous_table <- function(df = .,
         `Min, Max` = ifelse(n == 1, str_remove(`Min, Max`, ",.*"), `Min, Max`)
       ) %>%
       ungroup() %>%
-      gather(scoring, value, -variable) %>%
+      pivot_longer(-variable, names_to = "scoring", values_to = "value",
+                   values_transform = list(value = as.character)) %>%
       mutate(
         variable = if_else(scoring == "N", "N", as.character(variable))
       ) %>%
@@ -126,12 +129,14 @@ continuous_table <- function(df = .,
   } else {
     new <- df %>%
       select(!!group, !!time, !!!variables) %>%
-      gather(variable, value, -!!group, -!!time) %>%
+      pivot_longer(cols = c(-!!group, -!!time), names_to = "variable",
+                   values_to = "value") %>%
       group_by(!!group, variable, !!time) %>%
       summarise(
         N = n(),
         n = sum(!is.na(value)),
-        `Mean (SD)` = mean_sd(value, na_rm = T, denote_sd = "paren", digits = digits),
+        `Mean (SD)` = mean_sd(value, na_rm = T, denote_sd = "paren",
+                              digits = digits),
         `Median (IQR)` = median_iqr(value, na_rm = T, digits = digits),
         `Min, Max` = paste0(
           min = round(min(value, na.rm = T), digits), ", ",
@@ -150,7 +155,9 @@ continuous_table <- function(df = .,
         `Min, Max` = ifelse(n == 1, str_remove(`Min, Max`, ",.*"), `Min, Max`)
       ) %>%
       ungroup() %>%
-      gather(scoring, value, -!!group, -!!time, -variable) %>%
+      pivot_longer(cols = c(-!!group, -!!time, -variable), names_to = "scoring",
+                   values_to = "value",
+                   values_transform = list(value = as.character)) %>%
       spread(!!group, value) %>%
       mutate_at(
         vars(!!time, variable),
