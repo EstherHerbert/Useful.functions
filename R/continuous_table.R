@@ -1,14 +1,14 @@
-#' Produce a dataframe to summaries continuous variables
+#' Produce a data frame to summaries continuous variables
 #'
-#' @description Takes a dataframe and produces grouped or ungrouped summaries
+#' @description Takes a data frame and produces grouped or un-grouped summaries
 #'              such as mean and standard deviation for continuous variables.
 #'
 #' @param df Data frame
 #' @param ... Variables to be summarised
 #' @param group Optional variable that defines the grouping
 #' @param time Optional variable for repeated measures
-#'             (currenlty must me used with group)
-#' @param total Logical indicating wether a total column should be created
+#'             (currently must me used with group)
+#' @param total Logical indicating whether a total column should be created
 #' @param digits Number of digits to the right of the decimal point
 #'
 #' @examples
@@ -66,7 +66,8 @@ continuous_table <- function(df = .,
       summarise(
         N = n(),
         n = sum(!is.na(value)),
-        `Mean (SD)` = mean_sd(value, na_rm = T, denote_sd = "paren", digits = digits),
+        `Mean (SD)` = mean_sd(value, na_rm = T, denote_sd = "paren",
+                              digits = digits),
         `Median (IQR)` = median_iqr(value, na_rm = T, digits = digits),
         `Min, Max` = paste0(
           min = round(min(value, na.rm = T), digits), ", ",
@@ -81,7 +82,8 @@ continuous_table <- function(df = .,
       mutate(
         `Mean (SD)` = ifelse(n == 1, str_replace(`Mean (SD)`, " NA", " - "),
                              `Mean (SD)`),
-        `Median (IQR)` = ifelse(n == 1, str_replace(`Median (IQR)`, "0.00", " - "),
+        `Median (IQR)` = ifelse(n == 1, str_replace(`Median (IQR)`, "0.00",
+                                                    " - "),
                                 `Median (IQR)`),
         `Min, Max` = ifelse(n == 1, str_remove(`Min, Max`, ",.*"), `Min, Max`)
       ) %>%
@@ -102,7 +104,8 @@ continuous_table <- function(df = .,
       summarise(
         N = n(),
         n = sum(!is.na(value)),
-        `Mean (SD)` = mean_sd(value, na_rm = T, denote_sd = "paren", digits = digits),
+        `Mean (SD)` = mean_sd(value, na_rm = T, denote_sd = "paren",
+                              digits = digits),
         `Median (IQR)` = median_iqr(value, na_rm = T, digits = digits),
         `Min, Max` = paste0(
           round(min(value, na.rm = T), digits), ", ",
@@ -117,7 +120,8 @@ continuous_table <- function(df = .,
       mutate(
         `Mean (SD)` = ifelse(n == 1, str_replace(`Mean (SD)`, " NA", " - "),
                              `Mean (SD)`),
-        `Median (IQR)` = ifelse(n == 1, str_replace(`Median (IQR)`, "0.00", " - "),
+        `Median (IQR)` = ifelse(n == 1,
+                                str_replace(`Median (IQR)`, "0.00", " - "),
                                 `Median (IQR)`),
         `Min, Max` = ifelse(n == 1, str_remove(`Min, Max`, ",.*"), `Min, Max`)
       ) %>%
@@ -153,7 +157,8 @@ continuous_table <- function(df = .,
       mutate(
         `Mean (SD)` = ifelse(n == 1, str_replace(`Mean (SD)`, " NA", " - "),
                              `Mean (SD)`),
-        `Median (IQR)` = ifelse(n == 1, str_replace(`Median (IQR)`, "0.00", " - "),
+        `Median (IQR)` = ifelse(n == 1,
+                                str_replace(`Median (IQR)`, "0.00", " - "),
                                 `Median (IQR)`),
         `Min, Max` = ifelse(n == 1, str_remove(`Min, Max`, ",.*"), `Min, Max`)
       ) %>%
