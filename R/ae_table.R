@@ -1,6 +1,6 @@
-#' Produce a dataframe to summarise adverse event data.
+#' Produce a data frame to summarise adverse event data.
 #'
-#' @description Takes a dataframe of adverse events and produces the number of
+#' @description Takes a data frame of adverse events and produces the number of
 #'              events and number and percentage of individuals with an adverse
 #'              event.
 #'

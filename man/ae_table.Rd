@@ -2,7 +2,7 @@
 % Please edit documentation in R/ae_table.R
 \name{ae_table}
 \alias{ae_table}
-\title{Produce a dataframe to summarise adverse event data.}
+\title{Produce a data frame to summarise adverse event data.}
 \usage{
 ae_table(df = ., ..., group = ., ID = ., N = ., accuracy = 0.1, total = FALSE)
 }
@@ -21,7 +21,7 @@ number)}
 \item{total}{Logical indicating whether a total column should be created}
 }
 \description{
-Takes a dataframe of adverse events and produces the number of
+Takes a data frame of adverse events and produces the number of
              events and number and percentage of individuals with an adverse
              event.
 }
