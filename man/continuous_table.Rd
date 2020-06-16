@@ -2,7 +2,7 @@
 % Please edit documentation in R/continuous_table.R
 \name{continuous_table}
 \alias{continuous_table}
-\title{Produce a dataframe to summaries continuous variables}
+\title{Produce a data frame to summaries continuous variables}
 \usage{
 continuous_table(df = ., ..., group = ., time = ., total = TRUE, digits = 2)
 }
@@ -14,9 +14,9 @@ continuous_table(df = ., ..., group = ., time = ., total = TRUE, digits = 2)
 \item{group}{Optional variable that defines the grouping}
 
 \item{time}{Optional variable for repeated measures
-(currenlty must me used with group)}
+(currently must me used with group)}
 
-\item{total}{Logical indicating wether a total column should be created}
+\item{total}{Logical indicating whether a total column should be created}
 
 \item{digits}{Number of digits to the right of the decimal point}
 }
@@ -24,7 +24,7 @@ continuous_table(df = ., ..., group = ., time = ., total = TRUE, digits = 2)
 A tibble data frame summarising the data
 }
 \description{
-Takes a dataframe and produces grouped or ungrouped summaries
+Takes a data frame and produces grouped or un-grouped summaries
              such as mean and standard deviation for continuous variables.
 }
 \examples{
