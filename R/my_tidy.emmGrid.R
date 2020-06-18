@@ -21,8 +21,8 @@
 #'
 #' @export
 my_tidy.emmGrid <- function(x,
-                         conf.int = F,
-                         conf.level = 0.95){
+                            conf.int = F,
+                            conf.level = 0.95){
 
   if(class(x)[1] != "emmGrid") stop("x must be an object of class 'emmGrid'.")
 
@@ -35,12 +35,12 @@ my_tidy.emmGrid <- function(x,
       as_tibble(x),
       as_tibble(confint(x, level = conf.level))
     ))
-    if(as.character(x@model.info$call)[1] == "lm"){
-      out <- out %>%
-        rename(std.error = SE, conf.low = lower.CL, conf.high = upper.CL)
-    } else {
+    if(attr(x@dffun, "mesg") == "asymptotic"){
       out <- out %>%
         rename(std.error = SE, conf.low = asymp.LCL, conf.high = asymp.UCL)
+    } else {
+      out <- out %>%
+        rename(std.error = SE, conf.low = lower.CL, conf.high = upper.CL)
     }
 
   } else {
