@@ -22,6 +22,12 @@ read_prospect <- function(file         = .,
   require(tidyverse)
 
   new <- read.csv(file, stringsAsFactors = FALSE, ...)
+
+  if (dim(new)[1]==0) {
+    message(paste("File", file, "has no rows."))
+    return(new)
+  }
+
   new %<>%
     rename_at(
       vars(str_subset(colnames(.), "_oth_o$")), # avoid duplicate variable neames
@@ -56,7 +62,7 @@ read_prospect <- function(file         = .,
       stop("Form not listed in dictionary")
     }
     L <- filter(dictionary, form == new$form_name[1], subform ==
-      "", field %in% names(new))
+                  "", field %in% names(new))
   }
 
   # chaning L into a list
@@ -70,8 +76,8 @@ read_prospect <- function(file         = .,
     labels <- lapply(L, "[[", 3)
     for (i in 1:length(L)) {
       new[cols[i]] <- factor(new[, cols[i]],
-        levels = codes[[i]],
-        labels = labels[[i]]
+                             levels = codes[[i]],
+                             labels = labels[[i]]
       )
     }
   }
