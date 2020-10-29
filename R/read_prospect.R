@@ -30,13 +30,12 @@ read_prospect <- function(file         = .,
 
   new %<>%
     rename_at(
-      vars(str_subset(colnames(.), "_oth_o$")), # avoid duplicate variable neames
-      # when _oth and _oth_o is used
-      funs(str_replace(., "_oth", "_other"))
+      # avoid duplicate variable names when _oth and _oth_o is used
+      vars(str_subset(colnames(.), "_oth([:digit:]*)_o$")),
+      ~str_replace(., "_oth", "_other")
     ) %>%
-    rename_all(
-      funs(str_remove(., "_o$")) # suffix of "_o" won't be in lookups
-    )
+    # suffix of "_o" won't be in lookups
+    rename_all(funs(str_remove(., "_o$")))
 
   # create a filtered version of dictionary depending on whether the file is a
   # form or sub-form. Stops process if the file isn't listed in dictionary or
