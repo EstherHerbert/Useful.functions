@@ -5,6 +5,7 @@ end_box <- function(){
 
   num_spaces <- 80 - current_col - 1
 
-  rstudioapi::insertText(paste0(strrep(" ", num_spaces), "##"))
+  rstudioapi::insertText(location = context$selection[[1]]$range[[1]],
+                         text = paste0(strrep(" ", num_spaces), "##"))
 
 }
