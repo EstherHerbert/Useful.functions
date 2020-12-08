@@ -38,37 +38,31 @@ discrete_table <- function(df = .,
     stop("Time can currenlty only be used with a group variable")
   }
 
-  variables <- quos(...)
-
-  if (!missing(group)) {
-    group <- enquo(group)
-  } else {
+  if (missing(group)) {
     total <- FALSE
   }
-
-  if(!missing(time)) time <- enquo(time)
 
   # For totals
   if (total) {
     df <- df %>%
-      totals(!!group)
+      totals({{group}})
   }
 
   if(!n){
     df %<>%
       mutate_at(
-        vars(!!!variables),
+        vars(...),
         ~fct_explicit_na(., na_level = missing)
       )
   }
 
   if (!missing(group) & missing(time)) {
     new <- df %>%
-      select(!!group, !!!variables) %>%
-      gather(variable, scoring, -!!group) %>%
-      count(!!group, variable, scoring) %>%
-      tidyr::complete(!!group, nesting(variable, scoring), fill = list(n = 0)) %>%
-      group_by(!!group, variable) %>%
+      select({{group}}, ...) %>%
+      gather(variable, scoring, -{{group}}) %>%
+      count({{group}}, variable, scoring) %>%
+      tidyr::complete({{group}}, nesting(variable, scoring), fill = list(n = 0)) %>%
+      group_by({{group}}, variable) %>%
       mutate(
         N = sum(n)
       ) %>%
@@ -78,8 +72,8 @@ discrete_table <- function(df = .,
         n = sum(n)
       ) %>%
       ungroup() %>%
-      gather(stat, value, -!!group, -variable, -scoring) %>%
-      spread(!!group, value) %>%
+      gather(stat, value, -{{group}}, -variable, -scoring) %>%
+      spread({{group}}, value) %>%
       mutate(
         variable = if_else(stat == "N", stat, variable),
         scoring = ifelse(stat %in% c("N", "n"), stat, scoring)
@@ -92,7 +86,7 @@ discrete_table <- function(df = .,
       )
   } else if(missing(group) & missing(time)) {
     new <- df %>%
-      select(!!!variables) %>%
+      select(...) %>%
       gather(variable, scoring) %>%
       count(variable, scoring) %>%
       group_by(variable) %>%
@@ -118,12 +112,12 @@ discrete_table <- function(df = .,
       )
   } else {
     new <- df %>%
-      select(!!group, !!time, !!!variables) %>%
-      gather(variable, scoring, -!!group, -!!time) %>%
-      count(!!group, !!time, variable, scoring) %>%
-      tidyr::complete(!!group, !!time, nesting(variable, scoring),
+      select({{group}}, {{time}}, ...) %>%
+      gather(variable, scoring, -{{group}}, -{{time}}) %>%
+      count({{group}}, {{time}}, variable, scoring) %>%
+      tidyr::complete({{group}}, {{time}}, nesting(variable, scoring),
                       fill = list(n = 0)) %>%
-      group_by(!!group, !!time, variable) %>%
+      group_by({{group}}, {{time}}, variable) %>%
       mutate(
         N = paste("N =", sum(n))
       ) %>%
@@ -133,10 +127,10 @@ discrete_table <- function(df = .,
         n = sum(n)
       ) %>%
       ungroup() %>%
-      gather(stat, value, -!!group, -!!time, -variable, -scoring) %>%
-      spread(!!group, value) %>%
+      gather(stat, value, -{{group}}, -{{time}}, -variable, -scoring) %>%
+      spread({{group}}, value) %>%
       mutate(
-        !!time := if_else(stat == "N", stat, as.character(!!time)),
+        {{time}} := if_else(stat == "N", stat, as.character({{time}})),
         variable = if_else(stat == "N", stat, variable),
         scoring = ifelse(stat %in% c("N", "n"), stat, scoring)
       ) %>%
@@ -144,10 +138,11 @@ discrete_table <- function(df = .,
       select(-stat)
   }
 
-  order <- sapply(variables, FUN = quo_name)
+  order <- select(df, ...) %>%
+    colnames()
 
   order2 <- df %>%
-    select(!!!variables) %>%
+    select(...) %>%
     mutate_all(~as.factor(.)) %>%
     as.list() %>%
     map(~ levels(.)) %>%
@@ -178,24 +173,24 @@ discrete_table <- function(df = .,
     )
   } else {
     order3 <- df %>%
-      mutate(!!time := as.factor(!!time)) %>%
-      select(!!time) %>%
+      mutate({{time}} := as.factor({{time}})) %>%
+      select({{time}}) %>%
       map(levels) %>%
       .[[1]]
 
     suppressWarnings(
       new %<>%
         mutate(
-          !!time := parse_factor(!!time, c("N", order3)),
+          {{time}} := parse_factor({{time}}, c("N", order3)),
           variable = parse_factor(variable, c("N", order)),
           scoring = parse_factor(scoring, c("N", "n", order2) %>%
                                    .[!duplicated(.)]) %>%
             fct_relevel("Other", after = Inf) %>%
             fct_relevel("Missing", after = Inf)
         ) %>%
-        arrange(!!time, variable, scoring) %>%
+        arrange({{time}}, variable, scoring) %>%
         mutate_at(
-          vars(!!time, variable, scoring),
+          vars({{time}}, variable, scoring),
           ~if_else(scoring == "N", NA_character_, as.character(.))
         )
     )

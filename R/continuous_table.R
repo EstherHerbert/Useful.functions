@@ -37,32 +37,20 @@ continuous_table <- function(df = .,
   formals(mean_sd)$show_n <- "never"
   formals(median_iqr)$show_n <- "never"
 
-  variables <- quos(...)
-
-  if (!missing(group)) {
-    group <- enquo(group)
-  } else {
+  if (missing(group)) {
     total <- FALSE
   }
 
-  if(!missing(time)) time <- enquo(time)
-
   if (total) {
     df %<>%
-      stata_expand(1) %>%
-      mutate(
-        !!quo_name(group) := if_else(Duplicate == 1,
-                                     "Total",
-                                     as.character(!!group)
-        )
-      )
+      totals({{group}})
   }
 
   if (!missing(group) & missing(time)) {
     new <- df %>%
-      select(!!group, !!!variables) %>%
-      pivot_longer(-!!group, names_to = "variable", values_to = "value") %>%
-      group_by(!!group, variable) %>%
+      select({{group}}, ...) %>%
+      pivot_longer(-{{group}}, names_to = "variable", values_to = "value") %>%
+      group_by({{group}}, variable) %>%
       summarise(
         N = n(),
         n = sum(!is.na(value)),
@@ -88,17 +76,17 @@ continuous_table <- function(df = .,
         `Min, Max` = ifelse(n == 1, str_remove(`Min, Max`, ",.*"), `Min, Max`)
       ) %>%
       ungroup() %>%
-      pivot_longer(cols = c(-!!group, -variable), names_to = "scoring",
+      pivot_longer(cols = c(-{{group}}, -variable), names_to = "scoring",
                    values_to = "value",
                    values_transform = list(value = as.character)) %>%
-      pivot_wider(names_from = !!group, values_from = value) %>%
+      pivot_wider(names_from = {{group}}, values_from = value) %>%
       mutate(
         variable = if_else(scoring == "N", "N", as.character(variable))
       ) %>%
       .[!duplicated(.), ]
   } else if (missing(group) & missing(time)) {
     new <- df %>%
-      select(!!!variables) %>%
+      select(...) %>%
       pivot_longer(everything(), names_to = "variable", values_to = "value") %>%
       group_by(variable) %>%
       summarise(
@@ -134,10 +122,10 @@ continuous_table <- function(df = .,
       .[!duplicated(.), ]
   } else {
     new <- df %>%
-      select(!!group, !!time, !!!variables) %>%
-      pivot_longer(cols = c(-!!group, -!!time), names_to = "variable",
+      select({{group}}, {{time}}, ...) %>%
+      pivot_longer(cols = c(-{{group}}, -{{time}}), names_to = "variable",
                    values_to = "value") %>%
-      group_by(!!group, variable, !!time) %>%
+      group_by({{group}}, variable, {{time}}) %>%
       summarise(
         N = n(),
         n = sum(!is.na(value)),
@@ -163,41 +151,42 @@ continuous_table <- function(df = .,
         `Min, Max` = ifelse(n == 1, str_remove(`Min, Max`, ",.*"), `Min, Max`)
       ) %>%
       ungroup() %>%
-      pivot_longer(cols = c(-!!group, -!!time, -variable), names_to = "scoring",
+      pivot_longer(cols = c(-{{group}}, -{{time}}, -variable), names_to = "scoring",
                    values_to = "value",
                    values_transform = list(value = as.character)) %>%
-      pivot_wider(names_from = !!group, values_from = value) %>%
+      pivot_wider(names_from = {{group}}, values_from = value) %>%
       mutate_at(
-        vars(!!time, variable),
+        vars({{time}}, variable),
         ~if_else(scoring == "N", "N", as.character(.))
       ) %>%
       .[!duplicated(.), ]
   }
 
-  order <- sapply(variables, FUN = quo_name)
+  order <- select(df, ...) %>%
+    colnames()
 
   if(!missing(time)){
 
     order2 <- df %>%
-      mutate(!!time := as.factor(!!time)) %>%
-      select(!!time) %>%
+      mutate({{time}} := as.factor({{time}})) %>%
+      select({{time}}) %>%
       map(levels) %>%
       .[[1]]
 
     new %<>%
       mutate(
-        !!time := parse_factor(!!time, c("N", order2)),
+        {{time}} := parse_factor({{time}}, c("N", order2)),
         variable = parse_factor(variable, c("N", order)),
         scoring = as.factor(scoring),
         scoring = relevel(scoring, "n")
       ) %>%
-      arrange(variable, !!time, scoring) %>%
+      arrange(variable, {{time}}, scoring) %>%
       mutate_at(
-        vars(-variable, -scoring, -!!time),
+        vars(-variable, -scoring, -{{time}}),
         ~if_else(variable == "N", paste("N =", .), .)
       ) %>%
       mutate_at(
-        vars(variable, scoring, !!time),
+        vars(variable, scoring, {{time}}),
         ~if_else(variable == "N", NA_character_, as.character(.))
       )
 
