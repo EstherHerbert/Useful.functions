@@ -49,7 +49,7 @@ discrete_table <- function(df = .,
   }
 
   if(!n){
-    df %<>%
+    df <- df %>%
       mutate_at(
         vars(...),
         ~fct_explicit_na(., na_level = missing)
@@ -151,13 +151,13 @@ discrete_table <- function(df = .,
     .[!duplicated(.)]
 
   if(!n){
-    new %<>%
+    new <- new %>%
       filter(scoring != "n" | is.na(scoring))
   }
 
   if(missing(time)){
     suppressWarnings(
-      new %<>%
+      new <- new %>%
         mutate(
           variable = parse_factor(variable, c("N", order)),
           scoring = parse_factor(scoring, c("N", "n", order2) %>%
@@ -179,7 +179,7 @@ discrete_table <- function(df = .,
       .[[1]]
 
     suppressWarnings(
-      new %<>%
+      new <- new %>%
         mutate(
           {{time}} := parse_factor({{time}}, c("N", order3)),
           variable = parse_factor(variable, c("N", order)),

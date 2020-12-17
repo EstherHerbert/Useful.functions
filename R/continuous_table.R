@@ -42,7 +42,7 @@ continuous_table <- function(df = .,
   }
 
   if (total) {
-    df %<>%
+    df <- df %>%
       totals({{group}})
   }
 
@@ -173,7 +173,7 @@ continuous_table <- function(df = .,
       map(levels) %>%
       .[[1]]
 
-    new %<>%
+    new <- new %>%
       mutate(
         {{time}} := parse_factor({{time}}, c("N", order2)),
         variable = parse_factor(variable, c("N", order)),
@@ -191,7 +191,7 @@ continuous_table <- function(df = .,
       )
 
   } else {
-    new %<>%
+    new <- new %>%
       mutate(
         variable = parse_factor(variable, c("N", order)),
         scoring = as.factor(scoring),

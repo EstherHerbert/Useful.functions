@@ -95,7 +95,7 @@ ticked_table <- function (df = .,
 
   order <- sapply(variables, FUN = quo_name)
 
-  new %<>%
+  new <- new %>%
     mutate(
       scoring = parse_factor(scoring, c("N", order))
     ) %>%
@@ -106,7 +106,7 @@ ticked_table <- function (df = .,
     )
 
   if(!missing(sep)){
-    new %<>%
+    new <- new %>%
       separate(scoring, into = c("variable", "scoring"),
                sep = sep, fill = "right")
   }

@@ -28,7 +28,7 @@ read_prospect <- function(file         = .,
     return(new)
   }
 
-  new %<>%
+  new <- new %>%
     rename_at(
       # avoid duplicate variable names when _oth and _oth_o is used
       vars(str_subset(colnames(.), "_oth([:digit:]*)_o$")),
