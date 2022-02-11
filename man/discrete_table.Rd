@@ -12,7 +12,8 @@ discrete_table(
   total = TRUE,
   n = FALSE,
   missing = "Missing",
-  accuracy = 0.1
+  accuracy = 0.1,
+  drop = TRUE
 )
 }
 \arguments{
@@ -23,7 +24,7 @@ discrete_table(
 \item{group}{Optional variable that defines the grouping}
 
 \item{time}{Optional variable for repeated measures
-(currenlty must me used with group)}
+(currently must me used with group)}
 
 \item{total}{Logical indicating whether a total column should be created}
 
@@ -34,6 +35,9 @@ discrete_table(
 (if \code{n = TRue}). Default is "Missing".}
 
 \item{accuracy}{see details of \code{scales::percent}}
+
+\item{drop}{If \code{FALSE} then counts for empty groups (i.e. for levels of
+factors that don't exist in the data).}
 }
 \value{
 A tibble data frame summarising the data
