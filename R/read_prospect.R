@@ -35,7 +35,7 @@ read_prospect <- function(file         = .,
       ~str_replace(., "_oth", "_other")
     ) %>%
     # suffix of "_o" won't be in lookups
-    rename_all(funs(str_remove(., "_o$")))
+    rename_all(~str_remove(.x, "_o$"))
 
   # create a filtered version of dictionary depending on whether the file is a
   # form or sub-form. Stops process if the file isn't listed in dictionary or
@@ -48,10 +48,11 @@ read_prospect <- function(file         = .,
       if (!new$parent_form[1] %in% dictionary$form) {
         stop("Form not listed in dictionary")
       }
-      L <- filter(
-        dictionary, form == new$parent_form[1],
-        subform == new$subform_name[1], field %in% names(new)
-      )
+      L <- filter(dictionary,
+                  form == new$parent_form[1],
+                  subform == new$subform_name[1],
+                  field %in% names(new),
+                  !is.na(code))
     }
     else {
       stop("Form name not given in data")
@@ -60,8 +61,11 @@ read_prospect <- function(file         = .,
     if (!new$form_name[1] %in% dictionary$form) {
       stop("Form not listed in dictionary")
     }
-    L <- filter(dictionary, form == new$form_name[1], subform ==
-                  "", field %in% names(new))
+    L <- filter(dictionary,
+                form == new$form_name[1],
+                subform == "",
+                field %in% names(new),
+                !is.na(code))
   }
 
   # chaning L into a list
@@ -71,8 +75,8 @@ read_prospect <- function(file         = .,
 
   if (length(L) > 0) {
     cols <- as.character(names(L))
-    codes <- lapply(L, "[[", 2)
-    labels <- lapply(L, "[[", 3)
+    codes <- lapply(L, "[[", "code")
+    labels <- lapply(L, "[[", "label")
     for (i in 1:length(L)) {
       new[cols[i]] <- factor(new[, cols[i]],
                              levels = codes[[i]],
