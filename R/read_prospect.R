@@ -43,10 +43,12 @@ read_prospect <- function(file         = .,
   if (!"form_name" %in% names(new)) {
     if ("parent_form" %in% names(new)) {
       if (!"subform_name" %in% names(new)) {
-        stop("No subform name in data")
+        message("No subform name in data")
+        return(new)
       }
       if (!new$parent_form[1] %in% dictionary$form) {
-        stop("Form not listed in dictionary")
+        message("Form not listed in dictionary")
+        return(new)
       }
       L <- filter(dictionary,
                   form == new$parent_form[1],
@@ -55,11 +57,13 @@ read_prospect <- function(file         = .,
                   !is.na(code))
     }
     else {
-      stop("Form name not given in data")
+      message("Form name not given in data")
+      return(new)
     }
   } else {
     if (!new$form_name[1] %in% dictionary$form) {
-      stop("Form not listed in dictionary")
+      message("Form not listed in dictionary")
+      return(new)
     }
     L <- filter(dictionary,
                 form == new$form_name[1],
