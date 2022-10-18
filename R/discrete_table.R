@@ -31,8 +31,6 @@ discrete_table <- function(df = .,
                            n = FALSE,
                            missing = "Missing",
                            accuracy = 0.1) {
-  require(tidyverse)
-  require(magrittr)
 
   if(!missing(time) & missing(group)) {
     stop("Time can currenlty only be used with a group variable")
@@ -61,7 +59,7 @@ discrete_table <- function(df = .,
       select({{group}}, ...) %>%
       gather(variable, scoring, -{{group}}) %>%
       count({{group}}, variable, scoring) %>%
-      tidyr::complete({{group}}, nesting(variable, scoring), fill = list(n = 0)) %>%
+      complete({{group}}, nesting(variable, scoring), fill = list(n = 0)) %>%
       group_by({{group}}, variable) %>%
       mutate(
         N = sum(n)
@@ -115,7 +113,7 @@ discrete_table <- function(df = .,
       select({{group}}, {{time}}, ...) %>%
       gather(variable, scoring, -{{group}}, -{{time}}) %>%
       count({{group}}, {{time}}, variable, scoring) %>%
-      tidyr::complete({{group}}, {{time}}, nesting(variable, scoring),
+      complete({{group}}, {{time}}, nesting(variable, scoring),
                       fill = list(n = 0)) %>%
       group_by({{group}}, {{time}}, variable) %>%
       mutate(

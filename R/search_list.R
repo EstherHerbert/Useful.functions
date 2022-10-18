@@ -28,8 +28,6 @@ search_list <- function(ls,
                         exact = TRUE,
                         ignore.case = FALSE){
 
-  require(tidyverse)
-
   v.names <- suppressWarnings(map2_df(ls, names(ls), function(x, y){
     data.frame(file = y, variable = names(x))
   }))

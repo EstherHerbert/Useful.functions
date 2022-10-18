@@ -16,10 +16,7 @@ missing_table <- function (df = .,
                            ...,
                            group = .,
                            format = "Missing",
-                           total = TRUE)
-{
-  require(tidyverse)
-  require(magrittr)
+                           total = TRUE){
 
   variables <- quos(...)
 
@@ -39,7 +36,7 @@ missing_table <- function (df = .,
       select(!!group, !!!variables) %>%
       gather(variable, value, -!!group) %>%
       count(!!group, variable, is.na(value)) %>%
-      tidyr::complete(!!group, variable, `is.na(value)`, fill = list(n = 0)) %>%
+      complete(!!group, variable, `is.na(value)`, fill = list(n = 0)) %>%
       group_by(!!group, variable) %>%
       mutate(
         N = sum(n),
@@ -66,7 +63,7 @@ missing_table <- function (df = .,
       select(!!!variables) %>%
       gather(variable, value) %>%
       count(variable, is.na(value)) %>%
-      tidyr::complete(variable, `is.na(value)`, fill = list(n = 0)) %>%
+      complete(variable, `is.na(value)`, fill = list(n = 0)) %>%
       group_by(variable) %>%
       mutate(
         N = sum(n),

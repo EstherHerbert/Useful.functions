@@ -28,10 +28,7 @@ ticked_table <- function (df = .,
                           group = .,
                           sep = .,
                           total = TRUE){
-
-  require(tidyverse)
   require(qwraps2)
-  require(magrittr)
 
   variables <- quos(...)
   if (!missing(group)) {

@@ -19,8 +19,6 @@ read_prospect <- function(file         = .,
                           dictionary   = lookups,
                           convert.date = TRUE,
                           ...) {
-  require(tidyverse)
-
   new <- read.csv(file, stringsAsFactors = FALSE, ...)
 
   if (dim(new)[1]==0) {
@@ -72,7 +70,7 @@ read_prospect <- function(file         = .,
                 !is.na(code))
   }
 
-  # chaning L into a list
+  # changing L into a list
   L <- L %>%
     select(-c(form, subform)) %>%
     plyr::dlply(plyr::.(field))

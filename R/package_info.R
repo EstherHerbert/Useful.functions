@@ -5,6 +5,7 @@
 package_info <- function(){
 
   sessionInfo()$otherPkgs %>%
-    map_df(with, data.frame(Package, Version)) %>% arrange(Package)
+    purrr::map_df(with, data.frame(Package, Version)) %>%
+    arrange(Package)
 
 }

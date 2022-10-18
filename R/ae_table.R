@@ -21,8 +21,6 @@ ae_table <- function (df = .,
                       accuracy = 0.1,
                       total = FALSE) {
 
-  require(tidyverse)
-
   variables <- quos(...)
   ID <- enquo(ID)
 

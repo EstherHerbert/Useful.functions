@@ -26,8 +26,6 @@ continuous_table <- function(df = .,
                              time = .,
                              total = TRUE,
                              digits = 2) {
-
-  require(tidyverse)
   require(qwraps2)
 
   if(!missing(time) & missing(group)) {
