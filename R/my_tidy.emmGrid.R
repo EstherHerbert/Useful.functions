@@ -1,6 +1,6 @@
 #' Extend broom's tidy.emmGrid function to provide confidence intervals
 #'
-#' @description
+#' @description provide a tidy table for emmGrid objects
 #'
 #' @param x "emmGrid" object
 #' @param conf.int Logical indicating whether or not to include a confidence
@@ -37,7 +37,8 @@ my_tidy.emmGrid <- function(x,
     ))
     if(attr(x@dffun, "mesg") == "asymptotic"){
       out <- out %>%
-        rename(std.error = SE, conf.low = asymp.LCL, conf.high = asymp.UCL)
+        rename(std.error = SE, conf.low = asymp.LCL,
+                      conf.high = asymp.UCL)
     } else {
       out <- out %>%
         rename(std.error = SE, conf.low = lower.CL, conf.high = upper.CL)

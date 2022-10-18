@@ -18,7 +18,7 @@ than 1. Defaults to 0.95, which corresponds to a 95 percent
 confidence interval.}
 }
 \description{
-
+provide a tidy table for emmGrid objects
 }
 \examples{
 library(emmeans)
