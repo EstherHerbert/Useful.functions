@@ -29,7 +29,7 @@ totals <- function(df = .,
     out <- df %>%
       stata_expand(1) %>%
       mutate(
-        !!quo_vars := if_else(Duplicate == 1, name , as.character(!!!vars))
+        !!quo_vars := if_else(Duplicate == 1, !!name , as.character(!!!vars))
       )
   } else if (length(vars) == 2) {
     var1 <- vars[[1]]
