@@ -44,7 +44,7 @@ Takes a dataframe and produces the number and percentage for
 }
 \examples{
     library(ggplot2) # for the data
-    discrete_table(df = mpg, drv, year, group = manufacturer)
+    discrete_table(df = mpg, drv, group = manufacturer)
     discrete_table(df = mpg, drv)
 
 }

@@ -17,7 +17,7 @@
 #'
 #' @examples
 #'     library(ggplot2) # for the data
-#'     discrete_table(df = mpg, drv, year, group = manufacturer)
+#'     discrete_table(df = mpg, drv, group = manufacturer)
 #'     discrete_table(df = mpg, drv)
 #'
 #' @return A tibble data frame summarising the data
@@ -49,7 +49,7 @@ discrete_table <- function(df = .,
   if(!n){
     df <- df %>%
       dplyr::mutate(
-        dplyr::across(..., ~forcats::fct_explicit_na(.x, na_level = missing))
+        dplyr::across(c(...), ~forcats::fct_explicit_na(.x, na_level = missing))
       )
   }
 
