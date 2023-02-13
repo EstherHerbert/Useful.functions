@@ -7,7 +7,7 @@
 #' @param ... Variables to be summarised
 #' @param group Optional variable that defines the grouping
 #' @param sep Optional separator between columns for splitting variable into
-#'            variable and scoring. See ?separate for more information.
+#'            variable and scoring. See ?tidyr::separate for more information.
 #' @param total Logical indicating wether a total column should be created
 #'
 #' @return A tibble data frame summarising the data
@@ -28,11 +28,10 @@ ticked_table <- function (df = .,
                           group = .,
                           sep = .,
                           total = TRUE){
-  require(qwraps2)
 
-  variables <- quos(...)
+  variables <- rlang::quos(...)
   if (!missing(group)) {
-    group <- enquo(group)
+    group <- rlang::enquo(group)
   }
   else {
     total <- FALSE
@@ -45,66 +44,66 @@ ticked_table <- function (df = .,
 
   if(!missing(group)){
     new <- df %>%
-      select(!!group, !!!variables) %>%
-      gather(scoring, value, -!!group) %>%
-      mutate(
-        value = case_when(
+      dplyr::select(!!group, !!!variables) %>%
+      tidyr::gather(scoring, value, -!!group) %>%
+      dplyr::mutate(
+        value = dplyr::case_when(
           value == "Ticked" ~ 1,
           TRUE ~ 0
         )
       ) %>%
-      group_by(!!group, scoring) %>%
-      summarise(
-        N = paste("N =", n()),
-        np = n_perc(value, digits = 1, show_denom = "never", na_rm = T,
+      dplyr::group_by(!!group, scoring) %>%
+      dplyr::summarise(
+        N = paste("N =", dplyr::n()),
+        np = qwraps2::n_perc(value, digits = 1, show_denom = "never", na_rm = T,
                     markup = "markdown")
       ) %>%
-      gather(stat, value, -!!group, -scoring) %>%
-      spread(!!group, value) %>%
-      mutate(
-        scoring = if_else(stat == "N", "N", scoring)
+      tidyr::gather(stat, value, -!!group, -scoring) %>%
+      tidyr::spread(!!group, value) %>%
+      dplyr::mutate(
+        scoring = dplyr::if_else(stat == "N", "N", scoring)
       ) %>%
-      select(-stat) %>%
+      dplyr::select(-stat) %>%
       .[!duplicated(.),]
   } else {
     new <- df %>%
-      select(!!!variables) %>%
-      gather(scoring, value) %>%
-      mutate(
-        value = case_when(
+      dplyr::select(!!!variables) %>%
+      tidyr::gather(scoring, value) %>%
+      dplyr::mutate(
+        value = dplyr::case_when(
           value == "Ticked" ~ 1,
           TRUE ~ 0
         )
       ) %>%
-      group_by(scoring) %>%
-      summarise(
-        N = paste("N =", n()),
-        np = n_perc(value, digits = 1, show_denom = "never", na_rm = T,
+      dplyr::group_by(scoring) %>%
+      dplyr::summarise(
+        N = paste("N =", dplyr::n()),
+        np = qwraps2::n_perc(value, digits = 1, show_denom = "never", na_rm = T,
                     markup = "markdown")
       ) %>%
-      gather(stat, value, -scoring) %>%
-      mutate(
-        scoring = if_else(stat == "N", "N", scoring)
+      tidyr::gather(stat, value, -scoring) %>%
+      dplyr::mutate(
+        scoring = dplyr::if_else(stat == "N", "N", scoring)
       ) %>%
-      select(-stat) %>%
+      dplyr::select(-stat) %>%
       .[!duplicated(.),]
   }
 
-  order <- sapply(variables, FUN = quo_name)
+  order <- sapply(variables, FUN = rlang::quo_name)
 
   new <- new %>%
-    mutate(
-      scoring = parse_factor(scoring, c("N", order))
+    dplyr::mutate(
+      scoring = readr::parse_factor(scoring, c("N", order))
     ) %>%
-    arrange(scoring)%>%
-    mutate(
-      scoring = if_else(scoring == "N", NA_character_,
+    dplyr::arrange(scoring)%>%
+    dplyr::mutate(
+      scoring = dplyr::if_else(scoring == "N", NA_character_,
                          as.character(scoring))
     )
 
   if(!missing(sep)){
     new <- new %>%
-      separate(scoring, into = c("variable", "scoring"),
+      tidyr::separate(scoring, into = c("variable", "scoring"),
                sep = sep, fill = "right")
   }
 

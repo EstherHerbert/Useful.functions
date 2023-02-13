@@ -14,7 +14,7 @@ ticked_table(df = ., ..., group = ., sep = ., total = TRUE)
 \item{group}{Optional variable that defines the grouping}
 
 \item{sep}{Optional separator between columns for splitting variable into
-variable and scoring. See ?separate for more information.}
+variable and scoring. See ?tidyr::separate for more information.}
 
 \item{total}{Logical indicating wether a total column should be created}
 }

@@ -26,14 +26,10 @@ continuous_table <- function(df = .,
                              time = .,
                              total = TRUE,
                              digits = 2) {
-  require(qwraps2)
 
   if(!missing(time) & missing(group)) {
     stop("Time can currenlty only be used with a group variable")
   }
-
-  formals(mean_sd)$show_n <- "never"
-  formals(median_iqr)$show_n <- "never"
 
   if (missing(group)) {
     total <- FALSE
@@ -46,163 +42,166 @@ continuous_table <- function(df = .,
 
   if (!missing(group) & missing(time)) {
     new <- df %>%
-      select({{group}}, ...) %>%
-      pivot_longer(-{{group}}, names_to = "variable", values_to = "value") %>%
-      group_by({{group}}, variable) %>%
-      summarise(
-        N = n(),
+      dplyr::select({{group}}, ...) %>%
+      tidyr::pivot_longer(-{{group}}, names_to = "variable",
+                          values_to = "value") %>%
+      dplyr::group_by({{group}}, variable) %>%
+      dplyr::summarise(
+        N = dplyr::n(),
         n = sum(!is.na(value)),
-        `Mean (SD)` = mean_sd(value, na_rm = T, denote_sd = "paren",
-                              digits = digits),
-        `Median (IQR)` = median_iqr(value, na_rm = T, digits = digits),
+        `Mean (SD)` = qwraps2::mean_sd(value, na_rm = T, denote_sd = "paren",
+                                       digits = digits, show_n = "never"),
+        `Median (IQR)` = qwraps2::median_iqr(value, na_rm = T, digits = digits,
+                                             show_n = "never"),
         `Min, Max` = paste0(
           min = round(min(value, na.rm = T), digits), ", ",
           round(max(value, na.rm = T), digits)
         ),
         .groups = "drop"
       ) %>%
-      mutate_at(
-        vars(`Mean (SD)`:`Min, Max`),
-        ~ifelse(n == 0, "-", .)
-      ) %>%
-      mutate(
-        `Mean (SD)` = ifelse(n == 1, str_replace(`Mean (SD)`, " NA", " - "),
+      dplyr::mutate(
+        dplyr::across(`Mean (SD)`:`Min, Max`, ~ifelse(n == 0, "-", .x)),
+        `Mean (SD)` = ifelse(n == 1,
+                             stringr::str_replace(`Mean (SD)`, " NA", " - "),
                              `Mean (SD)`),
-        `Median (IQR)` = ifelse(n == 1, str_replace(`Median (IQR)`, "0.00",
-                                                    " - "),
-                                `Median (IQR)`),
-        `Min, Max` = ifelse(n == 1, str_remove(`Min, Max`, ",.*"), `Min, Max`)
+        `Median (IQR)` = ifelse(
+          n == 1, stringr::str_replace(`Median (IQR)`, "0.00", " - "),
+          `Median (IQR)`
+        ),
+        `Min, Max` = ifelse(n == 1, string::str_remove(`Min, Max`, ",.*"),
+                            `Min, Max`)
       ) %>%
-      ungroup() %>%
-      pivot_longer(cols = c(-{{group}}, -variable), names_to = "scoring",
-                   values_to = "value",
-                   values_transform = list(value = as.character)) %>%
-      pivot_wider(names_from = {{group}}, values_from = value) %>%
-      mutate(
-        variable = if_else(scoring == "N", "N", as.character(variable))
+      dplyr::ungroup() %>%
+      tidyr::pivot_longer(cols = c(-{{group}}, -variable), names_to = "scoring",
+                          values_to = "value",
+                          values_transform = list(value = as.character)) %>%
+      tidyr::pivot_wider(names_from = {{group}}, values_from = value) %>%
+      dplyr::mutate(
+        variable = dplyr::if_else(scoring == "N", "N", as.character(variable))
       ) %>%
       .[!duplicated(.), ]
   } else if (missing(group) & missing(time)) {
     new <- df %>%
-      select(...) %>%
-      pivot_longer(everything(), names_to = "variable", values_to = "value") %>%
-      group_by(variable) %>%
-      summarise(
-        N = n(),
+      dplyr::select(...) %>%
+      tidyr::pivot_longer(dplyr::everything(), names_to = "variable",
+                          values_to = "value") %>%
+      dplyr::group_by(variable) %>%
+      dplyr::summarise(
+        N = dplyr::n(),
         n = sum(!is.na(value)),
-        `Mean (SD)` = mean_sd(value, na_rm = T, denote_sd = "paren",
-                              digits = digits),
-        `Median (IQR)` = median_iqr(value, na_rm = T, digits = digits),
+        `Mean (SD)` = qwraps2::mean_sd(value, na_rm = T, denote_sd = "paren",
+                                       digits = digits, show_n = "never"),
+        `Median (IQR)` = qwraps2::median_iqr(value, na_rm = T, digits = digits,
+                                             show_n = "never"),
         `Min, Max` = paste0(
           round(min(value, na.rm = T), digits), ", ",
           round(max(value, na.rm = T), digits)
         ),
         .groups = "drop"
       ) %>%
-      mutate_at(
-        vars(`Mean (SD)`:`Min, Max`),
-        ~ifelse(n == 0, "-", .)
-      ) %>%
-      mutate(
-        `Mean (SD)` = ifelse(n == 1, str_replace(`Mean (SD)`, " NA", " - "),
+      dplyr::mutate(
+        dplyr::across(`Mean (SD)`:`Min, Max`, ~ifelse(n == 0, "-", .x)),
+        `Mean (SD)` = ifelse(n == 1,
+                             stringr::str_replace(`Mean (SD)`, " NA", " - "),
                              `Mean (SD)`),
-        `Median (IQR)` = ifelse(n == 1,
-                                str_replace(`Median (IQR)`, "0.00", " - "),
-                                `Median (IQR)`),
-        `Min, Max` = ifelse(n == 1, str_remove(`Min, Max`, ",.*"), `Min, Max`)
+        `Median (IQR)` = ifelse(
+          n == 1, stringr::str_replace(`Median (IQR)`, "0.00", " - "),
+          `Median (IQR)`
+        ),
+        `Min, Max` = ifelse(n == 1, string::str_remove(`Min, Max`, ",.*"),
+                            `Min, Max`)
       ) %>%
-      ungroup() %>%
-      pivot_longer(-variable, names_to = "scoring", values_to = "value",
-                   values_transform = list(value = as.character)) %>%
-      mutate(
-        variable = if_else(scoring == "N", "N", as.character(variable))
+      dplyr::ungroup() %>%
+      tidyr::pivot_longer(-variable, names_to = "scoring", values_to = "value",
+                          values_transform = list(value = as.character)) %>%
+      dplyr::mutate(
+        variable = dplyr::if_else(scoring == "N", "N", as.character(variable))
       ) %>%
       .[!duplicated(.), ]
   } else {
     new <- df %>%
-      select({{group}}, {{time}}, ...) %>%
-      pivot_longer(cols = c(-{{group}}, -{{time}}), names_to = "variable",
-                   values_to = "value") %>%
-      group_by({{group}}, variable, {{time}}) %>%
-      summarise(
-        N = n(),
+      dplyr::select({{group}}, {{time}}, ...) %>%
+      tidyr::pivot_longer(cols = c(-{{group}}, -{{time}}),
+                          names_to = "variable", values_to = "value") %>%
+      dplyr::group_by({{group}}, variable, {{time}}) %>%
+      dplyr::summarise(
+        N = dplyr::n(),
         n = sum(!is.na(value)),
-        `Mean (SD)` = mean_sd(value, na_rm = T, denote_sd = "paren",
-                              digits = digits),
-        `Median (IQR)` = median_iqr(value, na_rm = T, digits = digits),
+        `Mean (SD)` = qwraps2::mean_sd(value, na_rm = T, denote_sd = "paren",
+                                       digits = digits, show_n = "never"),
+        `Median (IQR)` = qwraps2::median_iqr(value, na_rm = T, digits = digits,
+                                             show_n = "never"),
         `Min, Max` = paste0(
           min = round(min(value, na.rm = T), digits), ", ",
           round(max(value, na.rm = T), digits)
         ),
         .groups = "drop"
       ) %>%
-      mutate_at(
-        vars(`Mean (SD)`:`Min, Max`),
-        ~ifelse(n == 0, "-", .)
-      ) %>%
-      mutate(
-        `Mean (SD)` = ifelse(n == 1, str_replace(`Mean (SD)`, " NA", " - "),
+      dplyr::mutate(
+        dplyr::across(`Mean (SD)`:`Min, Max`, ~ifelse(n == 0, "-", .x)),
+        `Mean (SD)` = ifelse(n == 1,
+                             stringr::str_replace(`Mean (SD)`, " NA", " - "),
                              `Mean (SD)`),
-        `Median (IQR)` = ifelse(n == 1,
-                                str_replace(`Median (IQR)`, "0.00", " - "),
-                                `Median (IQR)`),
-        `Min, Max` = ifelse(n == 1, str_remove(`Min, Max`, ",.*"), `Min, Max`)
+        `Median (IQR)` = ifelse(
+          n == 1, stringr::str_replace(`Median (IQR)`, "0.00", " - "),
+          `Median (IQR)`
+        ),
+        `Min, Max` = ifelse(n == 1, string::str_remove(`Min, Max`, ",.*"),
+                            `Min, Max`)
       ) %>%
-      ungroup() %>%
-      pivot_longer(cols = c(-{{group}}, -{{time}}, -variable), names_to = "scoring",
-                   values_to = "value",
-                   values_transform = list(value = as.character)) %>%
-      pivot_wider(names_from = {{group}}, values_from = value) %>%
-      mutate_at(
-        vars({{time}}, variable),
-        ~if_else(scoring == "N", "N", as.character(.))
+      dplyr::ungroup() %>%
+      tidyr::pivot_longer(cols = c(-{{group}}, -{{time}}, -variable),
+                          names_to = "scoring", values_to = "value",
+                          values_transform = list(value = as.character)) %>%
+      tidyr::pivot_wider(names_from = {{group}}, values_from = value) %>%
+      dplyr::mutate(
+        dplyr::across(c({{time}}, variable),
+                      ~dplyr::if_else(scoring == "N", "N", as.character(.x)))
       ) %>%
       .[!duplicated(.), ]
   }
 
-  order <- select(df, ...) %>%
+  order <- dplyr::select(df, ...) %>%
     colnames()
 
   if(!missing(time)){
 
     order2 <- df %>%
-      mutate({{time}} := as.factor({{time}})) %>%
-      select({{time}}) %>%
-      map(levels) %>%
+      dplyr::mutate({{time}} := as.factor({{time}})) %>%
+      dplyr::select({{time}}) %>%
+      purrr::map(levels) %>%
       .[[1]]
 
     new <- new %>%
-      mutate(
-        {{time}} := parse_factor({{time}}, c("N", order2)),
-        variable = parse_factor(variable, c("N", order)),
+      dplyr::mutate(
+        {{time}} := readr::parse_factor({{time}}, c("N", order2)),
+        variable = readr::parse_factor(variable, c("N", order)),
         scoring = as.factor(scoring),
         scoring = relevel(scoring, "n")
       ) %>%
-      arrange(variable, {{time}}, scoring) %>%
-      mutate_at(
-        vars(-variable, -scoring, -{{time}}),
-        ~if_else(variable == "N", paste("N =", .), .)
-      ) %>%
-      mutate_at(
-        vars(variable, scoring, {{time}}),
-        ~if_else(variable == "N", NA_character_, as.character(.))
+      dplyr::arrange(variable, {{time}}, scoring) %>%
+      dplyr::mutate(
+        dplyr::across(c(-variable, -scoring, -{{time}}),
+                      ~dplyr::if_else(variable == "N", paste("N =", .x), .x)),
+        dplyr::across(c(variable, scoring, {{time}}),
+                      ~dplyr::if_else(variable == "N", NA_character_,
+                                      as.character(.x)))
       )
 
   } else {
     new <- new %>%
-      mutate(
-        variable = parse_factor(variable, c("N", order)),
+      dplyr::mutate(
+        variable = readr::parse_factor(variable, c("N", order)),
         scoring = as.factor(scoring),
         scoring = relevel(scoring, "n")
       ) %>%
-      arrange(variable, scoring) %>%
-      mutate_at(
-        vars(-variable, -scoring),
-        ~if_else(variable == "N", paste("N =", .), .)
-      ) %>%
-      mutate_at(
-        vars(variable, scoring),
-        ~if_else(variable == "N", NA_character_, as.character(.))
+      dplyr::arrange(variable, scoring) %>%
+      dplyr::mutate(
+        dplyr::across(c(-variable, -scoring),
+                      ~dplyr::if_else(variable == "N", paste("N =", .x), .x)),
+        dplyr::across(c(variable, scoring),
+                      ~dplyr::if_else(variable == "N", NA_character_,
+                                      as.character(.x)))
       )
   }
 

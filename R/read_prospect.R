@@ -27,13 +27,13 @@ read_prospect <- function(file         = .,
   }
 
   new <- new %>%
-    rename_at(
+    dplyr::rename_at(
       # avoid duplicate variable names when _oth and _oth_o is used
-      vars(str_subset(colnames(.), "_oth([:digit:]*)_o$")),
-      ~str_replace(., "_oth", "_other")
+      dplyr::vars(string::str_subset(colnames(.), "_oth([:digit:]*)_o$")),
+      ~string::str_replace(., "_oth", "_other")
     ) %>%
     # suffix of "_o" won't be in lookups
-    rename_all(~str_remove(.x, "_o$"))
+    dplyr::rename_all(~string::str_remove(.x, "_o$"))
 
   # create a filtered version of dictionary depending on whether the file is a
   # form or sub-form. Stops process if the file isn't listed in dictionary or
@@ -48,11 +48,11 @@ read_prospect <- function(file         = .,
         message("Form not listed in dictionary")
         return(new)
       }
-      L <- filter(dictionary,
-                  form == new$parent_form[1],
-                  subform == new$subform_name[1],
-                  field %in% names(new),
-                  !is.na(code))
+      L <- dplyr::filter(dictionary,
+                         form == new$parent_form[1],
+                         subform == new$subform_name[1],
+                         field %in% names(new),
+                         !is.na(code))
     }
     else {
       message("Form name not given in data")
@@ -63,16 +63,16 @@ read_prospect <- function(file         = .,
       message("Form not listed in dictionary")
       return(new)
     }
-    L <- filter(dictionary,
-                form == new$form_name[1],
-                subform == "",
-                field %in% names(new),
-                !is.na(code))
+    L <- dplyr::filter(dictionary,
+                       form == new$form_name[1],
+                       subform == "",
+                       field %in% names(new),
+                       !is.na(code))
   }
 
   # changing L into a list
   L <- L %>%
-    select(-c(form, subform)) %>%
+    dplyr::select(-c(form, subform)) %>%
     plyr::dlply(plyr::.(field))
 
   if (length(L) > 0) {

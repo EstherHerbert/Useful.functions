@@ -18,10 +18,10 @@ missing_table <- function (df = .,
                            format = "Missing",
                            total = TRUE){
 
-  variables <- quos(...)
+  variables <- rlang::quos(...)
 
   if (!missing(group)) {
-    group <- enquo(group)
+    group <- rlang::enquo(group)
   }
   else {
     total <- FALSE
@@ -33,67 +33,67 @@ missing_table <- function (df = .,
 
   if (!missing(group)) {
     new <- df %>%
-      select(!!group, !!!variables) %>%
-      gather(variable, value, -!!group) %>%
-      count(!!group, variable, is.na(value)) %>%
-      complete(!!group, variable, `is.na(value)`, fill = list(n = 0)) %>%
-      group_by(!!group, variable) %>%
-      mutate(
+      dplyr::select(!!group, !!!variables) %>%
+      tidyr::gather(variable, value, -!!group) %>%
+      dplyr::count(!!group, variable, is.na(value)) %>%
+      tidyr::complete(!!group, variable, `is.na(value)`, fill = list(n = 0)) %>%
+      dplyr::group_by(!!group, variable) %>%
+      dplyr::mutate(
         N = sum(n),
         n = paste0(n, " (", scales::percent(n/N, accuracy = 0.1), ")"),
-        Missing = if_else(`is.na(value)`, "Missing", "Present")
+        Missing = dplyr::if_else(`is.na(value)`, "Missing", "Present")
       ) %>%
-      select(-`is.na(value)`) %>%
-      ungroup %>%
-      gather(stat, value, n, N) %>%
-      spread(!!group, value) %>%
-      mutate_at(
-        vars(variable, Missing),
-        ~if_else(stat == "N", "N", .)
+      dplyr::select(-`is.na(value)`) %>%
+      dplyr::ungroup %>%
+      tidyr::gather(stat, value, n, N) %>%
+      tidyr::spread(!!group, value) %>%
+      dplyr::mutate(
+        dplyr::across(c(variable, Missing),
+                      ~dplyr::if_else(stat == "N", "N", .x))
       ) %>%
       .[!duplicated(.),] %>%
-      select(-stat) %>%
-      mutate_at(
-        vars(-variable, -Missing),
-        funs(if_else(variable == "N", paste("N =", .), .))
+      dplyr::select(-stat) %>%
+      dplyr::mutate(
+        dplyr::across(c(-variable, -Missing),
+                      ~dplyr::if_else(variable == "N", paste("N =", .x), .x))
       )
   }
   else {
     new <- df %>%
-      select(!!!variables) %>%
-      gather(variable, value) %>%
-      count(variable, is.na(value)) %>%
-      complete(variable, `is.na(value)`, fill = list(n = 0)) %>%
-      group_by(variable) %>%
-      mutate(
+      dplyr::select(!!!variables) %>%
+      tidyr::gather(variable, value) %>%
+      dplyr::count(variable, is.na(value)) %>%
+      tidyr::complete(variable, `is.na(value)`, fill = list(n = 0)) %>%
+      dplyr::group_by(variable) %>%
+      dplyr::mutate(
         N = sum(n),
         n = paste0(n, " (", scales::percent(n/N, accuracy = 0.1), ")"),
-        Missing = if_else(`is.na(value)`, "Missing", "Present")
+        Missing = dplyr::if_else(`is.na(value)`, "Missing", "Present")
       ) %>%
-      select(-`is.na(value)`) %>%
-      ungroup %>%
-      gather(stat, value, n, N) %>%
-      mutate_at(
-        vars(variable, Missing),
-        ~if_else(stat == "N", "N", .)
+      dplyr::select(-`is.na(value)`) %>%
+      dplyr::ungroup %>%
+      tidyr::gather(stat, value, n, N) %>%
+      dplyr::mutate(
+        dplyr::across(c(variable, Missing),
+                      ~dplyr::if_else(stat == "N", "N", .x))
       ) %>%
       .[!duplicated(.),] %>%
-      select(-stat) %>%
-      mutate_at(
-        vars(-variable, -Missing),
-        funs(if_else(variable == "N", paste("N =", .), .))
+      dplyr::select(-stat) %>%
+      dplyr::mutate(
+        dplyr::across(c(-variable, -Missing),
+                      ~dplyr::if_else(variable == "N", paste("N =", .x), .x))
       )
   }
 
-  order <- sapply(variables, FUN = quo_name)
+  order <- sapply(variables, FUN = rlang::quo_name)
 
   new <- new %>%
-    mutate(
-      variable = parse_factor(variable, c("N", order))
+    dplyr::mutate(
+      variable = readr::parse_factor(variable, c("N", order))
     ) %>%
-    arrange(variable) %>%
-    filter(Missing %in% c(format, "N")) %>%
-    select(-Missing)
+    dplyr::arrange(variable) %>%
+    dplyr::filter(Missing %in% c(format, "N")) %>%
+    dplyr::select(-Missing)
 
   return(new)
 }

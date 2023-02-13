@@ -9,11 +9,11 @@
 split_colnames <- function(df, sep = "_"){
 
   df_names <- names(df) %>%
-    str_split(sep, simplify = T)
+    stringr::str_split(sep, simplify = T)
 
-  df_names <- set_names(df_names[,2], df_names[,1])
+  df_names <- rlang::set_names(df_names[,2], df_names[,1])
 
-  df <- set_colnames(df, names(df_names))
+  df <- magrittr::set_colnames(df, names(df_names))
 
   out <- rbind(df_names, df)
 

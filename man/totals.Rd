@@ -14,7 +14,7 @@ totals(df = ., ..., name = "Total")
 \item{name}{Character string for the name of the total row/column}
 }
 \description{
-This function uses \code{stat_expand} and \code{mutate} to give
+This function uses \code{stat_expand} and \code{dplyr::mutate} to give
              a data frame that, when summarised, with give total rows and/or
              columns.
 }

@@ -21,10 +21,10 @@ ae_table <- function (df = .,
                       accuracy = 0.1,
                       total = FALSE) {
 
-  variables <- quos(...)
-  ID <- enquo(ID)
+  variables <- rlang::quos(...)
+  ID <- rlang::enquo(ID)
 
-  if(!missing(group)) group <- enquo(group) else total <- FALSE
+  if(!missing(group)) group <- rlang::enquo(group) else total <- FALSE
 
   if(total){
     df <- df %>%
@@ -33,90 +33,95 @@ ae_table <- function (df = .,
 
   if(!missing(group)){
     new <- df %>%
-      pivot_longer(cols = c(!!!variables), names_to = "variable",
-                   values_to = "scoring",
-                   values_transform = list(scoring = as.character)) %>%
-      group_by(!!group, variable, scoring) %>%
-      summarise(
-        events = n(),
-        across(!!ID, n_distinct, .names = "individuals"),
+      tidyr::pivot_longer(cols = c(!!!variables), names_to = "variable",
+                          values_to = "scoring",
+                          values_transform = list(scoring = as.character)) %>%
+      dplyr::group_by(!!group, variable, scoring) %>%
+      dplyr::summarise(
+        events = dplyr::n(),
+        dplyr::across(!!ID, n_distinct, .names = "individuals"),
         .groups = "drop"
       ) %>%
-      complete(!!group, nesting(variable, scoring),
-               fill = list(events = 0, individuals = 0)
+      tidyr::complete(!!group, tidyr::nesting(variable, scoring),
+                      fill = list(events = 0, individuals = 0)
       ) %>%
-      left_join(N) %>%
-      mutate(
+      dplyr::left_join(N) %>%
+      dplyr::mutate(
         individuals = paste0(individuals, " (",
                              scales::percent(individuals/N,
                                              accuracy = accuracy), ")"),
         N = paste("N =", N)
       ) %>%
-      pivot_longer(events:individuals, names_to = "stat", values_to = "value",
-                   values_transform = list(value = as.character)) %>%
-      unite(group, !!group, stat) %>%
-      pivot_longer(cols = c(N, value), names_to = "stat",
-                   values_to = "value") %>%
-      pivot_wider(names_from = group, values_from = value) %>%
-      mutate(
-        across(c(variable, scoring), ~if_else(stat == "N", "N", .))
+      tidyr::pivot_longer(events:individuals, names_to = "stat",
+                          values_to = "value",
+                          values_transform = list(value = as.character)) %>%
+      tidyr::unite(group, !!group, stat) %>%
+      tidyr::pivot_longer(cols = c(N, value), names_to = "stat",
+                          values_to = "value") %>%
+      tidyr::pivot_wider(names_from = group, values_from = value) %>%
+      dplyr::mutate(
+        dplyr::across(c(variable, scoring),
+                      ~dplyr::if_else(stat == "N", "N", .x))
       ) %>%
       .[!duplicated(.), ] %>%
-      select(-stat)
+      dplyr::select(-stat)
   } else {
     new <- df %>%
-      pivot_longer(cols = c(!!!variables), names_to = "variable",
-                   values_to = "scoring",
-                   values_transform = list(scoring = as.character)) %>%
-      group_by(variable, scoring) %>%
-      summarise(
-        events = n(),
-        across(!!ID, n_distinct, .names = "individuals"),
+      tidyr::pivot_longer(cols = c(!!!variables), names_to = "variable",
+                          values_to = "scoring",
+                          values_transform = list(scoring = as.character)) %>%
+      dplyr::group_by(variable, scoring) %>%
+      dplyr::summarise(
+        events = dplyr::n(),
+        dplyr::across(!!ID, n_distinct, .names = "individuals"),
         .groups = "drop"
       ) %>%
-      bind_cols(N) %>%
-      mutate(
+      dplyr::bind_cols(N) %>%
+      dplyr::mutate(
         individuals = paste0(individuals, " (",
                              scales::percent(individuals/N,
                                              accuracy = accuracy), ")"),
         N = paste("N =", N)
       ) %>%
-      pivot_longer(events:individuals, names_to = "group", values_to = "value",
-                   values_transform = list(value = as.character)) %>%
-      pivot_longer(cols = c(N, value), names_to = "stat",
-                   values_to = "value") %>%
-      pivot_wider(names_from = group, values_from = value) %>%
-      mutate(
-        across(c(variable, scoring), ~if_else(stat == "N", "N", .))
+      tidyr::pivot_longer(events:individuals, names_to = "group",
+                          values_to = "value",
+                          values_transform = list(value = as.character)) %>%
+      tidyr::pivot_longer(cols = c(N, value), names_to = "stat",
+                          values_to = "value") %>%
+      tidyr::pivot_wider(names_from = group, values_from = value) %>%
+      dplyr::mutate(
+        dplyr::across(c(variable, scoring),
+                      ~dplyr::if_else(stat == "N", "N", .x))
       ) %>%
       .[!duplicated(.), ] %>%
-      select(-stat)
+      dplyr::select(-stat)
   }
 
   order <- sapply(variables, FUN = quo_name)
 
   order2 <- df %>%
-    select(!!!variables) %>%
-    mutate_all(~as.factor(.)) %>%
+    dplyr::select(!!!variables) %>%
+    dplyr::mutate(across(dplyr::everything(), as.factor)) %>%
     as.list() %>%
-    map(~levels(.)) %>%
+    purrr:map(~levels(.)) %>%
     unlist(.) %>%
     unname() %>%
     .[!duplicated(.)]
 
   suppressWarnings(
     new <- new %>%
-      mutate(
-        variable = parse_factor(variable, c("N", order)),
-        scoring = parse_factor(scoring, c("N", order2) %>%
-                                 .[!duplicated(.)]) %>%
-          fct_relevel("Other", after = Inf) %>%
-          fct_relevel("Missing", after = Inf)
+      dplyr::mutate(
+        variable = readr::parse_factor(variable, c("N", order)),
+        scoring = readr::parse_factor(scoring, c("N", order2) %>%
+                                        .[!duplicated(.)]) %>%
+          forcats::fct_relevel("Other", after = Inf) %>%
+          forcats::fct_relevel("Missing", after = Inf)
       ) %>%
-      arrange(variable, scoring) %>%
-      mutate(
-        across(.cols = c(variable, scoring),
-               .fns = ~if_else(scoring == "N", NA_character_, as.character(.)))
+      dplyr::arrange(variable, scoring) %>%
+      dplyr::mutate(
+        dplyr::across(c(variable, scoring),
+                      ~dplyr::if_else(scoring == "N", NA_character_,
+                                      as.character(.x)))
       )
   )
 

@@ -28,18 +28,20 @@ search_list <- function(ls,
                         exact = TRUE,
                         ignore.case = FALSE){
 
-  v.names <- suppressWarnings(map2_df(ls, names(ls), function(x, y){
+  v.names <- suppressWarnings(purrr::map2_df(ls, names(ls), function(x, y){
     data.frame(file = y, variable = names(x))
   }))
 
   if (exact) {
-    filter(v.names, variable == string)
+    dplyr::filter(v.names, variable == string)
   } else if (ignore.case) {
     v.names %>%
-      filter(str_detect(variable, coll(string, ignore_case = TRUE)))
+      dplyr::filter(stringr::str_detect(variable,
+                                        stringr::coll(string,
+                                                      ignore_case = TRUE)))
   } else {
     v.names %>%
-      filter(str_detect(variable, string))
+      dplyr::filter(stringr::str_detect(variable, string))
   }
 
 }

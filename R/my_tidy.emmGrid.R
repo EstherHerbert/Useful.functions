@@ -31,22 +31,22 @@ my_tidy.emmGrid <- function(x,
   }
 
   if(conf.int){
-    out <- suppressMessages(left_join(
-      as_tibble(x),
-      as_tibble(confint(x, level = conf.level))
+    out <- suppressMessages(dplyr::left_join(
+      dplyr::as_tibble(x),
+      dplyr::as_tibble(confint(x, level = conf.level))
     ))
     if(attr(x@dffun, "mesg") == "asymptotic"){
       out <- out %>%
-        rename(std.error = SE, conf.low = asymp.LCL,
+        dplyr::rename(std.error = SE, conf.low = asymp.LCL,
                       conf.high = asymp.UCL)
     } else {
       out <- out %>%
-        rename(std.error = SE, conf.low = lower.CL, conf.high = upper.CL)
+        dplyr::rename(std.error = SE, conf.low = lower.CL, conf.high = upper.CL)
     }
 
   } else {
-    out <- as_tibble(x) %>%
-      rename(std.error = SE)
+    out <- dplyr::as_tibble(x) %>%
+      dplyr::rename(std.error = SE)
   }
 
   return(out)
