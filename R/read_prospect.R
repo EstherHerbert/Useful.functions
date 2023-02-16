@@ -27,10 +27,10 @@ read_prospect <- function(file         = .,
   }
 
   new <- new %>%
-    dplyr::rename_at(
+    dplyr::rename_with(
       # avoid duplicate variable names when _oth and _oth_o is used
-      dplyr::vars(string::str_subset(colnames(.), "_oth([:digit:]*)_o$")),
-      ~string::str_replace(., "_oth", "_other")
+      ~string::str_replace(., "_oth", "_other"),
+      dplyr::matches("_oth([:digit:]*)_o$")
     ) %>%
     # suffix of "_o" won't be in lookups
     dplyr::rename_all(~string::str_remove(.x, "_o$"))
