@@ -34,7 +34,8 @@ missing_table <- function (df = .,
   if (!missing(group)) {
     new <- df %>%
       dplyr::select(!!group, !!!variables) %>%
-      tidyr::gather(variable, value, -!!group) %>%
+      tidyr::pivot_longer(-!!group, names_to = "variable",
+                          values_to = "value") %>%
       dplyr::count(!!group, variable, is.na(value)) %>%
       tidyr::complete(!!group, variable, `is.na(value)`, fill = list(n = 0)) %>%
       dplyr::group_by(!!group, variable) %>%
@@ -45,8 +46,8 @@ missing_table <- function (df = .,
       ) %>%
       dplyr::select(-`is.na(value)`) %>%
       dplyr::ungroup %>%
-      tidyr::gather(stat, value, n, N) %>%
-      tidyr::spread(!!group, value) %>%
+      tidyr::pivot_longer(c(n, N), names_to = "stat", values_to = "value") %>%
+      tidyr::pivot_wider(names_from = !!group, values_from = value) %>%
       dplyr::mutate(
         dplyr::across(c(variable, Missing),
                       ~dplyr::if_else(stat == "N", "N", .x))
@@ -61,7 +62,8 @@ missing_table <- function (df = .,
   else {
     new <- df %>%
       dplyr::select(!!!variables) %>%
-      tidyr::gather(variable, value) %>%
+      tidyr::pivot_longer(dplyr::everything(), names_to = "variable",
+                          values_to = "value") %>%
       dplyr::count(variable, is.na(value)) %>%
       tidyr::complete(variable, `is.na(value)`, fill = list(n = 0)) %>%
       dplyr::group_by(variable) %>%
@@ -72,7 +74,7 @@ missing_table <- function (df = .,
       ) %>%
       dplyr::select(-`is.na(value)`) %>%
       dplyr::ungroup %>%
-      tidyr::gather(stat, value, n, N) %>%
+      tidyr::pivot_longer(c(n, N), names_to = "stat", values_to = "value") %>%
       dplyr::mutate(
         dplyr::across(c(variable, Missing),
                       ~dplyr::if_else(stat == "N", "N", .x))

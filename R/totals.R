@@ -14,7 +14,7 @@
 #'
 #'     totals(mtcars, cyl, vs, name = "All") %>%
 #'     count(cyl, vs) %>%
-#'     spread(cyl, n)
+#'     pivot_wider(names_from = cyl, values_from = n)
 #'
 #' @export
 totals <- function(df = .,

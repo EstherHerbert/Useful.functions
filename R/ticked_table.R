@@ -45,7 +45,8 @@ ticked_table <- function (df = .,
   if(!missing(group)){
     new <- df %>%
       dplyr::select(!!group, !!!variables) %>%
-      tidyr::gather(scoring, value, -!!group) %>%
+      tidyr::pivot_longer(-!!group, names_to = "scoring",
+                          values_to = "value") %>%
       dplyr::mutate(
         value = dplyr::case_when(
           value == "Ticked" ~ 1,
@@ -56,10 +57,11 @@ ticked_table <- function (df = .,
       dplyr::summarise(
         N = paste("N =", dplyr::n()),
         np = qwraps2::n_perc(value, digits = 1, show_denom = "never", na_rm = T,
-                    markup = "markdown")
+                             markup = "markdown")
       ) %>%
-      tidyr::gather(stat, value, -!!group, -scoring) %>%
-      tidyr::spread(!!group, value) %>%
+      tidyr::pivot_longer(-c(!!group, scoring), names_to = "stat",
+                          values_to = "value") %>%
+      tidyr::pivot_wider(names_from = !!group, values_from = value) %>%
       dplyr::mutate(
         scoring = dplyr::if_else(stat == "N", "N", scoring)
       ) %>%
@@ -68,7 +70,8 @@ ticked_table <- function (df = .,
   } else {
     new <- df %>%
       dplyr::select(!!!variables) %>%
-      tidyr::gather(scoring, value) %>%
+      tidyr::pivot_longer(dplyr::everything(), names_to = "scoring",
+                          values_to = "value") %>%
       dplyr::mutate(
         value = dplyr::case_when(
           value == "Ticked" ~ 1,
@@ -79,9 +82,9 @@ ticked_table <- function (df = .,
       dplyr::summarise(
         N = paste("N =", dplyr::n()),
         np = qwraps2::n_perc(value, digits = 1, show_denom = "never", na_rm = T,
-                    markup = "markdown")
+                             markup = "markdown")
       ) %>%
-      tidyr::gather(stat, value, -scoring) %>%
+      tidyr::pivot_longer(-scoring, names_to = "stat", values_to = "value") %>%
       dplyr::mutate(
         scoring = dplyr::if_else(stat == "N", "N", scoring)
       ) %>%
@@ -98,13 +101,13 @@ ticked_table <- function (df = .,
     dplyr::arrange(scoring)%>%
     dplyr::mutate(
       scoring = dplyr::if_else(scoring == "N", NA_character_,
-                         as.character(scoring))
+                               as.character(scoring))
     )
 
   if(!missing(sep)){
     new <- new %>%
       tidyr::separate(scoring, into = c("variable", "scoring"),
-               sep = sep, fill = "right")
+                      sep = sep, fill = "right")
   }
 
   return(new)

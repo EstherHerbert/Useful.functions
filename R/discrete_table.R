@@ -56,7 +56,8 @@ discrete_table <- function(df = .,
   if (!missing(group) & missing(time)) {
     new <- df %>%
       dplyr::select({{group}}, ...) %>%
-      tidyr::gather(variable, scoring, -{{group}}) %>%
+      tidyr::pivot_longer(-{{group}}, names_to = "variable",
+                          values_to = "scoring") %>%
       dplyr::count({{group}}, variable, scoring) %>%
       tidyr::complete({{group}}, tidyr::nesting(variable, scoring),
                       fill = list(n = 0)) %>%
@@ -70,8 +71,9 @@ discrete_table <- function(df = .,
         n = sum(n)
       ) %>%
       dplyr::ungroup() %>%
-      tidyr::gather(stat, value, -{{group}}, -variable, -scoring) %>%
-      tidyr::spread({{group}}, value) %>%
+      tidyr::pivot_longer(-c({{group}}, variable, scoring), names_to = "stat",
+                          values_to = "value") %>%
+      tidyr::pivot_wider(names_from = {{group}}, values_from = value) %>%
       dplyr::mutate(
         variable = dplyr::if_else(stat == "N", stat, variable),
         scoring = ifelse(stat %in% c("N", "n"), stat, scoring)
@@ -85,7 +87,8 @@ discrete_table <- function(df = .,
   } else if(missing(group) & missing(time)) {
     new <- df %>%
       dplyr::select(...) %>%
-      tidyr::gather(variable, scoring) %>%
+      tidyr::pivot_longer(dplyr::everything(), names_to = "variable",
+                          values_to = "scoring") %>%
       dplyr::count(variable, scoring) %>%
       dplyr::group_by(variable) %>%
       dplyr::mutate(
@@ -97,7 +100,8 @@ discrete_table <- function(df = .,
         n = sum(n)
       ) %>%
       dplyr::ungroup() %>%
-      tidyr::gather(stat, value, -variable, -scoring) %>%
+      tidyr::pivot_longer(-c(variable, scoring), names_to = "stat",
+                          values_to = "value") %>%
       dplyr::mutate(
         variable = dplyr::if_else(stat == "N", stat, variable),
         scoring = dplyr::if_else(stat %in% c("N", "n"), stat, scoring)
@@ -111,7 +115,8 @@ discrete_table <- function(df = .,
   } else {
     new <- df %>%
       dplyr::select({{group}}, {{time}}, ...) %>%
-      tidyr::gather(variable, scoring, -{{group}}, -{{time}}) %>%
+      tidyr::pivot_longer(-c({{group}}, {{time}}), names_to = "variable",
+                          values_to = "scoring") %>%
       dplyr::count({{group}}, {{time}}, variable, scoring) %>%
       tidyr::complete({{group}}, {{time}}, tidyr::nesting(variable, scoring),
                       fill = list(n = 0)) %>%
@@ -125,8 +130,9 @@ discrete_table <- function(df = .,
         n = sum(n)
       ) %>%
       dplyr::ungroup() %>%
-      tidyr::gather(stat, value, -{{group}}, -{{time}}, -variable, -scoring) %>%
-      tidyr::spread({{group}}, value) %>%
+      tidyr::pivot_longer(-c({{group}}, {{time}}, variable, scoring),
+                          names_to = "stat", values_to = "value") %>%
+      tidyr::pivot_wider(names_from = {{group}}, values_from = value) %>%
       dplyr::mutate(
         {{time}} := dplyr::if_else(stat == "N", stat, as.character({{time}})),
         variable = dplyr::if_else(stat == "N", stat, variable),
