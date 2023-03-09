@@ -12,7 +12,7 @@ approvals:
 - name: approver 2
   address: job, department, uni
 bibliography: Refs.bib
-draft: true
+draft: 1
 appendices: appendices.tex
 abbreviations: abbreviations.tex
 output:
