@@ -15,4 +15,6 @@ Imports:
     xtable (>= 1.8-4),
     rlang (>= 0.4.6),
     qwraps2 (>= 0.4.2),
-    magrittr
+    magrittr,
+    gridExtra,
+    broom.mixed
