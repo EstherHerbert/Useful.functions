@@ -30,7 +30,8 @@ discrete_table <- function(df = .,
                            total = TRUE,
                            n = FALSE,
                            missing = "Missing",
-                           accuracy = 0.1) {
+                           accuracy = 0.1,
+                           condense = FALSE) {
 
   if(!missing(time) & missing(group)) {
     stop("Time can currenlty only be used with a group variable")
@@ -204,6 +205,26 @@ discrete_table <- function(df = .,
                                         as.character(.x)))
         )
     )
+  }
+
+  if(condense & !n){
+    new <- new %>%
+      mutate(variable = readr::parse_factor(variable)) %>%
+      group_by(variable) %>%
+      group_modify(~add_row(.x, .before = 1)) %>%
+      mutate(
+        variable = if_else(is.na(scoring), as.character(variable),
+                           paste("  ", scoring))
+      ) %>%
+      select(-scoring) %>%
+      .[-1,]
+  } else if(condense) {
+    new <- new %>%
+      mutate(
+        variable = if_else(scoring == "n", as.character(variable),
+                           paste("  ", scoring))
+      ) %>%
+      select(-scoring)
   }
 
   return(new)

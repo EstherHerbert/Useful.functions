@@ -12,7 +12,8 @@ discrete_table(
   total = TRUE,
   n = FALSE,
   missing = "Missing",
-  accuracy = 0.1
+  accuracy = 0.1,
+  condense = FALSE
 )
 }
 \arguments{
