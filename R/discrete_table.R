@@ -72,11 +72,12 @@ discrete_table <- function(df = .,
       ) %>%
       dplyr::ungroup() %>%
       tidyr::pivot_longer(-c({{group}}, variable, scoring), names_to = "stat",
-                          values_to = "value") %>%
+                          values_to = "value",
+                          values_transform = as.character) %>%
       tidyr::pivot_wider(names_from = {{group}}, values_from = value) %>%
       dplyr::mutate(
-        variable = dplyr::if_else(stat == "N", stat, variable),
-        scoring = ifelse(stat %in% c("N", "n"), stat, scoring)
+        variable = dplyr::if_else(stat == "N", stat, as.character(variable)),
+        scoring = ifelse(stat %in% c("N", "n"), stat, as.character(scoring))
       ) %>%
       .[!duplicated(.),] %>%
       dplyr::select(-stat) %>%
@@ -101,10 +102,12 @@ discrete_table <- function(df = .,
       ) %>%
       dplyr::ungroup() %>%
       tidyr::pivot_longer(-c(variable, scoring), names_to = "stat",
-                          values_to = "value") %>%
+                          values_to = "value",
+                          values_transform = as.character) %>%
       dplyr::mutate(
-        variable = dplyr::if_else(stat == "N", stat, variable),
-        scoring = dplyr::if_else(stat %in% c("N", "n"), stat, scoring)
+        variable = dplyr::if_else(stat == "N", stat, as.character(variable)),
+        scoring = dplyr::if_else(stat %in% c("N", "n"), stat,
+                                 as.character(scoring))
       ) %>%
       .[!duplicated(.), ] %>%
       dplyr::select(-stat) %>%
@@ -131,12 +134,13 @@ discrete_table <- function(df = .,
       ) %>%
       dplyr::ungroup() %>%
       tidyr::pivot_longer(-c({{group}}, {{time}}, variable, scoring),
-                          names_to = "stat", values_to = "value") %>%
+                          names_to = "stat", values_to = "value",
+                          values_transform = as.character) %>%
       tidyr::pivot_wider(names_from = {{group}}, values_from = value) %>%
       dplyr::mutate(
         {{time}} := dplyr::if_else(stat == "N", stat, as.character({{time}})),
-        variable = dplyr::if_else(stat == "N", stat, variable),
-        scoring = ifelse(stat %in% c("N", "n"), stat, scoring)
+        variable = dplyr::if_else(stat == "N", stat, as.character(variable)),
+        scoring = ifelse(stat %in% c("N", "n"), stat, as.character(scoring))
       ) %>%
       .[!duplicated(.),] %>%
       dplyr::select(-stat)
