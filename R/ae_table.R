@@ -17,8 +17,6 @@
 #' @export
 ae_table <- function (df, ..., group, ID, N, accuracy = 0.1, total = FALSE) {
 
-  variable <- scoring <- individuals <- events <- stat <- value <- NULL
-
   variables <- rlang::quos(...)
   ID <- rlang::enquo(ID)
 

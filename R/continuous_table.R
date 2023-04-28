@@ -22,9 +22,6 @@
 #' @export
 continuous_table <- function(df, ..., group, time, total = TRUE, digits = 2) {
 
-  variable <- value <- scoring <- n <- `Mean (SD)` <-
-    `Median (IQR)` <- `Min, Max` <- NULL
-
   if(!missing(time) & missing(group)) {
     stop("Time can currenlty only be used with a group variable")
   }
