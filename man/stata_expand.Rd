@@ -20,9 +20,9 @@ A data frame
 }
 \description{
 Takes a dataframe and duplicates it n times, then creates a
-             variable (default name is Duplicate) which has a value of 0 if
-             the observation originally appeared int he dataset and
-             i = 1,..,n for each duplicate.
+variable (default name is Duplicate) which has a value of 0 if
+the observation originally appeared int he dataset and
+i = 1,..,n for each duplicate.
 }
 \examples{
 df <- data.frame(x = 1:5, y = c("a","b","c","d", "e"))

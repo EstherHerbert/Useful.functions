@@ -25,7 +25,7 @@ A tibble data frame summarising the data
 }
 \description{
 Takes a data frame and produces grouped or un-grouped summaries
-             such as mean and standard deviation for continuous variables.
+such as mean and standard deviation for continuous variables.
 }
 \examples{
     continuous_table(df = iris, Petal.Length, Petal.Width, group = Species)

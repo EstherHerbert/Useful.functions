@@ -4,7 +4,7 @@
 \alias{add_multirow}
 \title{For use with latex summary tables}
 \usage{
-add_multirow(x, width = "4cm", pos = "t", rows = ., reverse = FALSE)
+add_multirow(x, width = "4cm", pos = "t", rows, reverse = FALSE)
 }
 \arguments{
 \item{x}{Character vector}
@@ -29,12 +29,12 @@ A character string/vector
 }
 \description{
 Turns duplicate rows which occur together into NAs and adds
-             multirow to the remaining rows.
+multirow to the remaining rows.
 }
 \examples{
     x <- c(rep("a", 5), rep("c", 2), rep("y", 7))
     add_multirow(x)
-    add_multirow(x, reverse = T)
+    add_multirow(x, reverse = TRUE)
     add_multirow(x, width = "2cm", pos = "c")
 
 }

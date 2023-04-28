@@ -25,12 +25,12 @@ A data.frame
 }
 \description{
 Takes a list of dataframes and searches their variables for
-             either a specific variable name or for a string within the
-             variable names.
+either a specific variable name or for a string within the
+variable names.
 }
 \examples{
 files <- list(mtcars = mtcars, iris = iris)
-search_list(files, "Sepal", exact = F)
+search_list(files, "Sepal", exact = FALSE)
 search_list(files, "hp")
 
 }

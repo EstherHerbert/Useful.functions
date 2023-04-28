@@ -9,14 +9,13 @@ diagPlot(model, ...)
 \arguments{
 \item{model}{a model object for which diagnostic plots are required}
 
-\item{plot}{logical indicating whether the results should be plotted
-immediately}
+\item{...}{arguments to pass to methods}
 }
 \value{
-returns a `gtable`
+returns a \code{gtable}
 }
 \description{
-`diagPlot` is a generic function used to produce diagnostic plots for the
+\code{diagPlot} is a generic function used to produce diagnostic plots for the
 results of various model fitting functions. The function invokes particular
-[methods()] which depend on the [class()] of the model.
+\code{\link[=methods]{methods()}} which depend on the \code{\link[=class]{class()}} of the model.
 }

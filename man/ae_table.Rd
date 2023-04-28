@@ -4,7 +4,7 @@
 \alias{ae_table}
 \title{Produce a data frame to summarise adverse event data.}
 \usage{
-ae_table(df = ., ..., group = ., ID = ., N = ., accuracy = 0.1, total = FALSE)
+ae_table(df, ..., group, ID, N, accuracy = 0.1, total = FALSE)
 }
 \arguments{
 \item{df}{Data Frame}
@@ -16,12 +16,15 @@ ae_table(df = ., ..., group = ., ID = ., N = ., accuracy = 0.1, total = FALSE)
 \item{ID}{Variable that defines the individual identifier (e.g. screening
 number)}
 
+\item{N}{a data frame with the group counts (typically produced using
+\code{dplyr::count})}
+
 \item{accuracy}{see details of \code{scales::percent}}
 
 \item{total}{Logical indicating whether a total column should be created}
 }
 \description{
 Takes a data frame of adverse events and produces the number of
-             events and number and percentage of individuals with an adverse
-             event.
+events and number and percentage of individuals with an adverse
+event.
 }

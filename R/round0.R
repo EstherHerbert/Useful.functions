@@ -1,7 +1,7 @@
 #' Rounds numbers but keeps trailing zeros
 #'
 #' @description This function is a shortcut for
-#'              \code{formatC(x, digits, format = "f")}.
+#'              `formatC(x, digits, format = "f")`.
 #'
 #' @param x a numeric vector
 #' @param digits an integer indicating the number of decimal places

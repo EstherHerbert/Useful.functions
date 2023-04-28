@@ -2,7 +2,7 @@
 % Please edit documentation in R/sanitise_percent.R
 \name{sanitise_percent}
 \alias{sanitise_percent}
-\title{Sanitise function for use with print.xtable}
+\title{Sanitise function for use with \code{print.xtable}}
 \usage{
 sanitise_percent(str)
 }
@@ -10,8 +10,8 @@ sanitise_percent(str)
 \item{str}{String of text}
 }
 \description{
-Takes a string of text and sanitises only the use of "%" for
-             use with latex
+Takes a string of text and sanitises only the use of "\%" for
+use with latex
 }
 \examples{
     str <- "\\\\multirow{2}{4cm}{75\%}"

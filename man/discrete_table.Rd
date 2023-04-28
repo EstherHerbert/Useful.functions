@@ -32,16 +32,19 @@ discrete_table(
 (\code{n = TRUE}) or N (\code{n = FALSE})}
 
 \item{missing}{String determining what missing data will be called
-(if \code{n = TRue}). Default is "Missing".}
+(if \code{n = TRUE}). Default is "Missing".}
 
 \item{accuracy}{see details of \code{scales::percent}}
+
+\item{condense}{should the \code{variable} and \code{scoring} columns in the output be
+condensed to one column?}
 }
 \value{
 A tibble data frame summarising the data
 }
 \description{
 Takes a dataframe and produces the number and percentage for
-             discrete variables.
+discrete variables.
 }
 \examples{
     library(ggplot2) # for the data

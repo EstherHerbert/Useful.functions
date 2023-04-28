@@ -4,7 +4,7 @@
 #' @export
 package_info <- function(){
 
-  sessionInfo()$otherPkgs %>%
+  utils::sessionInfo()$otherPkgs %>%
     purrr::map_df(with, data.frame(Package, Version)) %>%
     dplyr::arrange(Package)
 

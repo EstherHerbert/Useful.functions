@@ -22,5 +22,5 @@ A tibble data frame summarising the data completeness
 }
 \description{
 Takes a dataframe and calculates the proportions present/missing
-             for given variables.
+for given variables.
 }

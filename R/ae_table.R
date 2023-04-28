@@ -9,17 +9,15 @@
 #' @param group Variable that defines the grouping
 #' @param ID Variable that defines the individual identifier (e.g. screening
 #'           number)
-#' @param accuracy see details of \code{scales::percent}
+#' @param N a data frame with the group counts (typically produced using
+#'          `dplyr::count`)
+#' @param accuracy see details of `scales::percent`
 #' @param total Logical indicating whether a total column should be created
 #'
 #' @export
-ae_table <- function (df = .,
-                      ...,
-                      group = .,
-                      ID = .,
-                      N = .,
-                      accuracy = 0.1,
-                      total = FALSE) {
+ae_table <- function (df, ..., group, ID, N, accuracy = 0.1, total = FALSE) {
+
+  variable <- scoring <- individuals <- events <- stat <- value <- NULL
 
   variables <- rlang::quos(...)
   ID <- rlang::enquo(ID)
@@ -39,7 +37,7 @@ ae_table <- function (df = .,
       dplyr::group_by(!!group, variable, scoring) %>%
       dplyr::summarise(
         events = dplyr::n(),
-        dplyr::across(!!ID, n_distinct, .names = "individuals"),
+        dplyr::across(!!ID, .fns = dplyr::n_distinct, .names = "individuals"),
         .groups = "drop"
       ) %>%
       tidyr::complete(!!group, tidyr::nesting(variable, scoring),
@@ -97,13 +95,13 @@ ae_table <- function (df = .,
       dplyr::select(-stat)
   }
 
-  order <- sapply(variables, FUN = quo_name)
+  order <- sapply(variables, FUN = dplyr::quo_name)
 
   order2 <- df %>%
     dplyr::select(!!!variables) %>%
     dplyr::mutate(across(dplyr::everything(), as.factor)) %>%
     as.list() %>%
-    purrr:map(~levels(.)) %>%
+    purrr::map(~levels(.)) %>%
     unlist(.) %>%
     unname() %>%
     .[!duplicated(.)]

@@ -1,4 +1,4 @@
-#' Sanitise function for use with print.xtable
+#' Sanitise function for use with `print.xtable`
 #'
 #' @description Takes a string of text and sanitises only the use of "%" for
 #'              use with latex

@@ -68,7 +68,7 @@ continuous_table <- function(df = .,
           n == 1, stringr::str_replace(`Median (IQR)`, "0.00", " - "),
           `Median (IQR)`
         ),
-        `Min, Max` = ifelse(n == 1, string::str_remove(`Min, Max`, ",.*"),
+        `Min, Max` = ifelse(n == 1, stringr::str_remove(`Min, Max`, ",.*"),
                             `Min, Max`)
       ) %>%
       dplyr::ungroup() %>%
@@ -108,7 +108,7 @@ continuous_table <- function(df = .,
           n == 1, stringr::str_replace(`Median (IQR)`, "0.00", " - "),
           `Median (IQR)`
         ),
-        `Min, Max` = ifelse(n == 1, string::str_remove(`Min, Max`, ",.*"),
+        `Min, Max` = ifelse(n == 1, stringr::str_remove(`Min, Max`, ",.*"),
                             `Min, Max`)
       ) %>%
       dplyr::ungroup() %>%
@@ -146,7 +146,7 @@ continuous_table <- function(df = .,
           n == 1, stringr::str_replace(`Median (IQR)`, "0.00", " - "),
           `Median (IQR)`
         ),
-        `Min, Max` = ifelse(n == 1, string::str_remove(`Min, Max`, ",.*"),
+        `Min, Max` = ifelse(n == 1, stringr::str_remove(`Min, Max`, ",.*"),
                             `Min, Max`)
       ) %>%
       dplyr::ungroup() %>%
@@ -177,7 +177,7 @@ continuous_table <- function(df = .,
         {{time}} := readr::parse_factor({{time}}, c("N", order2)),
         variable = readr::parse_factor(variable, c("N", order)),
         scoring = as.factor(scoring),
-        scoring = relevel(scoring, "n")
+        scoring = stats::relevel(scoring, "n")
       ) %>%
       dplyr::arrange(variable, {{time}}, scoring) %>%
       dplyr::mutate(
@@ -193,7 +193,7 @@ continuous_table <- function(df = .,
       dplyr::mutate(
         variable = readr::parse_factor(variable, c("N", order)),
         scoring = as.factor(scoring),
-        scoring = relevel(scoring, "n")
+        scoring = stats::relevel(scoring, "n")
       ) %>%
       dplyr::arrange(variable, scoring) %>%
       dplyr::mutate(

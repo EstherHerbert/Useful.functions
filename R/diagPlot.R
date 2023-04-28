@@ -5,8 +5,7 @@
 #' [methods()] which depend on the [class()] of the model.
 #'
 #' @param model a model object for which diagnostic plots are required
-#' @param plot logical indicating whether the results should be plotted
-#'             immediately
+#' @param ... arguments to pass to methods
 #'
 #' @returns returns a `gtable`
 #'
@@ -16,12 +15,12 @@ diagPlot <- function(model, ...){
 }
 
 #' @export
-diagPlot.default <- function(model){
+diagPlot.default <- function(model, ...){
   cat("no method exists for this object")
 }
 
 #' @export
-diagPlot.lm <- function(model, plot = FALSE) {
+diagPlot.lm <- function(model, plot = FALSE, ...) {
 
   p1 <- ggplot2::ggplot(model, ggplot2::aes(.fitted, .resid)) +
     ggplot2::geom_point() +
@@ -62,7 +61,7 @@ diagPlot.lm <- function(model, plot = FALSE) {
 }
 
 #' @export
-diagPlot.lme <- function(model, plot = FALSE) {
+diagPlot.lme <- function(model, plot = FALSE, ...) {
 
   aug <- broom.mixed::augment(model) %>%
     dplyr::mutate(

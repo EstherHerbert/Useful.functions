@@ -3,7 +3,7 @@
 #' @description Turns duplicate rows into NAs
 #'
 #' @param x Character vector
-#' @param reverse Logical indicating whether the last incidence should be kept
+#' @param keepLast Logical indicating whether the last incidence should be kept
 #'                instead of the first (which is the default).
 #'
 #' @return A character string/vector
