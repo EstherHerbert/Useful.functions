@@ -9,16 +9,16 @@ apply_labels <- function(df, col, dataspec = dataspec){
 
   col_q <- rlang::enquo(col)
   rlang::quo_name(col_q)
-  vars <- dplyr::filter(df, !is.na(!!col_q))  %>%
+  vars <- dplyr::filter(df, !is.na(!!col_q)) %>%
     magrittr::extract2(rlang::quo_name(col_q)) %>%
     unique() %>%
     paste0(collapse = "|")
 
   labs <- dataspec %>%
-    dplyr::filter(stringr::str_detect(.data$Identifier, vars)) %>%
-    dplyr::mutate(Identifier = stringr::str_remove_all(.data$Identifier,
+    dplyr::filter(stringr::str_detect(Identifier, vars)) %>%
+    dplyr::mutate(Identifier = stringr::str_remove_all(Identifier,
                                                        "\\[calculated\\] ")) %>%
-    dplyr::select(.data$Identifier, .data$Label)
+    dplyr::select(Identifier, Label)
 
   df %>%
     dplyr::mutate(
