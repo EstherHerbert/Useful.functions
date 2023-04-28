@@ -9,17 +9,17 @@
 #' @param ls A list of dataframes
 #' @param string A string, either the exact variable name or something to search
 #'               for.
-#' @param exact Logical. If \code{exact = TRUE} then \code{search_list} finds
-#'              the exact variable, if \code{exact = FALSE} then
-#'              \code{search_list} finds all variable names containing that
-#'              string using \code{stringr::str_detect()}.
+#' @param exact Logical. If `exact = TRUE` then `search_list` finds
+#'              the exact variable, if `exact = FALSE` then
+#'              `search_list` finds all variable names containing that
+#'              string using `stringr::str_detect()`.
 #' @param ignore.case Logical. Determines whether to ignore case when
-#'                    \code{exact = FALSE}.
+#'                    `exact = FALSE`.
 #'
 #' @return A data.frame
 #'
 #' @examples files <- list(mtcars = mtcars, iris = iris)
-#' search_list(files, "Sepal", exact = F)
+#' search_list(files, "Sepal", exact = FALSE)
 #' search_list(files, "hp")
 #'
 #' @export

@@ -13,7 +13,7 @@
 #' @export
 export_check <- function(export_notes, data) {
 
-  export <- read.delim(export_notes, header = F, strip.white = T)
+  export <- utils::read.delim(export_notes, header = F, strip.white = T)
 
   export <- export %>%
     dplyr::mutate(

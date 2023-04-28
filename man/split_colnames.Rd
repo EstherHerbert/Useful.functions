@@ -13,5 +13,5 @@ split_colnames(df, sep = "_")
 }
 \description{
 Splits column names into two rows. The first row are the new
-             column names, the second are the first row of the data.
+column names, the second are the first row of the data.
 }

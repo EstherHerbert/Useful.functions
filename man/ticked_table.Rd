@@ -16,20 +16,22 @@ ticked_table(df = ., ..., group = ., sep = ., total = TRUE)
 \item{sep}{Optional separator between columns for splitting variable into
 variable and scoring. See ?tidyr::separate for more information.}
 
-\item{total}{Logical indicating wether a total column should be created}
+\item{total}{Logical indicating whether a total column should be created}
 }
 \value{
 A tibble data frame summarising the data
 }
 \description{
 Takes a dataframe and produces the number and percentage for
-             ticked variables.
+ticked variables.
 }
 \examples{
-  df <- data.frame(pet_cat = sample(c("Ticked", ""), size = 100, replace = T),
-                   pet_dog = sample(c("Ticked", ""), size = 100, replace = T),
-                   pet_pig = sample(c("Ticked", ""), size = 100, replace = T),
-                   group = sample(c("A", "B", "C"), size = 100, replace = T))
+df <- data.frame(
+         pet_cat = sample(c("Ticked", ""), size = 100, replace = TRUE),
+         pet_dog = sample(c("Ticked", ""), size = 100, replace = TRUE),
+         pet_pig = sample(c("Ticked", ""), size = 100, replace = TRUE),
+         group = sample(c("A", "B", "C"), size = 100, replace = TRUE)
+ )
 
   ticked_table(df, pet_cat, pet_dog, group = group, sep = "_")
 

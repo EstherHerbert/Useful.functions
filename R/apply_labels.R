@@ -15,10 +15,10 @@ apply_labels <- function(df, col, dataspec = dataspec){
     paste0(collapse = "|")
 
   labs <- dataspec %>%
-    dplyr::filter(stringr::str_detect(Identifier, vars)) %>%
-    dplyr::mutate(Identifier = stringr::str_remove_all(Identifier,
+    dplyr::filter(stringr::str_detect(.data$Identifier, vars)) %>%
+    dplyr::mutate(Identifier = stringr::str_remove_all(.data$Identifier,
                                                        "\\[calculated\\] ")) %>%
-    dplyr::select(Identifier, Label)
+    dplyr::select(.data$Identifier, .data$Label)
 
   df %>%
     dplyr::mutate(

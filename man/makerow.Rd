@@ -16,11 +16,11 @@ a vector within the function)}
 A single character string
 }
 \description{
-Collapses a vector into a character string seperated by "&".
+Collapses a vector into a character string separated by "&".
 }
 \examples{
   x <- c("A", 125, "Apple", 0.2, "75g")
   makerow(x)
-  makerow(x, hline = T)
+  makerow(x, hline = TRUE)
 
 }

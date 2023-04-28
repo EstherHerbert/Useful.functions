@@ -12,14 +12,16 @@ read_prospect(file, dictionary=lookups, convert.date=TRUE, ...)
 \item{dictionary}{The file in which the lookups reside, default is
 \code{lookups}}
 
-\item{convert.date}{Convert fields ending in \code{_dt} to date format}
+\item{convert.date}{Convert fields ending in \verb{_dt} to date format}
+
+\item{...}{arguments to be passed to \code{read.csv}}
 }
 \value{
 A data frame formatted as required
 }
 \description{
 Takes a .csv file exported from Prospect and reads it in to R
-             along with the factor labels from the lookups.csv file produced
-             by Prospect. When using this function you must first read the
-             lookups.csv file into R.
+along with the factor labels from the lookups.csv file produced
+by Prospect. When using this function you must first read the
+lookups.csv file into R.
 }

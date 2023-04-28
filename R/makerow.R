@@ -1,6 +1,6 @@
-#' For use with \code{xtable}'s \code{add.to.row}
+#' For use with `xtable`'s `add.to.row`
 #'
-#' @description Collapses a vector into a character string seperated by "&".
+#' @description Collapses a vector into a character string separated by "&".
 #'
 #' @param x A vector or single row of a data frame (which is then converted to
 #'          a vector within the function)
@@ -11,7 +11,7 @@
 #' @examples
 #'   x <- c("A", 125, "Apple", 0.2, "75g")
 #'   makerow(x)
-#'   makerow(x, hline = T)
+#'   makerow(x, hline = TRUE)
 #'
 #' @export
 

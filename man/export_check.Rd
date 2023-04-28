@@ -14,7 +14,7 @@ as the exported csv files and called export_note.txt)}
 }
 \value{
 nothing is returned but a message is printed to the console if the
-         check is successful and an error is given if not.
+check is successful and an error is given if not.
 }
 \description{
 For use with CTRU studies using prospect. This function checks the read in

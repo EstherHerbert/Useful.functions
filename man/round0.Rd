@@ -16,7 +16,7 @@ a character string
 }
 \description{
 This function is a shortcut for
-             \code{formatC(x, digits, format = "f")}.
+\code{formatC(x, digits, format = "f")}.
 }
 \examples{
 round(5.601, 2)

@@ -9,7 +9,7 @@ remove_duplicates(x, keepLast = FALSE)
 \arguments{
 \item{x}{Character vector}
 
-\item{reverse}{Logical indicating whether the last incidence should be kept
+\item{keepLast}{Logical indicating whether the last incidence should be kept
 instead of the first (which is the default).}
 }
 \value{

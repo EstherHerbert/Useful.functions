@@ -10,10 +10,12 @@
 #'             (currenlty must me used with group)
 #' @param total Logical indicating whether a total column should be created
 #' @param n Logical indicating whether percentages should be out of n
-#'          (\code{n = TRUE}) or N (\code{n = FALSE})
+#'          (`n = TRUE`) or N (`n = FALSE`)
 #' @param missing String determining what missing data will be called
-#'                (if \code{n = TRue}). Default is "Missing".
-#' @param accuracy see details of \code{scales::percent}
+#'                (if `n = TRUE`). Default is "Missing".
+#' @param accuracy see details of `scales::percent`
+#' @param condense should the `variable` and `scoring` columns in the output be
+#'                 condensed to one column?
 #'
 #' @examples
 #'     library(ggplot2) # for the data

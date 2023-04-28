@@ -1,6 +1,6 @@
 #' Mutates data frame so that summary tables give totals
 #'
-#' @description This function uses \code{stat_expand} and \code{dplyr::mutate} to give
+#' @description This function uses `stata_expand` and `dplyr::mutate` to give
 #'              a data frame that, when summarised, with give total rows and/or
 #'              columns.
 #'
@@ -9,12 +9,8 @@
 #' @param name Character string for the name of the total row/column
 #'
 #' @examples
-#'     totals(mtcars, cyl) %>%
-#'     count(cyl)
-#'
-#'     totals(mtcars, cyl, vs, name = "All") %>%
-#'     count(cyl, vs) %>%
-#'     pivot_wider(names_from = cyl, values_from = n)
+#'     df <- totals(mtcars, cyl)
+#'     dplyr::count(df)
 #'
 #' @export
 totals <- function(df = .,

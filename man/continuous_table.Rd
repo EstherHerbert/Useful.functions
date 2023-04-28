@@ -4,7 +4,7 @@
 \alias{continuous_table}
 \title{Produce a data frame to summaries continuous variables}
 \usage{
-continuous_table(df = ., ..., group = ., time = ., total = TRUE, digits = 2)
+continuous_table(df, ..., group, time, total = TRUE, digits = 2)
 }
 \arguments{
 \item{df}{Data frame}
@@ -25,7 +25,7 @@ A tibble data frame summarising the data
 }
 \description{
 Takes a data frame and produces grouped or un-grouped summaries
-             such as mean and standard deviation for continuous variables.
+such as mean and standard deviation for continuous variables.
 }
 \examples{
     continuous_table(df = iris, Petal.Length, Petal.Width, group = Species)

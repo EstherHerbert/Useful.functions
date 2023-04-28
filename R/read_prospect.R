@@ -9,8 +9,9 @@
 #'
 #' @param file The file to be read in
 #' @param dictionary The file in which the lookups reside, default is
-#'                   \code{lookups}
-#' @param convert.date Convert fields ending in \code{_dt} to date format
+#'                   `lookups`
+#' @param convert.date Convert fields ending in `_dt` to date format
+#' @param ... arguments to be passed to `read.csv`
 #'
 #' @return A data frame formatted as required
 #'
@@ -19,7 +20,7 @@ read_prospect <- function(file         = .,
                           dictionary   = lookups,
                           convert.date = TRUE,
                           ...) {
-  new <- read.csv(file, stringsAsFactors = FALSE, ...)
+  new <- utils::read.csv(file, stringsAsFactors = FALSE, ...)
 
   if (dim(new)[1]==0) {
     message(paste("File", file, "has no rows."))
@@ -29,11 +30,11 @@ read_prospect <- function(file         = .,
   new <- new %>%
     dplyr::rename_with(
       # avoid duplicate variable names when _oth and _oth_o is used
-      ~string::str_replace(., "_oth", "_other"),
+      ~stringr::str_replace(., "_oth", "_other"),
       dplyr::matches("_oth([:digit:]*)_o$")
     ) %>%
     # suffix of "_o" won't be in lookups
-    dplyr::rename_all(~string::str_remove(.x, "_o$"))
+    dplyr::rename_all(~stringr::str_remove(.x, "_o$"))
 
   # create a filtered version of dictionary depending on whether the file is a
   # form or sub-form. Stops process if the file isn't listed in dictionary or

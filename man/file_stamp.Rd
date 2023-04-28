@@ -4,14 +4,14 @@
 \alias{file_stamp}
 \title{Produce a file name string with date-time stamp}
 \usage{
-file_stamp(chr, format = ".xlsx", time = F)
+file_stamp(chr, format = ".xlsx", time = FALSE)
 }
 \arguments{
 \item{chr}{String detailing file name}
 
-\item{time}{Logical - should time be included in the stamp?}
+\item{format}{String giving file extension}
 
-\item{ext}{String giving file extension}
+\item{time}{Logical - should time be included in the stamp?}
 }
 \value{
 A character string with the new file name
