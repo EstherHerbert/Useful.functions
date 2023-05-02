@@ -34,10 +34,40 @@ This function checks the read in file lengths against the export notes provided 
 
 ### Summary tables
 
-####`continuous_table()`
+#### `continuous_table()`
 
 Creates a summary table of specified continuous variables in a data frame. A grouping variable can be provided with an optional total column too (see `totals()`), as well as other options.
 
 #### `discrete_table()`
 
 Creates a summary table of specified discrete (factor) variables in a data frame. A grouping variable can be provided with an optional total column too (see `totals()`), as well as other options.
+
+## Addins
+
+Addins are functions with are used interactively within RStudio. There are three Addins provided in this package and keyboard short cuts can be created for them to speed up coding. More information on Addins can be found, including how to set keyboard short cuts,  [here](https://docs.posit.co/ide/user/ide/guide/productivity/add-ins.html).
+
+### Insert Section
+
+This Addin inserts dashes from the cursor location to 'end' of the row (width = 80).
+
+***NB:** I plan to update this addin so that the width is read from getOptions.*
+
+### End Box
+
+This Addin inserts spaces and then two hashes to the 'end' of the row (width = 80).
+
+***NB:** I plan to update this addin so that the width is read from getOptions.*
+
+### Month Year
+
+This Addin inserts the current month and year at the cursor location.
+
+
+## R Markdown template
+
+To save time when writing statistics reports I have created an R Markdown template. Currently the report only exports to pdf (my personal preference) but it could be modified to export to word.
+
+You can access the template either by creating a new R Markdown document from the menu in RStudio and then looking through the templates or using `rmarkdown::draft("my-report.Rmd", template = "statistics-report", package = "Useful.functions")`. Both of these options will create a folder with your report name containing the markdown file and the templates required to generate the report. I recommend you render it to pdf using `rmarkdown::render` rather than using the knit button.
+
+***NB:** I plan to create other templates in the future - e.g., for status reports or presentations.
+
