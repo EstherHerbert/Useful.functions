@@ -21,8 +21,9 @@
 #'
 #' library(xtable)
 #'
-#' xtable(head(iris)) %>%
-#'   print(add.to.row = add_clines(., rows = c(2, 3), cols = "3-4"))
+#' xtab <- xtable(head(iris))
+#'
+#' print(xtab, add.to.row = add_clines(., rows = c(2, 3), cols = "3-4"))
 #'
 #' @export
 add_clines <- function(xtab, rows = "multirow", cols, check.column){

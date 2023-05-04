@@ -33,7 +33,8 @@ use multirow in a specified column.
 
 library(xtable)
 
-xtable(head(iris)) \%>\%
-  print(add.to.row = add_clines(., rows = c(2, 3), cols = "3-4"))
+xtab <- xtable(head(iris))
+
+print(xtab, add.to.row = add_clines(., rows = c(2, 3), cols = "3-4"))
 
 }
