@@ -10,7 +10,7 @@
 #' @param file The file to be read in
 #' @param dictionary The file in which the lookups reside, default is
 #'                   `lookups`
-#' @param convert.date Convert fields ending in `_dt` to date format
+#' @param convert.date Convert fields ending in `_dt` or `_date` to date format
 #' @param ... arguments to be passed to `read.csv`
 #'
 #' @return A data frame formatted as required
@@ -90,7 +90,7 @@ read_prospect <- function(file         = .,
 
   # Convert dates
   if (convert.date == TRUE) {
-    dates <- grep("_dt$", names(new))
+    dates <- grep("(_dt$)|(_date$)", names(new))
     if (length(dates) == 1) {
       new[, dates] <- as.Date(new[, dates], format = "%Y-%m-%d")
     }

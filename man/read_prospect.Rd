@@ -12,7 +12,7 @@ read_prospect(file, dictionary=lookups, convert.date=TRUE, ...)
 \item{dictionary}{The file in which the lookups reside, default is
 \code{lookups}}
 
-\item{convert.date}{Convert fields ending in \verb{_dt} to date format}
+\item{convert.date}{Convert fields ending in \verb{_dt} or \verb{_date} to date format}
 
 \item{...}{arguments to be passed to \code{read.csv}}
 }
