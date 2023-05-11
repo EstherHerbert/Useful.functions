@@ -26,11 +26,7 @@ merge_colnames <- function(xtab){
 
   v <- sanitise_percent(v)
 
-<<<<<<< HEAD
   names <- ifelse(n == 1, v, paste0("\\multicolumn{", n, "}{c}{", v, "}"))
-=======
-  names <- if_else(n == 1, v, paste0("\\multicolumn{", n, "}{c}{", v, "}"))
->>>>>>> 3be3d7c0189fcdf42cda2bc4076eaeba03bcaf6d
 
   colnames <- list()
 
