@@ -5,7 +5,13 @@
 #'              printed output at position 0.
 #'
 #' @param xtab An object of class \code{xtable}.
-#' @param footnote A character string
+#' @param add.to.caption Text to be added to all but the last captions, default
+#'                       is " (continued)".
+#' @param footnote Text to be added to the footnote of all but the last page,
+#'                 default is "Continued on next page".
+#' @param double.header Logical, does the table have a double header?
+#' @param pos position in table to insert the header commands, default is 0.
+#'            Use 1 if double header is`TRUE`
 #'
 #' @return A single character string
 #'

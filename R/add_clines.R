@@ -19,20 +19,18 @@
 #'
 #' @examples
 #'
-#' library(xtable)
+#' xtab <- xtable::xtable(head(iris))
 #'
-#' xtab <- xtable(head(iris))
-#'
-#' print(xtab, add.to.row = add_clines(., rows = c(2, 3), cols = "3-4"))
+#' xtable::print.xtable(xtab, add.to.row = add_clines(., rows = c(2, 3), cols = "3-4"))
 #'
 #' @export
-add_clines <- function(xtab, rows = "multirow", cols, check.column){
-
-  if(length(rows) == 1){
-    if(rows == "multirow"){
-      if(missing(check.column))
+add_clines <- function(xtab, rows = "multirow", cols, check.column) {
+  if (length(rows) == 1) {
+    if (rows == "multirow") {
+      if (missing(check.column)) {
         stop("when rows is 'multirow' a check.column name or number must be given")
-      rows <- str_which(xtab[,check.column], "\\\\multirow") - 1
+      }
+      rows <- str_which(xtab[, check.column], "\\\\multirow") - 1
     }
   }
 
@@ -41,5 +39,4 @@ add_clines <- function(xtab, rows = "multirow", cols, check.column){
   clines$command <- paste0("\\cline{", cols, "}\n")
 
   return(clines)
-
 }

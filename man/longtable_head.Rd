@@ -16,7 +16,16 @@ longtable_head(
 \arguments{
 \item{xtab}{An object of class \code{xtable}.}
 
-\item{footnote}{A character string}
+\item{add.to.caption}{Text to be added to all but the last captions, default
+is " (continued)".}
+
+\item{footnote}{Text to be added to the footnote of all but the last page,
+default is "Continued on next page".}
+
+\item{double.header}{Logical, does the table have a double header?}
+
+\item{pos}{position in table to insert the header commands, default is 0.
+Use 1 if double header is\code{TRUE}}
 }
 \value{
 A single character string

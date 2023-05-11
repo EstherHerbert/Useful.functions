@@ -31,10 +31,8 @@ use multirow in a specified column.
 }
 \examples{
 
-library(xtable)
+xtab <- xtable::xtable(head(iris))
 
-xtab <- xtable(head(iris))
-
-print(xtab, add.to.row = add_clines(., rows = c(2, 3), cols = "3-4"))
+xtable::print.xtable(xtab, add.to.row = add_clines(., rows = c(2, 3), cols = "3-4"))
 
 }

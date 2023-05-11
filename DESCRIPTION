@@ -25,3 +25,5 @@ Imports:
     scales,
     stringr
 Roxygen: list(markdown = TRUE)
+Suggests: 
+    xtable
