@@ -17,10 +17,10 @@
 #'
 #' @examples
 #'
-#' xtable::xtable(iris, caption = "Iris Data") %>%
-#'     xtable::print.xtable(tabular.environment = "longtable", floating = F,
-#'                          hline.after = c(-1,0),
-#'                          add.to.row = longtable_head(.))
+#' xtab <- xtable::xtable(iris, caption = "Iris Data")
+#' xtable::print.xtable(xtab, tabular.environment = "longtable", floating = FALSE,
+#'                      hline.after = c(-1,0),
+#'                      add.to.row = longtable_head(xtab))
 #'
 #' @export
 longtable_head <- function(xtab,

@@ -10,12 +10,10 @@
 #'
 #' @examples
 #'
-#' library(xtable)
-#'
 #' iris2 <- split_colnames(iris, sep = "\\.")
 #'
-#' xtable(iris2) %>%
-#'   print.xtable(add.to.row = merge_colnames(.))
+#' xtab <- xtable::xtable(iris2)
+#' xtable::print.xtable(xtab, add.to.row = merge_colnames(xtab))
 #'
 #' @export
 merge_colnames <- function(xtab){

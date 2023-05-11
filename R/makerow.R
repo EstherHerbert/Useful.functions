@@ -15,7 +15,7 @@
 #'
 #' @export
 
-makerow <- function(x, hline = F) {
+makerow <- function(x, hline = FALSE) {
   if (!is.vector(x)) {
     x <- unlist(x)
   }

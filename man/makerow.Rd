@@ -4,7 +4,7 @@
 \alias{makerow}
 \title{For use with \code{xtable}'s \code{add.to.row}}
 \usage{
-makerow(x, hline = F)
+makerow(x, hline = FALSE)
 }
 \arguments{
 \item{x}{A vector or single row of a data frame (which is then converted to
