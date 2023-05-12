@@ -6,11 +6,15 @@ This package brings together some functions I have created to perform repetitive
 
 ## Installation
 
+Install the latest release with the following code:
+
 ``` r
 install.packages('devtools')
-devtools::install_github("EstherHerbert/Useful.functions")
+devtools::install_github("EstherHerbert/Useful.functions@*release")
 library(Useful.functions)
 ```
+
+If you'd like to install the latest development version then you can omit `@*release` from the call to `install_github()`.
 
 ## Functions
 
