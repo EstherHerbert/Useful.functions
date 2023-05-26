@@ -4,7 +4,7 @@
 \alias{apply_labels}
 \title{Apply labels from a dataspec to a column}
 \usage{
-apply_labels(df, col, dataspec = dataspec)
+apply_labels(df, col, dataspec = dataspec, ticked = FALSE)
 }
 \arguments{
 \item{df}{Data frame}
@@ -12,6 +12,8 @@ apply_labels(df, col, dataspec = dataspec)
 \item{col}{Variable to be labeled}
 
 \item{dataspec}{where to find the labels}
+
+\item{ticked}{logical - is the variable a ticked variable?}
 }
 \description{
 Apply labels from a dataspec to a column
