@@ -26,11 +26,12 @@
 #'
 #' @export
 add_multirow <- function(x, width = "4cm", pos = "t", rows, reverse = FALSE) {
-  n <- rle(x[!is.na(x)])$lengths
 
   if (is.factor(x)) {
     x <- as.character(x)
   }
+
+  n <- rle(x[!is.na(x)])$lengths
 
   if (!reverse) {
     x[duplicated(x)] <- NA

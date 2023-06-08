@@ -14,7 +14,6 @@
 #'
 #' @export
 remove_duplicates <- function(x, keepLast = FALSE) {
-  n <- rle(x[!is.na(x)])$lengths
 
   if (is.factor(x)) {
     x <- as.character(x)
