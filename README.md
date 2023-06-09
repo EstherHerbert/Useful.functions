@@ -22,7 +22,7 @@ If you'd like to install the latest development version then you can omit `@*rel
 
 #### `read_prospect()`
 
-This function reads in data from the prospect database. It takes the file path to the exported csv file and the data dictionary (typically called 'lookups.csv'); applies the factor labels and does some basic formatting. 
+This function reads in data from the prospect database. It takes the file path to the exported csv file and the data dictionary (typically called 'lookups.csv'); applies the factor labels and does some basic formatting.
 
 ***NB:** the lookups file can be provided in a couple of different formats, currently `read_prospect()` only works with one of these.*
 
@@ -55,7 +55,6 @@ Creates a table summarising whether specified variables are present/missing in a
 Creates a summary table of specified 'ticked' (binary) variables in a data frame. A grouping variable can be provided with an optional total column too (see `totals()`), as well as other options.
 
 ***NB:** at the moment this function summarises variables which are `"Ticked"`, `""`, or `NA`.*
-
 
 #### `ae_table()`
 
@@ -123,24 +122,20 @@ This function uses `stata_expand()` and `dplyr::mutate()` to give a data frame t
 
 ## Addins
 
-Addins are functions with are used interactively within RStudio. There are three Addins provided in this package and keyboard short cuts can be created for them to speed up coding. More information on Addins can be found, including how to set keyboard short cuts,  [here](https://docs.posit.co/ide/user/ide/guide/productivity/add-ins.html).
+Addins are functions with are used interactively within RStudio. There are three Addins provided in this package and keyboard short cuts can be created for them to speed up coding. More information on Addins can be found, including how to set keyboard short cuts, [here](https://docs.posit.co/ide/user/ide/guide/productivity/add-ins.html).
 
 ### Insert Section
 
-This Addin inserts dashes from the cursor location to 'end' of the row (width = 80).
-
-***NB:** I plan to update this addin so that the width is read from getOptions.*
+This Addin inserts dashes from the cursor location to 'end' of the row (width obtained with `getOptions`).
 
 ### End Box
 
-This Addin inserts spaces and then two hashes to the 'end' of the row (width = 80).
+This Addin inserts spaces and then two hashes to the 'end' of the row (width obtained with `getOptions`).
 
-***NB:** I plan to update this addin so that the width is read from getOptions.*
 
 ### Month Year
 
 This Addin inserts the current month and year at the cursor location.
-
 
 ## R Markdown template
 
@@ -148,5 +143,4 @@ To save time when writing statistics reports I have created an R Markdown templa
 
 You can access the template either by creating a new R Markdown document from the menu in RStudio and then looking through the templates or using `rmarkdown::draft("my-report.Rmd", template = "statistics-report", package = "Useful.functions")`. Both of these options will create a folder with your report name containing the markdown file and the templates required to generate the report. I recommend you render it to pdf using `rmarkdown::render` rather than using the knit button.
 
-***NB:** I plan to create other templates in the future - e.g., for status reports or presentations.
-
+\***NB:** I plan to create other templates in the future - e.g., for status reports or presentations.
