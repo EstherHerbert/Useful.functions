@@ -13,6 +13,12 @@
 #' @export
 wrangle_lookups <- function(lookups, fields) {
 
+  if(!"Values" %in% names(lookups)) {
+    stop(paste("It looks as though lookups is in a format not anticipated by",
+               "`wrangle_lookups(), perhaps it's already in a version useable",
+               "by this package?"))
+  }
+
   width <- max(stringr::str_count(lookups$Values, "\\|")) + 1
 
   lookups <- lookups %>%
