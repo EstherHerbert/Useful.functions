@@ -20,11 +20,15 @@ If you'd like to install the latest development version then you can omit `@*rel
 
 ### Working with data from CTRU database
 
+#### `wrangle_lookups()`
+
+When the lookups file has been provided from an export of the Edith database specification (as opposed to the export from prospect) this function wranges the lookups and fields data frames into a format useable by `read_prospect()` and `apply_labels()`.
+
 #### `read_prospect()`
 
 This function reads in data from the prospect database. It takes the file path to the exported csv file and the data dictionary (typically called 'lookups.csv'); applies the factor labels and does some basic formatting.
 
-***NB:** the lookups file can be provided in a couple of different formats, currently `read_prospect()` only works with one of these.*
+***NB:** the lookups file can be provided in a couple of different formats, currently `read_prospect()` only works with one of these. See `wrangle_lookups()` if you need to convert to this format.*
 
 #### `apply_labels()`
 
