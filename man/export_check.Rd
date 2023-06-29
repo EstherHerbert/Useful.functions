@@ -4,17 +4,22 @@
 \alias{export_check}
 \title{Checks imported form lengths against the export note produced by prospect.}
 \usage{
-export_check(export_notes, data)
+export_check(export_notes, data, save.log = FALSE, file = "")
 }
 \arguments{
 \item{export_notes}{file path to the export note (usually in the same folder
 as the exported csv files and called export_note.txt)}
 
 \item{data}{a list containing the read in data}
+
+\item{save.log}{logical, should a log of the check be saved?}
+
+\item{file}{if \code{save.log = TRUE} then the file path to which the log should
+be saved (e.g. "export-check.log").}
 }
 \value{
-nothing is returned but a message is printed to the console if the
-check is successful and an error is given if not.
+nothing is returned but a message is printed to the console (or
+saved to a log) stating whether the check was successful.
 }
 \description{
 For use with CTRU studies using prospect. This function checks the read in

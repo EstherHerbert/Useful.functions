@@ -6,12 +6,20 @@
 #' @param export_notes file path to the export note (usually in the same folder
 #'                     as the exported csv files and called export_note.txt)
 #' @param data a list containing the read in data
+#' @param save.log logical, should a log of the check be saved?
+#' @param file if `save.log = TRUE` then the file path to which the log should
+#'   be saved (e.g. "export-check.log").
 #'
-#' @returns nothing is returned but a message is printed to the console if the
-#'          check is successful and an error is given if not.
+#' @returns nothing is returned but a message is printed to the console (or
+#'   saved to a log) stating whether the check was successful.
 #'
 #' @export
-export_check <- function(export_notes, data) {
+export_check <- function(export_notes, data, save.log = FALSE, file = "") {
+
+  if(save.log & file == "") {
+    warning(paste("You have asked to save the log but have not specified a",
+                  "file location; the log has not been saved."), call. = FALSE)
+  }
 
   export <- utils::read.delim(export_notes, header = F, strip.white = T)
 
@@ -55,9 +63,10 @@ export_check <- function(export_notes, data) {
   }
 
   if(length(log) > 0) {
-    stop(paste(log, collapse = "\n"))
+    log <- paste(log, collapse = "\n")
+    cat(log, file = file)
+  } else {
+    cat("Check complete: All forms correct", file = file)
   }
-
-  cat("Check complete\nAll forms correct")
 
 }
