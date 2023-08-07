@@ -1,4 +1,4 @@
-end_box <- function(width = getOptions("width", 80)){
+end_box <- function(width = getOption("width", 80)){
 
   context <- rstudioapi::getActiveDocumentContext()
 
