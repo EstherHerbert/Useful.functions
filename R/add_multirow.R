@@ -15,6 +15,8 @@
 #'                removed. If rows isn't given then the calculated number of
 #'                rows will be negated. This features is useful when colouring
 #'                tables.
+#' @param hline Logical indicating whether a hline should be added to the start
+#'              of each multirow.
 #'
 #' @return A character string/vector
 #'
@@ -55,7 +57,7 @@ add_multirow <- function(x,
              width, "}{", x[!is.na(x)], "}")
     )
   } else {
-    x[!is.na(x)] <- if_else(
+    x[!is.na(x)] <- dplyr::if_else(
       rows == 1, x[!is.na(x)],
       paste0("\\multirow[", pos, "]{", rows, "}{", width, "}{",
              x[!is.na(x)], "}")
