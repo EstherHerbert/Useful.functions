@@ -5,13 +5,13 @@
 #'
 #' @param x Character vector
 #' @param width Desired width of column to be passed to multirow in latex. e.g.
-#'              `"4cm"`
+#'              \code{"4cm"}
 #' @param pos Character defining the vertical positioning of the text in the
 #'            multirow block. Default is "t" - top. Other options are "c" for
 #'            centre or "b" for bottom.
 #' @param rows Optional number of rows to use, if not given then
-#'             `add_multirow` calculates how many rows to use.
-#' @param reverse If `TRUE` then all by the last duplicate will be
+#'             \code{add_multirow} calculates how many rows to use.
+#' @param reverse If \code{TRUE} then all by the last duplicate will be
 #'                removed. If rows isn't given then the calculated number of
 #'                rows will be negated. This features is useful when colouring
 #'                tables.
@@ -25,18 +25,21 @@
 #'     add_multirow(x, width = "2cm", pos = "c")
 #'
 #' @export
-add_multirow <- function(x, width = "4cm", pos = "t", rows, reverse = FALSE) {
+add_multirow <- function(x,
+                         width = "*",
+                         pos = "t",
+                         rows = .,
+                         reverse = FALSE,
+                         hline = TRUE) {
 
-  if (is.factor(x)) {
-    x <- as.character(x)
-  }
+  x <- as.character(x)
 
   n <- rle(x[!is.na(x)])$lengths
 
   if (!reverse) {
-    x[duplicated(x)] <- NA
+    x[x==lag(x)] <- NA
   } else if (reverse) {
-    x[rev(duplicated(rev(x)))] <- NA
+    x[x==lead(x)] <- NA
     n <- -1 * n
   }
 
@@ -45,10 +48,19 @@ add_multirow <- function(x, width = "4cm", pos = "t", rows, reverse = FALSE) {
   }
 
   # add multirow
-  x[!is.na(x)] <- paste0(
-    "\\multirow[", pos, "]{", rows, "}{", width, "}{",
-    x[!is.na(x)], "}"
-  )
+  if(hline){
+    x[!is.na(x)] <- if_else(
+      rows == 1, paste0("\\hline\n", x[!is.na(x)]),
+      paste0("\\hline\n\\multirow[", pos, "]{", rows, "}{",
+             width, "}{", x[!is.na(x)], "}")
+    )
+  } else {
+    x[!is.na(x)] <- if_else(
+      rows == 1, x[!is.na(x)],
+      paste0("\\multirow[", pos, "]{", rows, "}{", width, "}{",
+             x[!is.na(x)], "}")
+    )
+  }
 
   return(x)
 }
