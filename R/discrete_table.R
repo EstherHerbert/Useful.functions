@@ -52,7 +52,7 @@ discrete_table <- function(df = .,
   if(!n){
     df <- df %>%
       dplyr::mutate(
-        dplyr::across(c(...), ~forcats::fct_explicit_na(.x, na_level = missing))
+        dplyr::across(c(...), ~forcats::fct_na_value_to_level(.x, level = missing))
       )
   }
 
