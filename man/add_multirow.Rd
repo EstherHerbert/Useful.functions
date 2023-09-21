@@ -30,6 +30,9 @@ centre or "b" for bottom.}
 removed. If rows isn't given then the calculated number of
 rows will be negated. This features is useful when colouring
 tables.}
+
+\item{hline}{Logical indicating whether a hline should be added to the start
+of each multirow.}
 }
 \value{
 A character string/vector

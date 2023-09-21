@@ -39,9 +39,9 @@ add_multirow <- function(x,
   n <- rle(x[!is.na(x)])$lengths
 
   if (!reverse) {
-    x[x==lag(x)] <- NA
+    x[x == dplyr::lag(x)] <- NA
   } else if (reverse) {
-    x[x==lead(x)] <- NA
+    x[x == dplyr::lead(x)] <- NA
     n <- -1 * n
   }
 
@@ -51,7 +51,7 @@ add_multirow <- function(x,
 
   # add multirow
   if(hline){
-    x[!is.na(x)] <- if_else(
+    x[!is.na(x)] <- dplyr::if_else(
       rows == 1, paste0("\\hline\n", x[!is.na(x)]),
       paste0("\\hline\n\\multirow[", pos, "]{", rows, "}{",
              width, "}{", x[!is.na(x)], "}")
