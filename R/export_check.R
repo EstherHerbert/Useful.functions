@@ -66,7 +66,7 @@ export_check <- function(export_notes, data, save.log = FALSE, file = "") {
     log <- paste(log, collapse = "\n")
     cat(log, file = file)
   } else {
-    cat("Check complete: All forms correct", file = file)
+    cat("Check complete: All forms correct\n", file = file)
   }
 
 }
