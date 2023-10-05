@@ -1,3 +1,0 @@
-options(
-  usethis.protocol  = "ssh"
-)
