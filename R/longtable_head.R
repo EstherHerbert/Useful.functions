@@ -29,7 +29,7 @@ longtable_head <- function(xtab,
                            double.header = FALSE,
                            pos = 0){
 
-  header <- makerow(names(xtab))
+  header <- makerow(sanitise_percent(names(xtab)))
   if(double.header){
     header <- paste0(header, "\n", makerow(xtab[1,]))
   }
