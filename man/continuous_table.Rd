@@ -11,7 +11,7 @@ continuous_table(
   time = .,
   total = TRUE,
   digits = 2,
-  consense = FALSE
+  condense = FALSE
 )
 }
 \arguments{

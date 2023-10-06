@@ -28,7 +28,7 @@ continuous_table <- function(df = .,
                              time = .,
                              total = TRUE,
                              digits = 2,
-                             consense = FALSE) {
+                             condense = FALSE) {
 
   if(!missing(time) & missing(group)) {
     stop("Time can currenlty only be used with a group variable")
