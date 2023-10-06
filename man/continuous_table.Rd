@@ -4,7 +4,15 @@
 \alias{continuous_table}
 \title{Produce a data frame to summaries continuous variables}
 \usage{
-continuous_table(df, ..., group, time, total = TRUE, digits = 2)
+continuous_table(
+  df = .,
+  ...,
+  group = .,
+  time = .,
+  total = TRUE,
+  digits = 2,
+  consense = FALSE
+)
 }
 \arguments{
 \item{df}{Data frame}
@@ -19,6 +27,9 @@ continuous_table(df, ..., group, time, total = TRUE, digits = 2)
 \item{total}{Logical indicating whether a total column should be created}
 
 \item{digits}{Number of digits to the right of the decimal point}
+
+\item{condense}{should the \code{variable} and \code{scoring} columns in the output be
+condensed to one column?}
 }
 \value{
 A tibble data frame summarising the data

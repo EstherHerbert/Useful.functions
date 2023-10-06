@@ -10,6 +10,8 @@
 #'             (currently must me used with group)
 #' @param total Logical indicating whether a total column should be created
 #' @param digits Number of digits to the right of the decimal point
+#' @param condense should the `variable` and `scoring` columns in the output be
+#'                 condensed to one column?
 #'
 #' @examples
 #'     continuous_table(df = iris, Petal.Length, Petal.Width, group = Species)
@@ -20,7 +22,13 @@
 #' @return A tibble data frame summarising the data
 #'
 #' @export
-continuous_table <- function(df, ..., group, time, total = TRUE, digits = 2) {
+continuous_table <- function(df = .,
+                             ...,
+                             group = .,
+                             time = .,
+                             total = TRUE,
+                             digits = 2,
+                             consense = FALSE) {
 
   if(!missing(time) & missing(group)) {
     stop("Time can currenlty only be used with a group variable")
@@ -198,6 +206,15 @@ continuous_table <- function(df, ..., group, time, total = TRUE, digits = 2) {
                       ~dplyr::if_else(variable == "N", NA_character_,
                                       as.character(.x)))
       )
+  }
+
+  if(condense) {
+    new <- new %>%
+      mutate(
+        variable = if_else(scoring == "n", as.character(variable),
+                           paste("  ", scoring))
+      ) %>%
+      select(-scoring)
   }
 
   return(new)
