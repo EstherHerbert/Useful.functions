@@ -25,13 +25,35 @@ output:
 
 ```{r setup, include=FALSE}
 # Suggested set-up options
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, 
+                      results = "asis", fig.align = "center", fig.pos = "H",
+                      # The figure file path is relative to the location of this
+                      # Rmd file, not the working directory.
+                      fig.path = "../../Outputs/Figures/", dev = "png", 
+                      dpi = 300, fig.asp = 0.8, fig.width = 6, out.width = "80%",
+                      fig.process = function(path) {
+                        newpath <- stringr::str_remove(path, pattern = "-1")
+                        fs::file_move(path = path, new_path = newpath)
+                        ifelse(fs::file_exists(newpath), newpath, path)
+                      })
+
+# Default options for the xtable package
+options(xtable.include.rownames = FALSE, xtable.comment = FALSE,
+        xtable.caption.placement = "top", 
+        xtable.sanitize.text.function = sanitise_percent,
+        xtable.latex.environments = "",
+        xtable.table.placement = "H")
+
+# Update this to set your theme for graphs for the whole report
+theme_set(theme_bw(base_size = 12))
+
+# If saving tables created in this report to excel then set up the workbook here
+# (requires openxlsx)
+tables <- createWorkbook()
 ```
 
-# Adding an RMarkdown Template
+# Statistics Report Template
 
-This file is what a user will see when they select your template. Make sure that you update the fields in the yaml header. In particular you will want to update the `output` field to whatever format your template requires.
+This template is designed to create a reproducible report, for use at Sheffield CTRU. It uses LaTeX to produce a pdf report and familiarity with LaTeX is essential for its use.
 
-This is a good place to demonstrate special features that your template provides. Ideally it should knit out-of-the-box, or at least contain clear instructions as to what needs changing.
-
-Finally, be sure to remove this message!
+It is recommended that reading in the data, data wrangling and analyses take place in R scripts outside of this report and that this report is rendered using `rmarkdown::render()` rather than the knit button.
