@@ -58,7 +58,7 @@ $if(appendices)$\crefname{appsec}{Appendix}{Appendices}$endif$
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhf{}
-\rhead{\today}
+\rhead{$date$}
 $if(short_title)$\lhead{$short_title$} $endif$
 \lfoot{Stats-report $if(draft)$draft $draft$ $endif$$if(version)$ v$version$ $endif$}
 \rfoot{\thepage}
@@ -85,7 +85,7 @@ $if(study_logo) $\includegraphics[width=0.5\textwidth]{$study_logo$}\\ $endif$
 $if(long_title)$ $long_title$\\[5mm] $endif$
 {\Huge Statistics Report}\\
 $if(draft)${\Large Draft $draft$ of }$endif$ $if(version)${\Large Version $version$}\\$endif$
-{\Large \today}
+{\Large $date$}
 \end{center}
 
 \begin{singlespace}

@@ -3,6 +3,7 @@ short_title: short study title
 long_title: long study title
 study_logo: location of study logo
 version: 1
+date: '\today'
 author:
   name: Joe Blogs
   address: Deppartment, University
