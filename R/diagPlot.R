@@ -67,19 +67,23 @@ diagPlot.lme <- function(model, plot = FALSE, ...) {
     dplyr::mutate(
       .residfixed = score - .fixed
     )
-  tid <- broom.mixed::tidy(model, effects = c("fixed", "ran_pars", "ran_coefs"))
+  tid <- broom.mixed::tidy(model, effects = "ran_vals")
 
   p1 <- ggplot2::ggplot(aug, ggplot2::aes(.fixed, .residfixed)) +
     ggplot2::geom_point() +
     ggplot2::labs(x = "Fitted values", y = "Population level residuals") +
     ggplot2::theme_bw()
 
-  p2 <- dplyr::filter(tid, effect == "ran_coefs") %>%
-    ggplot2::ggplot(ggplot2::aes(sample = estimate)) +
+  p2 <- ggplot2::ggplot(tid, ggplot2::aes(sample = estimate)) +
     ggplot2::geom_qq() +
     ggplot2::geom_qq_line(lty = "dashed") +
     ggplot2::labs(x = "Quantiles of standard normal", y = "Random effects") +
     ggplot2::theme_bw()
+
+  if(length(unique(tid$group)) > 1) {
+    p2 <- p2 +
+      ggplot2::facet_grid(cols = vars(group))
+  }
 
   p3 <- ggplot2::ggplot(aug, ggplot2::aes(.fitted, .resid)) +
     ggplot2::geom_point() +
