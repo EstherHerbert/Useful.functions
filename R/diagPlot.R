@@ -67,6 +67,7 @@ diagPlot.lme <- function(model, plot = FALSE, ...) {
     dplyr::mutate(
       .residfixed = score - .fixed
     )
+
   tid <- broom.mixed::tidy(model, effects = "ran_vals")
 
   p1 <- ggplot2::ggplot(aug, ggplot2::aes(.fixed, .residfixed)) +
