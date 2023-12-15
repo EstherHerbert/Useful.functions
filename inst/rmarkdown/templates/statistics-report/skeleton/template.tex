@@ -32,10 +32,12 @@ $if(bibliography)$
 \addbibresource{$bibliography$}
 $endif$
 \usepackage[noabbrev,nameinlink,capitalise]{cleveref}
+
 $if(appendices)$\crefname{appsec}{Appendix}{Appendices}$endif$
 
 % Font
-\renewcommand{\familydefault}{\sfdefault}
+\usepackage[default]{sourcesanspro}
+\usepackage[T1]{fontenc}
 
 % New Table column types
 \newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
