@@ -21,13 +21,14 @@ wrangle_lookups <- function(lookups, fields) {
 
   width <- max(stringr::str_count(lookups$Values, "\\|")) + 1
 
-  lookups <- lookups %>%
+  lookups <-  lookups %>%
     tidyr::separate(Values, into = paste0("X", 1:width), sep = " \\| ",
                     fill = "right") %>%
     tidyr::pivot_longer(starts_with("X"), names_to = "temp", values_to = "code",
                         values_drop_na = T) %>%
     tidyr::separate(code, into = c("code", "label"), sep = "=",
                     extra = "merge") %>%
+    dplyr::mutate(code = stringr::str_trim(code)) %>%
     dplyr::select(Options = Identifier, code, label)
 
 
