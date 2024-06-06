@@ -35,7 +35,7 @@ missing_table <- function (df = .,
     new <- df %>%
       dplyr::select(!!group, !!!variables) %>%
       tidyr::pivot_longer(-!!group, names_to = "variable",
-                          values_to = "value") %>%
+                          values_to = "value", values_transform = as.character) %>%
       dplyr::count(!!group, variable, is.na(value)) %>%
       tidyr::complete(!!group, variable, `is.na(value)`, fill = list(n = 0)) %>%
       dplyr::group_by(!!group, variable) %>%
@@ -45,8 +45,9 @@ missing_table <- function (df = .,
         Missing = dplyr::if_else(`is.na(value)`, "Missing", "Present")
       ) %>%
       dplyr::select(-`is.na(value)`) %>%
-      dplyr::ungroup %>%
-      tidyr::pivot_longer(c(n, N), names_to = "stat", values_to = "value") %>%
+      dplyr::ungroup() %>%
+      tidyr::pivot_longer(c(n, N), names_to = "stat", values_to = "value",
+                          values_transform = as.character) %>%
       tidyr::pivot_wider(names_from = !!group, values_from = value) %>%
       dplyr::mutate(
         dplyr::across(c(variable, Missing),
@@ -63,7 +64,7 @@ missing_table <- function (df = .,
     new <- df %>%
       dplyr::select(!!!variables) %>%
       tidyr::pivot_longer(dplyr::everything(), names_to = "variable",
-                          values_to = "value") %>%
+                          values_to = "value", values_transform = as.character) %>%
       dplyr::count(variable, is.na(value)) %>%
       tidyr::complete(variable, `is.na(value)`, fill = list(n = 0)) %>%
       dplyr::group_by(variable) %>%
@@ -73,8 +74,9 @@ missing_table <- function (df = .,
         Missing = dplyr::if_else(`is.na(value)`, "Missing", "Present")
       ) %>%
       dplyr::select(-`is.na(value)`) %>%
-      dplyr::ungroup %>%
-      tidyr::pivot_longer(c(n, N), names_to = "stat", values_to = "value") %>%
+      dplyr::ungroup() %>%
+      tidyr::pivot_longer(c(n, N), names_to = "stat", values_to = "value",
+                          values_transform = as.character) %>%
       dplyr::mutate(
         dplyr::across(c(variable, Missing),
                       ~dplyr::if_else(stat == "N", "N", .x))
