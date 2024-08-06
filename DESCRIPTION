@@ -26,5 +26,8 @@ Imports:
     stringr
 Roxygen: list(markdown = TRUE)
 Suggests: 
+    knitr,
+    rmarkdown,
     xtable
 URL: https://estherherbert.github.io/Useful.functions/
+VignetteBuilder: knitr

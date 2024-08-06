@@ -1,4 +1,46 @@
 url: https://estherherbert.github.io/Useful.functions/
 template:
   bootstrap: 5
+reference:
+- title: Working with data from Prospect
+  contents:
+  - wrangle_lookups
+  - read_prospect
+  - apply_labels
+  - export_check
 
+- title: Summary tables
+  contents:
+  - continuous_table
+  - discrete_table
+  - missing_table
+  - ticked_table
+  - ae_table
+
+- title: Functions for use with `xtable`
+  contents:
+  - add_clines
+  - add_multirow
+  - longtable_head
+  - makerow
+  - merge_colnames
+  - prevent_pagebreak
+  - sanitise_percent
+
+- title: Other functions
+  contents:
+  - diagPlot
+  - file_stamp
+  - package_info
+  - remove_duplicates
+  - row_to_colnames
+  - colnames_to_row
+  - search_list
+  - split_colnames
+  - stata_expand
+  - strwrap_factor
+  - totals
+  - get_unicol
+  - display_unicol
+  - unicol
+  - round0
