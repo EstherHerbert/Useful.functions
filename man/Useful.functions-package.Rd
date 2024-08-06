@@ -8,6 +8,13 @@
 \description{
 What the package does (one paragraph).
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://estherherbert.github.io/Useful.functions/}
+}
+
+}
 \author{
 \strong{Maintainer}: Esther Herbert \email{E.Herbert@sheffield.ac.uk}
 

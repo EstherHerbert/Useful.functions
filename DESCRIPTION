@@ -27,3 +27,4 @@ Imports:
 Roxygen: list(markdown = TRUE)
 Suggests: 
     xtable
+URL: https://estherherbert.github.io/Useful.functions/
