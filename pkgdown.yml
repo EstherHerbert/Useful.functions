@@ -1,8 +1,9 @@
 pandoc: 3.1.11
 pkgdown: 2.1.0
 pkgdown_sha: ~
-articles: {}
-last_built: 2024-08-06T14:24Z
+articles:
+  Usefulfunctions: Usefulfunctions.html
+last_built: 2024-08-06T14:56Z
 urls:
   reference: https://estherherbert.github.io/Useful.functions/reference
   article: https://estherherbert.github.io/Useful.functions/articles

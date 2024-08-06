@@ -16,6 +16,10 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/Usefulfunctions.html">Introduction to Useful.functions</a></li>
+  </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
       </ul></div>
@@ -30,7 +34,83 @@
     </div>
 
     <div class="section level2">
-      <h2 id="all-functions">All functions<a class="anchor" aria-label="anchor" href="#all-functions"></a></h2>
+      <h2 id="working-with-data-from-prospect">Working with data from Prospect<a class="anchor" aria-label="anchor" href="#working-with-data-from-prospect"></a></h2>
+
+
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="wrangle_lookups.html">wrangle_lookups()</a></code>
+
+        </dt>
+        <dd>Wrangle the Edith database spec into a sing lookups data frame</dd>
+      </dl><dl><dt>
+
+          <code><a href="read_prospect.html">read_prospect()</a></code>
+
+        </dt>
+        <dd>Reads in csv files as exported by Prospect</dd>
+      </dl><dl><dt>
+
+          <code><a href="apply_labels.html">apply_labels()</a></code>
+
+        </dt>
+        <dd>Apply labels from a dataspec to a column</dd>
+      </dl><dl><dt>
+
+          <code><a href="export_check.html">export_check()</a></code>
+
+        </dt>
+        <dd>Checks imported form lengths against the export note produced by prospect.</dd>
+      </dl></div><div class="section level2">
+      <h2 id="summary-tables">Summary tables<a class="anchor" aria-label="anchor" href="#summary-tables"></a></h2>
+
+
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="continuous_table.html">continuous_table()</a></code>
+
+        </dt>
+        <dd>Produce a data frame to summaries continuous variables</dd>
+      </dl><dl><dt>
+
+          <code><a href="discrete_table.html">discrete_table()</a></code>
+
+        </dt>
+        <dd>Produce a dataframe to summarise discrete variables</dd>
+      </dl><dl><dt>
+
+          <code><a href="missing_table.html">missing_table()</a></code>
+
+        </dt>
+        <dd>Produce a dataframe to summarise data completeness for variables</dd>
+      </dl><dl><dt>
+
+          <code><a href="ticked_table.html">ticked_table()</a></code>
+
+        </dt>
+        <dd>Produce a dataframe to summarise ticked variables</dd>
+      </dl><dl><dt>
+
+          <code><a href="ae_table.html">ae_table()</a></code>
+
+        </dt>
+        <dd>Produce a data frame to summarise adverse event data.</dd>
+      </dl></div><div class="section level2">
+      <h2 id="functions-for-use-with-xtable-">Functions for use with <code>xtable</code><a class="anchor" aria-label="anchor" href="#functions-for-use-with-xtable-"></a></h2>
 
 
 
@@ -54,60 +134,6 @@
         <dd>For use with latex summary tables</dd>
       </dl><dl><dt>
 
-          <code><a href="ae_table.html">ae_table()</a></code>
-
-        </dt>
-        <dd>Produce a data frame to summarise adverse event data.</dd>
-      </dl><dl><dt>
-
-          <code><a href="apply_labels.html">apply_labels()</a></code>
-
-        </dt>
-        <dd>Apply labels from a dataspec to a column</dd>
-      </dl><dl><dt>
-
-          <code><a href="colnames_to_row.html">colnames_to_row()</a></code>
-
-        </dt>
-        <dd>Move the column names of a data frame to a row</dd>
-      </dl><dl><dt>
-
-          <code><a href="continuous_table.html">continuous_table()</a></code>
-
-        </dt>
-        <dd>Produce a data frame to summaries continuous variables</dd>
-      </dl><dl><dt>
-
-          <code><a href="diagPlot.html">diagPlot()</a></code>
-
-        </dt>
-        <dd>Diagnostic plots</dd>
-      </dl><dl><dt>
-
-          <code><a href="discrete_table.html">discrete_table()</a></code>
-
-        </dt>
-        <dd>Produce a dataframe to summarise discrete variables</dd>
-      </dl><dl><dt>
-
-          <code><a href="display_unicol.html">display_unicol()</a></code> <code><a href="display_unicol.html">get_unicol()</a></code>
-
-        </dt>
-        <dd>Use the University of Sheffield Colour Palette</dd>
-      </dl><dl><dt>
-
-          <code><a href="export_check.html">export_check()</a></code>
-
-        </dt>
-        <dd>Checks imported form lengths against the export note produced by prospect.</dd>
-      </dl><dl><dt>
-
-          <code><a href="file_stamp.html">file_stamp()</a></code>
-
-        </dt>
-        <dd>Produce a file name string with date-time stamp</dd>
-      </dl><dl><dt>
-
           <code><a href="longtable_head.html">longtable_head()</a></code>
 
         </dt>
@@ -126,10 +152,39 @@
         <dd>For use with <code>xtable</code>'s <code>add.to.row</code> when column names are repeated and should be merged.</dd>
       </dl><dl><dt>
 
-          <code><a href="missing_table.html">missing_table()</a></code>
+          <code><a href="prevent_pagebreak.html">prevent_pagebreak()</a></code>
 
         </dt>
-        <dd>Produce a dataframe to summarise data completeness for variables</dd>
+        <dd>Preventing page breaks when using in long tables exported from <code>xtable()</code></dd>
+      </dl><dl><dt>
+
+          <code><a href="sanitise_percent.html">sanitise_percent()</a></code>
+
+        </dt>
+        <dd>Sanitise function for use with <code>print.xtable</code></dd>
+      </dl></div><div class="section level2">
+      <h2 id="other-functions">Other functions<a class="anchor" aria-label="anchor" href="#other-functions"></a></h2>
+
+
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="diagPlot.html">diagPlot()</a></code>
+
+        </dt>
+        <dd>Diagnostic plots</dd>
+      </dl><dl><dt>
+
+          <code><a href="file_stamp.html">file_stamp()</a></code>
+
+        </dt>
+        <dd>Produce a file name string with date-time stamp</dd>
       </dl><dl><dt>
 
           <code><a href="package_info.html">package_info()</a></code>
@@ -138,28 +193,10 @@
         <dd>package_info</dd>
       </dl><dl><dt>
 
-          <code><a href="prevent_pagebreak.html">prevent_pagebreak()</a></code>
-
-        </dt>
-        <dd>Preventing page breaks when using in long tables exported from <code>xtable()</code></dd>
-      </dl><dl><dt>
-
-          <code><a href="read_prospect.html">read_prospect()</a></code>
-
-        </dt>
-        <dd>Reads in csv files as exported by Prospect</dd>
-      </dl><dl><dt>
-
           <code><a href="remove_duplicates.html">remove_duplicates()</a></code>
 
         </dt>
         <dd>For use with tables</dd>
-      </dl><dl><dt>
-
-          <code><a href="round0.html">round0()</a></code>
-
-        </dt>
-        <dd>Rounds numbers but keeps trailing zeros</dd>
       </dl><dl><dt>
 
           <code><a href="row_to_colnames.html">row_to_colnames()</a></code>
@@ -168,10 +205,10 @@
         <dd>Tools for working with column names</dd>
       </dl><dl><dt>
 
-          <code><a href="sanitise_percent.html">sanitise_percent()</a></code>
+          <code><a href="colnames_to_row.html">colnames_to_row()</a></code>
 
         </dt>
-        <dd>Sanitise function for use with <code>print.xtable</code></dd>
+        <dd>Move the column names of a data frame to a row</dd>
       </dl><dl><dt>
 
           <code><a href="search_list.html">search_list()</a></code>
@@ -198,16 +235,16 @@
         <dd>String wrapping for factor variables</dd>
       </dl><dl><dt>
 
-          <code><a href="ticked_table.html">ticked_table()</a></code>
-
-        </dt>
-        <dd>Produce a dataframe to summarise ticked variables</dd>
-      </dl><dl><dt>
-
           <code><a href="totals.html">totals()</a></code>
 
         </dt>
         <dd>Mutates data frame so that summary tables give totals</dd>
+      </dl><dl><dt>
+
+          <code><a href="display_unicol.html">display_unicol()</a></code> <code><a href="display_unicol.html">get_unicol()</a></code>
+
+        </dt>
+        <dd>Use the University of Sheffield Colour Palette</dd>
       </dl><dl><dt>
 
           <code><a href="unicol.html">unicol</a></code>
@@ -216,12 +253,13 @@
         <dd>University of Sheffield Colour Palette</dd>
       </dl><dl><dt>
 
-          <code><a href="wrangle_lookups.html">wrangle_lookups()</a></code>
+          <code><a href="round0.html">round0()</a></code>
 
         </dt>
-        <dd>Wrangle the Edith database spec into a sing lookups data frame</dd>
+        <dd>Rounds numbers but keeps trailing zeros</dd>
       </dl></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
