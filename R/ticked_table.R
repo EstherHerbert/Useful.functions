@@ -8,6 +8,9 @@
 #' @param group Optional variable that defines the grouping
 #' @param sep Optional separator between columns for splitting variable into
 #'            variable and scoring. See ?tidyr::separate for more information.
+#' @param condense should the `variable` and `scoring` columns in the output be
+#'                 condensed to one column? Only used when `sep` has been
+#'                 specified.
 #' @param total Logical indicating whether a total column should be created
 #'
 #' @return A tibble data frame summarising the data
