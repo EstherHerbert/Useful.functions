@@ -29,6 +29,7 @@ ticked_table <- function (df = .,
                           ...,
                           group = .,
                           sep = .,
+                          condense = FALSE,
                           total = TRUE){
 
   variables <- rlang::quos(...)
@@ -110,6 +111,19 @@ ticked_table <- function (df = .,
     new <- new %>%
       tidyr::separate(scoring, into = c("variable", "scoring"),
                       sep = sep, fill = "right")
+
+    if(condense){
+      new <- new %>%
+        dplyr::mutate(variable = readr::parse_factor(variable)) %>%
+        dplyr::group_by(variable) %>%
+        dplyr::group_modify(~dplyr::add_row(.x, .before = 1)) %>%
+        dplyr::mutate(
+          variable = dplyr::if_else(is.na(scoring), as.character(variable),
+                             paste("  ", scoring))
+        ) %>%
+        dplyr::select(-scoring) %>%
+        .[-1,]
+    }
   }
 
   return(new)
