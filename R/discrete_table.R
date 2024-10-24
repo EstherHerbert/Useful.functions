@@ -64,6 +64,8 @@ discrete_table <- function(df = .,
       dplyr::count({{group}}, variable, scoring) %>%
       tidyr::complete({{group}}, tidyr::nesting(variable, scoring),
                       fill = list(n = 0)) %>%
+      tidyr::complete({{group}}, scoring, fill = list(n = 0)) %>%
+      tidyr::fill(variable, .direction = "down") %>%
       dplyr::group_by({{group}}, variable) %>%
       dplyr::mutate(
         N = sum(n)
@@ -94,6 +96,8 @@ discrete_table <- function(df = .,
       tidyr::pivot_longer(dplyr::everything(), names_to = "variable",
                           values_to = "scoring") %>%
       dplyr::count(variable, scoring) %>%
+      tidyr::complete(scoring, fill = list(n = 0)) %>%
+      tidyr::fill(variable, .direction = "down") %>%
       dplyr::group_by(variable) %>%
       dplyr::mutate(
         N = sum(n)
@@ -126,6 +130,8 @@ discrete_table <- function(df = .,
       dplyr::count({{group}}, {{time}}, variable, scoring) %>%
       tidyr::complete({{group}}, {{time}}, tidyr::nesting(variable, scoring),
                       fill = list(n = 0)) %>%
+      tidyr::complete({{group}}, {{time}}, scoring, fill = list(n = 0)) %>%
+      tidyr::fill(variable, .direction = "down") %>%
       dplyr::group_by({{group}}, {{time}}, variable) %>%
       dplyr::mutate(
         N = paste("N =", sum(n))
@@ -228,6 +234,8 @@ discrete_table <- function(df = .,
       ) %>%
       select(-scoring)
   }
+
+  new <- dplyr::relocate(new, variable, .before = scoring)
 
   return(new)
 
