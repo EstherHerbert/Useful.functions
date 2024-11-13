@@ -35,6 +35,8 @@ discrete_table <- function(df = .,
                            accuracy = 0.1,
                            condense = FALSE) {
 
+  variable = lapply(rlang::quos(...), rlang::as_name)
+
   if(!missing(time) & missing(group)) {
     stop("Time can currenlty only be used with a group variable")
   }
@@ -57,25 +59,27 @@ discrete_table <- function(df = .,
   }
 
   if (!missing(group) & missing(time)) {
-    new <- df %>%
-      dplyr::select({{group}}, ...) %>%
-      tidyr::pivot_longer(-{{group}}, names_to = "variable",
-                          values_to = "scoring") %>%
-      dplyr::count({{group}}, variable, scoring) %>%
-      tidyr::complete({{group}}, tidyr::nesting(variable, scoring),
-                      fill = list(n = 0)) %>%
-      tidyr::complete({{group}}, scoring, fill = list(n = 0)) %>%
-      tidyr::fill(variable, .direction = "down") %>%
-      dplyr::group_by({{group}}, variable) %>%
-      dplyr::mutate(
-        N = sum(n)
-      ) %>%
-      dplyr::filter(!is.na(scoring)) %>%
-      dplyr::mutate(
-        p = paste0(n, " (", scales::percent(n/sum(n), accuracy), ")"),
-        n = sum(n)
-      ) %>%
-      dplyr::ungroup() %>%
+    new <- purrr::map(
+      variable, \(x) {
+        dplyr::count(df, {{group}}, !!rlang::sym(x), .drop = F) %>%
+          dplyr::group_by({{group}}) %>%
+          dplyr::mutate(
+            N = paste("N =", sum(n)),
+          ) %>%
+          dplyr::filter(!is.na(!!rlang::sym(x))) %>%
+          dplyr::mutate(
+            {{group}},
+            variable = x,
+            scoring = !!rlang::sym(x),
+            N,
+            p = paste0(n, " (", scales::percent(n/sum(n)), ")"),
+            n = sum(n),
+            .keep = 'none'
+          ) %>%
+          dplyr::ungroup()
+      }
+    ) %>%
+      dplyr::bind_rows() %>%
       tidyr::pivot_longer(-c({{group}}, variable, scoring), names_to = "stat",
                           values_to = "value",
                           values_transform = as.character) %>%
@@ -85,29 +89,27 @@ discrete_table <- function(df = .,
         scoring = ifelse(stat %in% c("N", "n"), stat, as.character(scoring))
       ) %>%
       .[!duplicated(.),] %>%
-      dplyr::select(-stat) %>%
-      dplyr::mutate(
-        dplyr::across(c(-variable, -scoring),
-                      ~dplyr::if_else(variable == "N", paste("N =", .x), .x))
-      )
+      dplyr::select(-stat)
   } else if(missing(group) & missing(time)) {
-    new <- df %>%
-      dplyr::select(...) %>%
-      tidyr::pivot_longer(dplyr::everything(), names_to = "variable",
-                          values_to = "scoring") %>%
-      dplyr::count(variable, scoring) %>%
-      tidyr::complete(scoring, fill = list(n = 0)) %>%
-      tidyr::fill(variable, .direction = "down") %>%
-      dplyr::group_by(variable) %>%
-      dplyr::mutate(
-        N = sum(n)
-      ) %>%
-      dplyr::filter(!is.na(scoring)) %>%
-      dplyr::mutate(
-        p = paste0(n, " (", scales::percent(n/sum(n), accuracy), ")"),
-        n = sum(n)
-      ) %>%
-      dplyr::ungroup() %>%
+    new <-  purrr::map(
+      variable, \(x) {
+        dplyr::count(df, !!rlang::sym(x), .drop = F) %>%
+          dplyr::mutate(
+            N = paste("N =", sum(n)),
+          ) %>%
+          dplyr::filter(!is.na(!!rlang::sym(x))) %>%
+          dplyr::mutate(
+            variable = x,
+            scoring = !!rlang::sym(x),
+            N,
+            p = paste0(n, " (", scales::percent(n/sum(n)), ")"),
+            n = sum(n),
+            .keep = 'none'
+          ) %>%
+          dplyr::ungroup()
+      }
+    ) %>%
+      dplyr::bind_rows() %>%
       tidyr::pivot_longer(-c(variable, scoring), names_to = "stat",
                           values_to = "value",
                           values_transform = as.character) %>%
@@ -117,31 +119,29 @@ discrete_table <- function(df = .,
                                  as.character(scoring))
       ) %>%
       .[!duplicated(.), ] %>%
-      dplyr::select(-stat) %>%
-      dplyr::mutate(
-        dplyr::across(c(-variable, -scoring),
-                      ~dplyr::if_else(variable == "N", paste("N =", .x), .x))
-      )
+      dplyr::select(-stat)
   } else {
-    new <- df %>%
-      dplyr::select({{group}}, {{time}}, ...) %>%
-      tidyr::pivot_longer(-c({{group}}, {{time}}), names_to = "variable",
-                          values_to = "scoring") %>%
-      dplyr::count({{group}}, {{time}}, variable, scoring) %>%
-      tidyr::complete({{group}}, {{time}}, tidyr::nesting(variable, scoring),
-                      fill = list(n = 0)) %>%
-      tidyr::complete({{group}}, {{time}}, scoring, fill = list(n = 0)) %>%
-      tidyr::fill(variable, .direction = "down") %>%
-      dplyr::group_by({{group}}, {{time}}, variable) %>%
-      dplyr::mutate(
-        N = paste("N =", sum(n))
-      ) %>%
-      dplyr::filter(!is.na(scoring)) %>%
-      dplyr::mutate(
-        p = paste0(n, " (", scales::percent(n/sum(n), accuracy), ")"),
-        n = sum(n)
-      ) %>%
-      dplyr::ungroup() %>%
+    new <-  purrr::map(
+      variable, \(x) {
+        dplyr::count(df, {{time}}, {{group}}, !!rlang::sym(x), .drop = F) %>%
+          dplyr::group_by({{time}}, {{group}}) %>%
+          dplyr::mutate(
+            N = paste("N =", sum(n)),
+          ) %>%
+          dplyr::filter(!is.na(!!rlang::sym(x))) %>%
+          dplyr::mutate(
+            {{time}}, {{group}},
+            variable = x,
+            scoring = !!rlang::sym(x),
+            N,
+            p = paste0(n, " (", scales::percent(n/sum(n)), ")"),
+            n = sum(n),
+            .keep = 'none'
+          ) %>%
+          dplyr::ungroup()
+      }
+    ) %>%
+      dplyr::bind_rows() %>%
       tidyr::pivot_longer(-c({{group}}, {{time}}, variable, scoring),
                           names_to = "stat", values_to = "value",
                           values_transform = as.character) %>%
@@ -155,40 +155,19 @@ discrete_table <- function(df = .,
       dplyr::select(-stat)
   }
 
-  order <- dplyr::select(df, ...) %>%
-    colnames()
-
-  order2 <- df %>%
-    dplyr::select(...) %>%
-    dplyr::mutate(dplyr::across(dplyr::everything(), as.factor)) %>%
-    as.list() %>%
-    purrr::map(~ levels(.)) %>%
-    unlist(.) %>%
-    unname() %>%
-    .[!duplicated(.)]
-
   if(!n){
     new <- new %>%
       dplyr::filter(scoring != "n" | is.na(scoring))
   }
 
   if(missing(time)){
-    suppressWarnings(
       new <- new %>%
-        dplyr::mutate(
-          variable = readr::parse_factor(variable, c("N", order)),
-          scoring = readr::parse_factor(scoring, c("N", "n", order2) %>%
-                                          .[!duplicated(.)]) %>%
-            forcats::fct_relevel("Other", after = Inf) %>%
-            forcats::fct_relevel(missing, after = Inf)
-        ) %>%
-        dplyr::arrange(variable, scoring) %>%
         dplyr::mutate(
           dplyr::across(c(variable, scoring),
                         ~dplyr::if_else(scoring == "N", NA_character_,
                                         as.character(.x)))
-        )
-    )
+        ) %>%
+        dplyr::arrange(!is.na(variable))
   } else {
     order3 <- df %>%
       dplyr::mutate({{time}} := as.factor({{time}})) %>%
@@ -196,46 +175,41 @@ discrete_table <- function(df = .,
       purrr::map(levels) %>%
       .[[1]]
 
-    suppressWarnings(
       new <- new %>%
         dplyr::mutate(
           {{time}} := readr::parse_factor({{time}}, c("N", order3)),
-          variable = readr::parse_factor(variable, c("N", order)),
-          scoring = readr::parse_factor(scoring, c("N", "n", order2) %>%
-                                          .[!duplicated(.)]) %>%
-            forcats::fct_relevel("Other", after = Inf) %>%
-            forcats::fct_relevel("Missing", after = Inf)
         ) %>%
-        dplyr::arrange({{time}}, variable, scoring) %>%
+        dplyr::arrange({{time}}) %>%
         dplyr::mutate(
           dplyr::across(c({{time}}, variable, scoring),
                         ~dplyr::if_else(scoring == "N", NA_character_,
                                         as.character(.x)))
         )
-    )
   }
 
   if(condense & !n){
     new <- new %>%
-      mutate(variable = readr::parse_factor(variable)) %>%
-      group_by(variable) %>%
-      group_modify(~add_row(.x, .before = 1)) %>%
-      mutate(
-        variable = if_else(is.na(scoring), as.character(variable),
+      dplyr::mutate(variable = readr::parse_factor(variable)) %>%
+      dplyr::group_by(variable) %>%
+      dplyr::group_modify(~dplyr::add_row(.x, .before = 1)) %>%
+      dplyr::mutate(
+        variable = dplyr::if_else(is.na(scoring), as.character(variable),
                            paste("  ", scoring))
       ) %>%
-      select(-scoring) %>%
+      dplyr::select(-scoring) %>%
       .[-1,]
+
+    if(!missing(time)) {
+      new <- dplyr::relocate(new, {{time}}, .before = variable)
+    }
   } else if(condense) {
     new <- new %>%
-      mutate(
-        variable = if_else(scoring == "n", as.character(variable),
+      dplyr::mutate(
+        variable = dplyr::if_else(scoring == "n", as.character(variable),
                            paste("  ", scoring))
       ) %>%
-      select(-scoring)
+      dplyr::select(-scoring)
   }
-
-  new <- dplyr::relocate(new, variable, .before = scoring)
 
   return(new)
 
