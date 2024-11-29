@@ -44,3 +44,4 @@ reference:
   - display_unicol
   - unicol
   - round0
+  - git_log
