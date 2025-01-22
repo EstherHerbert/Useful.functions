@@ -42,7 +42,15 @@ ticked variables.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ticked_table</span><span class="op">(</span>df <span class="op">=</span> <span class="va">.</span>, <span class="va">...</span>, group <span class="op">=</span> <span class="va">.</span>, sep <span class="op">=</span> <span class="va">.</span>, condense <span class="op">=</span> <span class="cn">FALSE</span>, total <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ticked_table</span><span class="op">(</span></span>
+<span>  df <span class="op">=</span> <span class="va">.</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  group <span class="op">=</span> <span class="va">.</span>,</span>
+<span>  sep <span class="op">=</span> <span class="va">.</span>,</span>
+<span>  digits <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  condense <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  total <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -64,6 +72,10 @@ ticked variables.</p>
 <dt id="arg-sep">sep<a class="anchor" aria-label="anchor" href="#arg-sep"></a></dt>
 <dd><p>Optional separator between columns for splitting variable into
 variable and scoring. See ?tidyr::separate for more information.</p></dd>
+
+
+<dt id="arg-digits">digits<a class="anchor" aria-label="anchor" href="#arg-digits"></a></dt>
+<dd><p>Number of digits to the right of the decimal point</p></dd>
 
 
 <dt id="arg-condense">condense<a class="anchor" aria-label="anchor" href="#arg-condense"></a></dt>
