@@ -4,7 +4,15 @@
 \alias{ticked_table}
 \title{Produce a dataframe to summarise ticked variables}
 \usage{
-ticked_table(df = ., ..., group = ., sep = ., condense = FALSE, total = TRUE)
+ticked_table(
+  df = .,
+  ...,
+  group = .,
+  sep = .,
+  digits = 1,
+  condense = FALSE,
+  total = TRUE
+)
 }
 \arguments{
 \item{df}{Data Frame}
@@ -15,6 +23,8 @@ ticked_table(df = ., ..., group = ., sep = ., condense = FALSE, total = TRUE)
 
 \item{sep}{Optional separator between columns for splitting variable into
 variable and scoring. See ?tidyr::separate for more information.}
+
+\item{digits}{Number of digits to the right of the decimal point}
 
 \item{condense}{should the \code{variable} and \code{scoring} columns in the output be
 condensed to one column? Only used when \code{sep} has been

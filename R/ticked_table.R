@@ -8,6 +8,7 @@
 #' @param group Optional variable that defines the grouping
 #' @param sep Optional separator between columns for splitting variable into
 #'            variable and scoring. See ?tidyr::separate for more information.
+#' @param digits Number of digits to the right of the decimal point
 #' @param condense should the `variable` and `scoring` columns in the output be
 #'                 condensed to one column? Only used when `sep` has been
 #'                 specified.
