@@ -18,7 +18,8 @@ git_log <- function(filename = file_stamp("git_log", ".csv")) {
     stop("This function only works on Windows operating systems.")
   }
 
-  call <- paste("git log --pretty=format:\"%h,%D,%an,%aI,%f\" >", filename)
+  call <- paste0("git log --pretty=format:\"%h,%(decorate:prefix=,suffix=,",
+                 "separator= ),%an,%aI,%f\"  > ", filename)
 
   shell(call, shell = "cmd")
 
