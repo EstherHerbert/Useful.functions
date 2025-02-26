@@ -4,7 +4,7 @@
 \alias{start_analysis}
 \title{Start Analysis Template}
 \usage{
-start_analysis(path)
+start_analysis(path, ...)
 }
 \arguments{
 \item{path}{The path for the analysis folder.}

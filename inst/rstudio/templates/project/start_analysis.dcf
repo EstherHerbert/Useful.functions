@@ -2,3 +2,9 @@ Binding: start_analysis
 Title: Start Analysis Template
 Subtitle: Create the folder structure for an analysis project in RStudio
 OpenFiles: Programs/Master.R
+
+Parameter: createGitignore
+Widget: CheckboxInput
+Label: Use git
+Default: On
+Position: right
