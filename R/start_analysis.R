@@ -1,11 +1,3 @@
-#' @title Start Analysis Template
-#' @description Create a new RStudio project for analysis. Creates a folder
-#'   structure and RStudio project.
-#' @param path The path for the analysis folder.
-#' @export
-#' @examples
-#' try(start_analysis("path/to/new/project"))
-#' @importFrom usethis create_project
 start_analysis <- function(path, ...) {
 
   # create the necessary directories
