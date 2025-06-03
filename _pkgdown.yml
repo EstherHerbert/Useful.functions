@@ -16,6 +16,7 @@ reference:
   - missing_table
   - ticked_table
   - ae_table
+  - condense
 
 - title: Functions for use with `xtable`
   contents:

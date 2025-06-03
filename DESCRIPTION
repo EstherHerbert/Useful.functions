@@ -23,7 +23,8 @@ Imports:
     readr,
     rstudioapi,
     scales,
-    stringr
+    stringr,
+    lifecycle
 Roxygen: list(markdown = TRUE)
 Suggests: 
     knitr,
