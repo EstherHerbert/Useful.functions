@@ -24,7 +24,7 @@ start_analysis <- function(path, ...) {
 
   dots <- list(...)
 
-  if(dots[["createGitignore"]]) {
+  if(isTRUE(dots[["createGitignore"]])) {
     git_ignores <-
       c(
         "Outputs/",
@@ -42,6 +42,12 @@ start_analysis <- function(path, ...) {
 
     writeLines(paste(git_ignores, sep = '\n'),
                con = file.path(path,'.gitignore'))
+  }
+
+  if (dots[["statsReport"]] != "") {
+    file <- file.path(path, "Reports", dots[["statsReport"]])
+    rmarkdown::draft(file, template = "statistics-report",
+                     package = "Useful.functions", edit = FALSE)
   }
 
 

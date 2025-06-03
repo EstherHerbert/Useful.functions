@@ -1,5 +1,5 @@
 Binding: start_analysis
-Title: Start Analysis Template
+Title: Start Analysis Folders
 Subtitle: Create the folder structure for an analysis project in RStudio
 OpenFiles: Programs/Master.R
 
@@ -8,3 +8,8 @@ Widget: CheckboxInput
 Label: Use git
 Default: On
 Position: right
+
+Parameter: statsReport
+Widget: TextInput
+Label: Report name
+Position: Left
