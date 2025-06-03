@@ -9,9 +9,8 @@
 #' @param sep Optional separator between columns for splitting variable into
 #'            variable and scoring. See ?tidyr::separate for more information.
 #' @param digits Number of digits to the right of the decimal point
-#' @param condense should the `variable` and `scoring` columns in the output be
-#'                 condensed to one column? Only used when `sep` has been
-#'                 specified.
+#' @param condense `r lifecycle::badge("deprecated")` `condense = TRUE` is
+#'   deprecated, use [condense()] instead.
 #' @param total Logical indicating whether a total column should be created
 #'
 #' @return A tibble data frame summarising the data
@@ -36,6 +35,10 @@ ticked_table <- function (df = .,
                           digits = 1,
                           condense = FALSE,
                           total = TRUE){
+
+  if (isTRUE(condense)) {
+    lifecycle::deprecate_warn("0.4", "ticked_table(condense)", "condense()")
+  }
 
   variables <- rlang::quos(...)
   if (!missing(group)) {

@@ -10,8 +10,8 @@
 #'             (currently must me used with group)
 #' @param total Logical indicating whether a total column should be created
 #' @param digits Number of digits to the right of the decimal point
-#' @param condense should the `variable` and `scoring` columns in the output be
-#'                 condensed to one column?
+#' @param condense `r lifecycle::badge("deprecated")` `condense = TRUE` is
+#'   deprecated, use [condense()] instead.
 #'
 #' @examples
 #'     continuous_table(df = iris, Petal.Length, Petal.Width, group = Species)
@@ -29,6 +29,11 @@ continuous_table <- function(df = .,
                              total = TRUE,
                              digits = 2,
                              condense = FALSE) {
+
+  if (isTRUE(condense)) {
+    lifecycle::deprecate_warn("0.4", "continuous_table(condense)",
+                            "condense()")
+  }
 
   if(!missing(time) & missing(group)) {
     stop("Time can currenlty only be used with a group variable")
@@ -210,11 +215,11 @@ continuous_table <- function(df = .,
 
   if(condense) {
     new <- new %>%
-      mutate(
-        variable = if_else(scoring == "n", as.character(variable),
+      dplyr::mutate(
+        variable = dplyr::if_else(scoring == "n", as.character(variable),
                            paste("  ", scoring))
       ) %>%
-      select(-scoring)
+      dplyr::select(-scoring)
   }
 
   return(new)

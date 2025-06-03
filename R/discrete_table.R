@@ -14,8 +14,8 @@
 #' @param missing String determining what missing data will be called
 #'                (if `n = TRUE`). Default is "Missing".
 #' @param accuracy see details of `scales::percent`
-#' @param condense should the `variable` and `scoring` columns in the output be
-#'                 condensed to one column?
+#' @param condense `r lifecycle::badge("deprecated")` `condense = TRUE` is
+#'   deprecated, use [condense()] instead.
 #'
 #' @examples
 #'     library(ggplot2) # for the data
@@ -34,6 +34,11 @@ discrete_table <- function(df = .,
                            missing = "Missing",
                            accuracy = 0.1,
                            condense = FALSE) {
+
+  if (isTRUE(condense)) {
+    lifecycle::deprecate_warn("0.4", "discrete_table(condense)",
+                              "condense()")
+  }
 
   if(!missing(time) & missing(group)) {
     stop("Time can currenlty only be used with a group variable")
