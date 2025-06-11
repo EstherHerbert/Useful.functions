@@ -1,3 +1,20 @@
+#' Sets up the analysis folder
+#'
+#' `start_analysis()` creates a new directory in which it creates the
+#'   recommended folder structure, copies template `Master.R` and `Read-data.R`
+#'   scripts, and optionally creates a `.gitignore` file and the template
+#'   statistics report also included in `Useful.functions`.
+#'
+#'   This template package can also be implemented through the
+#'   [RStudio IDE][https://support.posit.co/hc/en-us/articles/200526207-Using-RStudio-Projects].
+#'
+#' @param path the path to the new analysis folder
+#' @param createGitignore logical indicating whether a `.gitignore` file should
+#'   be created with standard items which git should ignore.
+#' @param statsReport optional character string with the name of the statistics
+#'   report to be created. This will be created in the Reports folder.
+#'
+#' @export
 start_analysis <- function(path, createGitignore = TRUE, statsReport = NULL) {
 
 
