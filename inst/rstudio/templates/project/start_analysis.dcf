@@ -1,7 +1,6 @@
 Binding: start_analysis
 Title: Start Analysis Folders
 Subtitle: Create the folder structure for an analysis project in RStudio
-OpenFiles: Programs/Master.R
 
 Parameter: createGitignore
 Widget: CheckboxInput
