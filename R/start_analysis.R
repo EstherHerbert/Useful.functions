@@ -1,4 +1,5 @@
-start_analysis <- function(path, ...) {
+start_analysis <- function(path, createGitignore = TRUE, statsReport = NULL) {
+
 
   # create the necessary directories
   dir.create(path, recursive = TRUE, showWarnings = FALSE)
@@ -9,14 +10,16 @@ start_analysis <- function(path, ...) {
   dir.create(file.path(path, "Quality Control"), recursive = TRUE, showWarnings = FALSE)
   dir.create(file.path(path, "Reports"), recursive = TRUE, showWarnings = FALSE)
 
+  # initialize the project
+  rstudioapi::initializeProject(path)
+
   # copy the scripts to the project
   script_source <- system.file("extdata", package = "Useful.functions")
   file.copy(from = file.path(script_source, c("Master.R", "Read-data.R")),
             file.path(path, "Programs"), overwrite = TRUE)
 
-  dots <- list(...)
 
-  if(isTRUE(dots[["createGitignore"]])) {
+  if(isTRUE(createGitignore)) {
     git_ignores <-
       c(
         "Outputs/",
@@ -36,11 +39,10 @@ start_analysis <- function(path, ...) {
                con = file.path(path,'.gitignore'))
   }
 
-  if (dots[["statsReport"]] != "") {
-    file <- file.path(path, "Reports", dots[["statsReport"]])
+  if (!is.null(statsReport) && statsReport != "") {
+    file <- file.path(path, "Reports", statsReport)
     rmarkdown::draft(file, template = "statistics-report",
                      package = "Useful.functions", edit = FALSE)
   }
-
 
 }
