@@ -36,8 +36,8 @@ discrete_table(
 
 \item{accuracy}{see details of \code{scales::percent}}
 
-\item{condense}{should the \code{variable} and \code{scoring} columns in the output be
-condensed to one column?}
+\item{condense}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{condense = TRUE} is
+deprecated, use \code{\link[=condense]{condense()}} instead.}
 }
 \value{
 A tibble data frame summarising the data

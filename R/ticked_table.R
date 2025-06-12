@@ -8,9 +8,9 @@
 #' @param group Optional variable that defines the grouping
 #' @param sep Optional separator between columns for splitting variable into
 #'            variable and scoring. See ?tidyr::separate for more information.
-#' @param condense should the `variable` and `scoring` columns in the output be
-#'                 condensed to one column? Only used when `sep` has been
-#'                 specified.
+#' @param digits Number of digits to the right of the decimal point
+#' @param condense `r lifecycle::badge("deprecated")` `condense = TRUE` is
+#'   deprecated, use [condense()] instead.
 #' @param total Logical indicating whether a total column should be created
 #'
 #' @return A tibble data frame summarising the data
@@ -32,8 +32,13 @@ ticked_table <- function (df = .,
                           ...,
                           group = .,
                           sep = .,
+                          digits = 1,
                           condense = FALSE,
                           total = TRUE){
+
+  if (isTRUE(condense)) {
+    lifecycle::deprecate_warn("0.4", "ticked_table(condense)", "condense()")
+  }
 
   variables <- rlang::quos(...)
   if (!missing(group)) {
@@ -62,7 +67,7 @@ ticked_table <- function (df = .,
       dplyr::group_by(!!group, scoring) %>%
       dplyr::summarise(
         N = paste("N =", dplyr::n()),
-        np = qwraps2::n_perc(value, digits = 1, show_denom = "never", na_rm = T,
+        np = qwraps2::n_perc(value, digits = digits, show_denom = "never", na_rm = T,
                              markup = "markdown")
       ) %>%
       tidyr::pivot_longer(-c(!!group, scoring), names_to = "stat",
@@ -87,7 +92,7 @@ ticked_table <- function (df = .,
       dplyr::group_by(scoring) %>%
       dplyr::summarise(
         N = paste("N =", dplyr::n()),
-        np = qwraps2::n_perc(value, digits = 1, show_denom = "never", na_rm = T,
+        np = qwraps2::n_perc(value, digits = digits, show_denom = "never", na_rm = T,
                              markup = "markdown")
       ) %>%
       tidyr::pivot_longer(-scoring, names_to = "stat", values_to = "value") %>%

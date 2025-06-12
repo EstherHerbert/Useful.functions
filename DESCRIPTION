@@ -1,13 +1,13 @@
 Package: Useful.functions
 Title: Some Useful Functions
-Version: 0.2.5
+Version: 0.3.0.9000
 Authors@R: person("Esther", "Herbert", email = "E.Herbert@sheffield.ac.uk", role = c("aut", "cre"))
 Description: What the package does (one paragraph).
 Depends: R (>= 4.0.0)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Imports: 
     plyr,
     rlang,
@@ -23,11 +23,11 @@ Imports:
     readr,
     rstudioapi,
     scales,
-    stringr
+    stringr,
+    lifecycle
 Roxygen: list(markdown = TRUE)
 Suggests: 
     knitr,
     rmarkdown,
     xtable
 URL: https://estherherbert.github.io/Useful.functions/
-VignetteBuilder: knitr

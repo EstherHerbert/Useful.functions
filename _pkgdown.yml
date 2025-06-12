@@ -16,6 +16,7 @@ reference:
   - missing_table
   - ticked_table
   - ae_table
+  - condense
 
 - title: Functions for use with `xtable`
   contents:
@@ -44,3 +45,5 @@ reference:
   - display_unicol
   - unicol
   - round0
+  - git_log
+  - start_analysis
