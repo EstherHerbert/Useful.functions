@@ -31,4 +31,3 @@ Suggests:
     rmarkdown,
     xtable
 URL: https://estherherbert.github.io/Useful.functions/
-VignetteBuilder: knitr
