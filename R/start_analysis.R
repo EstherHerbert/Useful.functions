@@ -6,7 +6,7 @@
 #'   statistics report also included in `Useful.functions`.
 #'
 #'   This template package can also be implemented through the
-#'   [RStudio IDE][https://support.posit.co/hc/en-us/articles/200526207-Using-RStudio-Projects].
+#'   [RStudio IDE](https://support.posit.co/hc/en-us/articles/200526207-Using-RStudio-Projects).
 #'
 #' @param path the path to the new analysis folder
 #' @param createGitignore logical indicating whether a `.gitignore` file should

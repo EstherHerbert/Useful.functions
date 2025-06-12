@@ -32,5 +32,5 @@ statistics report also included in \code{Useful.functions}.
 }
 \details{
 This template package can also be implemented through the
-\link[=https://support.posit.co/hc/en-us/articles/200526207-Using-RStudio-Projects]{RStudio IDE}.
+\href{https://support.posit.co/hc/en-us/articles/200526207-Using-RStudio-Projects}{RStudio IDE}.
 }
