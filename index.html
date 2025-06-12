@@ -48,6 +48,8 @@
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header"><h1 id="usefulfunctions">Useful.functions<a class="anchor" aria-label="anchor" href="#usefulfunctions"></a>
 </h1></div>
+<!-- badges: start -->
+<!-- badges: end -->
 <p>This package brings together some functions I have created to perform repetitive tasks.</p>
 <p><em><strong>NB:</strong> this README file is a work in progress, for more info on functions please see the specific help files once the package is installed</em></p>
 <div class="section level2">
@@ -82,18 +84,28 @@
 <li>Month Year</li>
 </ul>
 </div>
-</div>
-<div class="section level1">
-<h1 id="templates">Templates<a class="anchor" aria-label="anchor" href="#templates"></a>
-</h1>
+<div class="section level2">
+<h2 id="templates">Templates<a class="anchor" aria-label="anchor" href="#templates"></a>
+</h2>
 <div class="section level3">
 <h3 id="report-template">Report template<a class="anchor" aria-label="anchor" href="#report-template"></a>
 </h3>
 <p>To save time when writing statistics reports I have created an R Markdown template. Currently the report only exports to pdf (my personal preference) but it could be modified to export to word.</p>
 <p>You can access the template either by creating a new R Markdown document from the menu in RStudio and then looking through the templates or using <code>rmarkdown::draft("my-report.Rmd", template = "statistics-report", package = "Useful.functions")</code>. Both of these options will create a folder with your report name containing the markdown file and the templates required to generate the report. I recommend you render it to pdf using <code><a href="https://pkgs.rstudio.com/rmarkdown/reference/render.html" class="external-link">rmarkdown::render</a></code> rather than using the knit button.</p>
 </div>
+<div class="section level3">
+<h3 id="project-template">Project template<a class="anchor" aria-label="anchor" href="#project-template"></a>
+</h3>
+<p>This project template sets up the recommended folder structure for an analysis. It also copies in template <code>Master.R</code> and <code>Read-data.R</code> scripts. Optionally, it can also:</p>
+<ul>
+<li>set-up a <code>.gitignore</code> file</li>
+<li>create a project specific <code>.Rprofile</code> to open <code>Master.R</code> whenever the project is opened.</li>
+<li>use the report template above to start a statistics report</li>
+</ul>
+<p>You can access the project template either by using the <code><a href="reference/start_analysis.html">start_analysis()</a></code> function, or by creating a new project in RStudio from the menu.</p>
 </div>
-
+</div>
+</div>
   </main><aside class="col-md-3"><div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
