@@ -5,6 +5,7 @@
   `discrete_table()` and `ticked_table()`
 * update to `git_log()` so that multiple git tags are kept in one column
 * update to `ticked_table()` to include digits as an option
+* new project template and function to initiate it `start_analysis()`
 
 # Useful.functions 0.3.0
 
