@@ -1,19 +1,21 @@
-#' Produce a dataframe to summarise discrete variables
+#' Produce a data frame to summarise discrete variables
 #'
-#' @description Takes a dataframe and produces the number and percentage for
+#' @description Takes a data frame and produces the number and percentage for
 #'              discrete variables.
 #'
 #' @param df Data Frame
 #' @param ... Variables to be summarised
 #' @param group Optional variable that defines the grouping
-#' @param time Optional variable for repeated measures
-#'             (currently must me used with group)
+#' @param time Optional variable for repeated measures (currently must me used
+#'   with group)
 #' @param total Logical indicating whether a total column should be created
 #' @param n Logical indicating whether percentages should be out of n
 #'          (`n = TRUE`) or N (`n = FALSE`)
 #' @param missing String determining what missing data will be called
 #'                (if `n = TRUE`). Default is "Missing".
-#' @param accuracy see details of `scales::percent`
+#' @param accuracy see details of [scales::percent()]
+#' @param drop.levels logical indicating whether unused levels in the factors
+#'                    should be dropped. Default is `FALSE`.
 #' @param condense `r lifecycle::badge("deprecated")` `condense = TRUE` is
 #'   deprecated, use [condense()] instead.
 #'
@@ -33,6 +35,7 @@ discrete_table <- function(df = .,
                            n = FALSE,
                            missing = "Missing",
                            accuracy = 0.1,
+                           drop.levels = FALSE,
                            condense = FALSE) {
 
 
@@ -61,6 +64,13 @@ discrete_table <- function(df = .,
     df <- df %>%
       dplyr::mutate(
         dplyr::across(c(...), ~forcats::fct_na_value_to_level(.x, level = missing))
+      )
+  }
+
+  if (drop.levels) {
+    df <- df %>%
+      dplyr::mutate(
+        dplyr::across(c(...), ~forcats::fct_drop(.x))
       )
   }
 

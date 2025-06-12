@@ -2,7 +2,7 @@
 % Please edit documentation in R/discrete_table.R
 \name{discrete_table}
 \alias{discrete_table}
-\title{Produce a dataframe to summarise discrete variables}
+\title{Produce a data frame to summarise discrete variables}
 \usage{
 discrete_table(
   df = .,
@@ -13,6 +13,7 @@ discrete_table(
   n = FALSE,
   missing = "Missing",
   accuracy = 0.1,
+  drop.levels = FALSE,
   condense = FALSE
 )
 }
@@ -23,8 +24,8 @@ discrete_table(
 
 \item{group}{Optional variable that defines the grouping}
 
-\item{time}{Optional variable for repeated measures
-(currently must me used with group)}
+\item{time}{Optional variable for repeated measures (currently must me used
+with group)}
 
 \item{total}{Logical indicating whether a total column should be created}
 
@@ -34,7 +35,10 @@ discrete_table(
 \item{missing}{String determining what missing data will be called
 (if \code{n = TRUE}). Default is "Missing".}
 
-\item{accuracy}{see details of \code{scales::percent}}
+\item{accuracy}{see details of \code{\link[scales:percent_format]{scales::percent()}}}
+
+\item{drop.levels}{logical indicating whether unused levels in the factors
+should be dropped. Default is \code{FALSE}.}
 
 \item{condense}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{condense = TRUE} is
 deprecated, use \code{\link[=condense]{condense()}} instead.}
@@ -43,7 +47,7 @@ deprecated, use \code{\link[=condense]{condense()}} instead.}
 A tibble data frame summarising the data
 }
 \description{
-Takes a dataframe and produces the number and percentage for
+Takes a data frame and produces the number and percentage for
 discrete variables.
 }
 \examples{
