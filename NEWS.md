@@ -6,6 +6,9 @@
 * update to `git_log()` so that multiple git tags are kept in one column
 * update to `ticked_table()` to include digits as an option
 * new project template and function to initiate it `start_analysis()`
+* significant update to how `discrete_table()` works under the hood, unused
+  factor levels are now included in the table.
+  * added new option `drop.levels` to drop unused levels.
 
 # Useful.functions 0.3.0
 
