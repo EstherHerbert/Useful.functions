@@ -10,12 +10,16 @@
 #'
 #' @param path the path to the new analysis folder
 #' @param createGitignore logical indicating whether a `.gitignore` file should
-#'   be created with standard items which git should ignore.
+#'   be created with standard items which git should ignore. Default is `TRUE`.
+#' @param rprofile logical indicating whether a project `.Rprofile` should be
+#'   created to automatically open the `Master.R` script when the project is
+#'   opened. Default is `TRUE`.
 #' @param statsReport optional character string with the name of the statistics
 #'   report to be created. This will be created in the Reports folder.
 #'
 #' @export
-start_analysis <- function(path, createGitignore = TRUE, statsReport = NULL) {
+start_analysis <- function(path, createGitignore = TRUE, rprofile = TRUE,
+                           statsReport = NULL) {
 
 
   # create the necessary directories
@@ -54,6 +58,10 @@ start_analysis <- function(path, createGitignore = TRUE, statsReport = NULL) {
 
     writeLines(paste(git_ignores, sep = '\n'),
                con = file.path(path,'.gitignore'))
+  }
+
+  if (isTRUE(rprofile)) {
+    file.copy(from = file.path(script_source, ".Rprofile"), to = path)
   }
 
   if (!is.null(statsReport) && statsReport != "") {

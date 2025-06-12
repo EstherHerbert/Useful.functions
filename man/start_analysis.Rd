@@ -4,13 +4,22 @@
 \alias{start_analysis}
 \title{Sets up the analysis folder}
 \usage{
-start_analysis(path, createGitignore = TRUE, statsReport = NULL)
+start_analysis(
+  path,
+  createGitignore = TRUE,
+  rprofile = TRUE,
+  statsReport = NULL
+)
 }
 \arguments{
 \item{path}{the path to the new analysis folder}
 
 \item{createGitignore}{logical indicating whether a \code{.gitignore} file should
-be created with standard items which git should ignore.}
+be created with standard items which git should ignore. Default is \code{TRUE}.}
+
+\item{rprofile}{logical indicating whether a project \code{.Rprofile} should be
+created to automatically open the \code{Master.R} script when the project is
+opened. Default is \code{TRUE}.}
 
 \item{statsReport}{optional character string with the name of the statistics
 report to be created. This will be created in the Reports folder.}

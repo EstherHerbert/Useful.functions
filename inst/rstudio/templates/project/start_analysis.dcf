@@ -8,6 +8,12 @@ Label: Use git
 Default: On
 Position: right
 
+Parameter: rprofile
+Widget: CheckboxInput
+Label: Create a project specific Rprofile
+Default: On
+Position: right
+
 Parameter: statsReport
 Widget: TextInput
 Label: Report name
