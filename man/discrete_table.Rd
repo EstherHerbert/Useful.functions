@@ -24,7 +24,7 @@ discrete_table(
 \item{group}{Optional variable that defines the grouping}
 
 \item{time}{Optional variable for repeated measures
-(currenlty must me used with group)}
+(currently must me used with group)}
 
 \item{total}{Logical indicating whether a total column should be created}
 

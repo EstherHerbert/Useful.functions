@@ -7,7 +7,7 @@
 #' @param ... Variables to be summarised
 #' @param group Optional variable that defines the grouping
 #' @param time Optional variable for repeated measures
-#'             (currenlty must me used with group)
+#'             (currently must me used with group)
 #' @param total Logical indicating whether a total column should be created
 #' @param n Logical indicating whether percentages should be out of n
 #'          (`n = TRUE`) or N (`n = FALSE`)
