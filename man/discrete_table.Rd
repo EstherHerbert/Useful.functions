@@ -51,8 +51,9 @@ Takes a data frame and produces the number and percentage for
 discrete variables.
 }
 \examples{
-    library(ggplot2) # for the data
-    discrete_table(df = mpg, drv, group = manufacturer)
-    discrete_table(df = mpg, drv)
+    discrete_table(outcome, sex, group = group)
+    discrete_table(outcome, sex, drop.levels = TRUE)
+    discrete_table(outcome, sex, group = group, time = event_name, n = TRUE,
+                   total = FALSE)
 
 }
