@@ -1,0 +1,20 @@
+Binding: start_analysis
+Title: Start Analysis Folders
+Subtitle: Create the folder structure for an analysis project in RStudio
+
+Parameter: createGitignore
+Widget: CheckboxInput
+Label: Use git
+Default: On
+Position: right
+
+Parameter: rprofile
+Widget: CheckboxInput
+Label: Create a project specific Rprofile
+Default: On
+Position: right
+
+Parameter: statsReport
+Widget: TextInput
+Label: Report name
+Position: Left
