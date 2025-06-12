@@ -43,7 +43,11 @@ reference:
   - totals
   - get_unicol
   - display_unicol
-  - unicol
   - round0
   - git_log
   - start_analysis
+
+- title: Data
+  contents:
+  - unicol
+  - outcome
