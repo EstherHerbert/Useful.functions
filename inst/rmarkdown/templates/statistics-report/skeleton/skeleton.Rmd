@@ -16,6 +16,7 @@ bibliography: Refs.bib
 draft: 1
 appendices: appendices.tex
 abbreviations: abbreviations.tex
+landscape: false
 output:
   pdf_document:
     template: template.tex

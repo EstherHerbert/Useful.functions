@@ -1,4 +1,7 @@
-\documentclass[11pt,a4paper,british]{article}
+\documentclass[11pt,a4paper,british,
+$for(classoption)$
+  $classoption$ $sep$,
+$endfor$$if(landscape)$ landscape $endif$]{article}
 \usepackage[margin=1in]{geometry}
 \usepackage{babel}
 \usepackage[useregional]{datetime2}
@@ -17,6 +20,7 @@
 \usepackage{pdfpages}
 \usepackage{booktabs}
 \usepackage{float}
+\usepackage{multicol}
 
 % For Tables
 \usepackage{longtable}
@@ -70,7 +74,7 @@ $if(short_title)$\lhead{$short_title$} $endif$
 $if(draft)$
 % Watermark
 \usepackage{draftwatermark}
-\SetWatermarkScale{6}
+\SetWatermarkScale{2}
 \SetWatermarkColor[gray]{0.9}
 $endif$
 
@@ -83,24 +87,26 @@ $endif$
 
 \includegraphics[height=2cm]{Images/CTRULogo}
 \begin{center}
-$if(study_logo) $\includegraphics[width=0.5\textwidth]{$study_logo$}\\ $endif$
+$if(study_logo) $\includegraphics[width=0.25\textwidth]{$study_logo$}\\ $endif$
 $if(long_title)$ $long_title$\\[5mm] $endif$
 {\Huge Statistics Report}\\
 $if(draft)${\Large Draft $draft$ of }$endif$ $if(version)${\Large Version $version$}\\$endif$
 {\Large $date$}
 \end{center}
+$if(landscape)$\vspace{-1cm}$endif$
 
 \begin{singlespace}
+$if(landscape)$\begin{multicols}{2}$endif$
 \textbf{Authored by:}\\[1cm]
-\rule{5cm}{1pt}\hspace{5cm}\rule{1cm}{1pt} /\rule{1cm}{1pt} /\rule{2cm}{1pt}\\
+\rule{5cm}{1pt}\hspace{1cm}\rule{1cm}{1pt} /\rule{1cm}{1pt} /\rule{2cm}{1pt}\\
 \textit{$author.name$\\
-$author.address$}\\[3mm]
-\textbf{Approved by:}\\[1cm]
-$for(approvals)$
-\rule{5cm}{1pt}\hspace{5cm}\rule{1cm}{1pt} /\rule{1cm}{1pt} /\rule{2cm}{1pt}\\
+$author.address$}$if(landscape)$\newcolumn$endif$\\
+\textbf{Approved by:}$for(approvals)$\\[1cm]
+\rule{5cm}{1pt}\hspace{1cm}\rule{1cm}{1pt} /\rule{1cm}{1pt} /\rule{2cm}{1pt}\\
 \textit{$approvals.name$\\
-$approvals.address$}\\[1cm]
+$approvals.address$}
 $endfor$
+$if(landscape)$\end{multicols}$endif$
 \end{singlespace}
 
 \clearpage
