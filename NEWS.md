@@ -9,6 +9,8 @@
 * significant update to how `discrete_table()` works under the hood, unused
   factor levels are now included in the table.
   * added new option `drop.levels` to drop unused levels.
+* update to statistics-report R Markdown template to allow for a landscape
+  report
 
 # Useful.functions 0.3.0
 
