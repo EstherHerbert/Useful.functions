@@ -9,32 +9,25 @@
 #' @param sep Optional separator between columns for splitting variable into
 #'            variable and scoring. See ?tidyr::separate for more information.
 #' @param digits Number of digits to the right of the decimal point
+#' @param total Logical indicating whether a total column should be created
 #' @param condense `r lifecycle::badge("deprecated")` `condense = TRUE` is
 #'   deprecated, use [condense()] instead.
-#' @param total Logical indicating whether a total column should be created
 #'
 #' @return A tibble data frame summarising the data
 #'
 #' @examples
-#' df <- data.frame(
-#'          pet_cat = sample(c("Ticked", ""), size = 100, replace = TRUE),
-#'          pet_dog = sample(c("Ticked", ""), size = 100, replace = TRUE),
-#'          pet_pig = sample(c("Ticked", ""), size = 100, replace = TRUE),
-#'          group = sample(c("A", "B", "C"), size = 100, replace = TRUE)
-#'  )
+#'   ticked_table(outcome, pet_cat, pet_dog, group = group, sep = "_")
 #'
-#'   ticked_table(df, pet_cat, pet_dog, group = group, sep = "_")
-#'
-#'   ticked_table(df, pet_pig, pet_dog)
+#'   ticked_table(outcome, pet_fish, pet_dog)
 #'
 #' @export
 ticked_table <- function (df = .,
                           ...,
-                          group = .,
-                          sep = .,
+                          group,
+                          sep,
                           digits = 1,
-                          condense = FALSE,
-                          total = TRUE){
+                          total = TRUE,
+                          condense = FALSE){
 
   if (isTRUE(condense)) {
     lifecycle::deprecate_warn("0.4", "ticked_table(condense)", "condense()")

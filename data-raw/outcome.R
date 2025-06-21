@@ -12,17 +12,20 @@ outcome <- expand_grid(
     screening = paste0(site, "/", screening),
     group = factor(sample(LETTERS[1:2], nrow(.), replace = T),
                    levels = LETTERS[1:2]),
-    Baseline = rnorm(dplyr::n(), mean = 4, sd = 2),
-    `6 Weeks` = dplyr::if_else(group == "A",
-                               Baseline + rnorm(dplyr::n(), mean = 0, sd = 1),
-                               Baseline + rnorm(dplyr::n(), mean = 3, sd = 1)),
-    `12 Weeks` = dplyr::if_else(group == "A",
-                                `6 Weeks` + rnorm(dplyr::n(), mean = 0, sd = 1),
-                                `6 Weeks` + rnorm(dplyr::n(), mean = 2, sd = 1)),
-    sex = sample(c("Male", "Female"), dplyr::n(), replace = T),
-    sex = forcats::fct_expand(sex, "Prefer not to specify"),
+    Baseline = rnorm(n(), mean = 4, sd = 2),
+    `6 Weeks` = if_else(group == "A",
+                               Baseline + rnorm(n(), mean = 0, sd = 1),
+                               Baseline + rnorm(n(), mean = 3, sd = 1)),
+    `12 Weeks` = if_else(group == "A",
+                                `6 Weeks` + rnorm(n(), mean = 0, sd = 1),
+                                `6 Weeks` + rnorm(n(), mean = 2, sd = 1)),
+    sex = sample(c("Male", "Female"), n(), replace = T),
+    sex = fct_expand(sex, "Prefer not to specify"),
     r = sample(0:1, n(), replace = T, prob = c(0.01, 0.99)),
-    sex = if_else(r == 0, NA, sex)
+    sex = if_else(r == 0, NA, sex),
+    pet_dog = sample(c("Ticked", NA), n(), replace = T, prob = c(36, 64)),
+    pet_cat = sample(c("Ticked", NA), n(), replace = T, prob = c(26, 74)),
+    pet_fish = sample(c("Ticked", NA), n(), replace = T, prob = c(15, 85))
   ) %>%
   pivot_longer(Baseline:`12 Weeks`, names_to = "event_name", values_to = "score") %>%
   mutate(

@@ -7,11 +7,11 @@
 ticked_table(
   df = .,
   ...,
-  group = .,
-  sep = .,
+  group,
+  sep,
   digits = 1,
-  condense = FALSE,
-  total = TRUE
+  total = TRUE,
+  condense = FALSE
 )
 }
 \arguments{
@@ -26,10 +26,10 @@ variable and scoring. See ?tidyr::separate for more information.}
 
 \item{digits}{Number of digits to the right of the decimal point}
 
+\item{total}{Logical indicating whether a total column should be created}
+
 \item{condense}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{condense = TRUE} is
 deprecated, use \code{\link[=condense]{condense()}} instead.}
-
-\item{total}{Logical indicating whether a total column should be created}
 }
 \value{
 A tibble data frame summarising the data
@@ -39,15 +39,8 @@ Takes a dataframe and produces the number and percentage for
 ticked variables.
 }
 \examples{
-df <- data.frame(
-         pet_cat = sample(c("Ticked", ""), size = 100, replace = TRUE),
-         pet_dog = sample(c("Ticked", ""), size = 100, replace = TRUE),
-         pet_pig = sample(c("Ticked", ""), size = 100, replace = TRUE),
-         group = sample(c("A", "B", "C"), size = 100, replace = TRUE)
- )
+  ticked_table(outcome, pet_cat, pet_dog, group = group, sep = "_")
 
-  ticked_table(df, pet_cat, pet_dog, group = group, sep = "_")
-
-  ticked_table(df, pet_pig, pet_dog)
+  ticked_table(outcome, pet_fish, pet_dog)
 
 }

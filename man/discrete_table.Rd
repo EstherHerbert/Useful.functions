@@ -7,8 +7,8 @@
 discrete_table(
   df = .,
   ...,
-  group = .,
-  time = .,
+  group,
+  time,
   total = TRUE,
   n = FALSE,
   missing = "Missing",

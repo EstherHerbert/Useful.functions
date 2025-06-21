@@ -7,8 +7,8 @@
 continuous_table(
   df = .,
   ...,
-  group = .,
-  time = .,
+  group,
+  time,
   total = TRUE,
   digits = 2,
   condense = FALSE
@@ -39,9 +39,9 @@ Takes a data frame and produces grouped or un-grouped summaries
 such as mean and standard deviation for continuous variables.
 }
 \examples{
-    continuous_table(df = iris, Petal.Length, Petal.Width, group = Species)
-    continuous_table(df = iris, Sepal.Length, Sepal.Width, group = Species,
+    continuous_table(outcome, score, group = group)
+    continuous_table(outcome, score, group = group, condense = FALSE,
                      total = FALSE)
-    continuous_table(df = iris, Petal.Length, Sepal.Length, digits = 1)
+    continuous_table(outcome, score, digits = 1)
 
 }

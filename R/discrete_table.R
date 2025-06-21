@@ -30,8 +30,8 @@
 #' @export
 discrete_table <- function(df = .,
                            ...,
-                           group = .,
-                           time = .,
+                           group,
+                           time,
                            total = TRUE,
                            n = FALSE,
                            missing = "Missing",

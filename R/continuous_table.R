@@ -14,18 +14,18 @@
 #'   deprecated, use [condense()] instead.
 #'
 #' @examples
-#'     continuous_table(df = iris, Petal.Length, Petal.Width, group = Species)
-#'     continuous_table(df = iris, Sepal.Length, Sepal.Width, group = Species,
+#'     continuous_table(outcome, score, group = group)
+#'     continuous_table(outcome, score, group = group, condense = FALSE,
 #'                      total = FALSE)
-#'     continuous_table(df = iris, Petal.Length, Sepal.Length, digits = 1)
+#'     continuous_table(outcome, score, digits = 1)
 #'
 #' @return A tibble data frame summarising the data
 #'
 #' @export
 continuous_table <- function(df = .,
                              ...,
-                             group = .,
-                             time = .,
+                             group,
+                             time,
                              total = TRUE,
                              digits = 2,
                              condense = FALSE) {
