@@ -44,11 +44,11 @@ ticked variables.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">ticked_table</span><span class="op">(</span></span>
 <span>  df <span class="op">=</span> <span class="va">.</span>,</span>
 <span>  <span class="va">...</span>,</span>
-<span>  group <span class="op">=</span> <span class="va">.</span>,</span>
-<span>  sep <span class="op">=</span> <span class="va">.</span>,</span>
+<span>  <span class="va">group</span>,</span>
+<span>  <span class="va">sep</span>,</span>
 <span>  digits <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  condense <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  total <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  total <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  condense <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -77,13 +77,13 @@ variable and scoring. See ?tidyr::separate for more information.</p></dd>
 <dd><p>Number of digits to the right of the decimal point</p></dd>
 
 
+<dt id="arg-total">total<a class="anchor" aria-label="anchor" href="#arg-total"></a></dt>
+<dd><p>Logical indicating whether a total column should be created</p></dd>
+
+
 <dt id="arg-condense">condense<a class="anchor" aria-label="anchor" href="#arg-condense"></a></dt>
 <dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> <code>condense = TRUE</code> is
 deprecated, use <code><a href="condense.html">condense()</a></code> instead.</p></dd>
-
-
-<dt id="arg-total">total<a class="anchor" aria-label="anchor" href="#arg-total"></a></dt>
-<dd><p>Logical indicating whether a total column should be created</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -93,28 +93,21 @@ deprecated, use <code><a href="condense.html">condense()</a></code> instead.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>         pet_cat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Ticked"</span>, <span class="st">""</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">100</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>         pet_dog <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Ticked"</span>, <span class="st">""</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">100</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>         pet_pig <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Ticked"</span>, <span class="st">""</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">100</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>         group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">100</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span> <span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span>  <span class="fu">ticked_table</span><span class="op">(</span><span class="va">outcome</span>, <span class="va">pet_cat</span>, <span class="va">pet_dog</span>, group <span class="op">=</span> <span class="va">group</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   variable scoring A          B           Total      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="color: #BB0000;">NA</span>       <span style="color: #BB0000;">NA</span>      N = 276    N = 324     N = 600    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> pet      cat     48 (17.4%) 75 (23.1%)  123 (20.5%)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> pet      dog     96 (34.8%) 105 (32.4%) 201 (33.5%)</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="fu">ticked_table</span><span class="op">(</span><span class="va">df</span>, <span class="va">pet_cat</span>, <span class="va">pet_dog</span>, group <span class="op">=</span> <span class="va">group</span>, sep <span class="op">=</span> <span class="st">"_"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 6</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   variable scoring A          B          C          Total     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="color: #BB0000;">NA</span>       <span style="color: #BB0000;">NA</span>      N = 30     N = 37     N = 33     N = 100   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> pet      cat     14 (46.7%) 18 (48.6%) 19 (57.6%) 51 (51.0%)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> pet      dog     15 (50.0%) 20 (54.1%) 19 (57.6%) 54 (54.0%)</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="fu">ticked_table</span><span class="op">(</span><span class="va">df</span>, <span class="va">pet_pig</span>, <span class="va">pet_dog</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">ticked_table</span><span class="op">(</span><span class="va">outcome</span>, <span class="va">pet_fish</span>, <span class="va">pet_dog</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 2</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   scoring value     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="color: #BB0000;">NA</span>      N = 100   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> pet_pig 52 (52.0%)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> pet_dog 54 (54.0%)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   scoring  value      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="color: #BB0000;">NA</span>       N = 600    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> pet_fish 99 (16.5%) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> pet_dog  201 (33.5%)</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

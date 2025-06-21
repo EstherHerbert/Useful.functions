@@ -44,8 +44,8 @@ such as mean and standard deviation for continuous variables.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">continuous_table</span><span class="op">(</span></span>
 <span>  df <span class="op">=</span> <span class="va">.</span>,</span>
 <span>  <span class="va">...</span>,</span>
-<span>  group <span class="op">=</span> <span class="va">.</span>,</span>
-<span>  time <span class="op">=</span> <span class="va">.</span>,</span>
+<span>  <span class="va">group</span>,</span>
+<span>  <span class="va">time</span>,</span>
 <span>  total <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  digits <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  condense <span class="op">=</span> <span class="cn">FALSE</span></span>
@@ -93,46 +93,34 @@ deprecated, use <code><a href="condense.html">condense()</a></code> instead.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span>    <span class="fu">continuous_table</span><span class="op">(</span>df <span class="op">=</span> <span class="va">iris</span>, <span class="va">Petal.Length</span>, <span class="va">Petal.Width</span>, group <span class="op">=</span> <span class="va">Species</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 9 × 6</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   variable     scoring      Total             setosa        versicolor virginica</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="color: #BB0000;">NA</span>           <span style="color: #BB0000;">NA</span>           N = 150           N = 50        N = 50     N = 50   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Petal.Length n            150               50            50         50       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Petal.Length Mean (SD)    3.76 (1.77)       1.46 (0.17)   4.26 (0.4… 5.55 (0.…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Petal.Length Median (IQR) 4.35 (1.60, 5.10) 1.50 (1.40, … 4.35 (4.0… 5.55 (5.…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Petal.Length Min, Max     1, 6.9            1, 1.9        3, 5.1     4.5, 6.9 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> Petal.Width  n            150               50            50         50       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> Petal.Width  Mean (SD)    1.20 (0.76)       0.25 (0.11)   1.33 (0.2… 2.03 (0.…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> Petal.Width  Median (IQR) 1.30 (0.30, 1.80) 0.20 (0.20, … 1.30 (1.2… 2.00 (1.…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">9</span> Petal.Width  Min, Max     0.1, 2.5          0.1, 0.6      1, 1.8     1.4, 2.5 </span>
-<span class="r-in"><span>    <span class="fu">continuous_table</span><span class="op">(</span>df <span class="op">=</span> <span class="va">iris</span>, <span class="va">Sepal.Length</span>, <span class="va">Sepal.Width</span>, group <span class="op">=</span> <span class="va">Species</span>,</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span>    <span class="fu">continuous_table</span><span class="op">(</span><span class="va">outcome</span>, <span class="va">score</span>, group <span class="op">=</span> <span class="va">group</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   variable scoring      A                 B                 Total            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="color: #BB0000;">NA</span>       <span style="color: #BB0000;">NA</span>           N = 276           N = 324           N = 600          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> score    n            247               280               527              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> score    Mean (SD)    4.12 (2.23)       6.46 (3.04)       5.36 (2.93)      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> score    Median (IQR) 4.27 (2.59, 5.54) 6.20 (4.45, 8.74) 5.11 (3.24, 7.22)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> score    Min, Max     -2.24, 9.89       -1.01, 14.58      -2.24, 14.58     </span>
+<span class="r-in"><span>    <span class="fu">continuous_table</span><span class="op">(</span><span class="va">outcome</span>, <span class="va">score</span>, group <span class="op">=</span> <span class="va">group</span>, condense <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>                     total <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 9 × 5</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   variable     scoring      setosa            versicolor        virginica       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="color: #BB0000;">NA</span>           <span style="color: #BB0000;">NA</span>           N = 50            N = 50            N = 50          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Sepal.Length n            50                50                50              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Sepal.Length Mean (SD)    5.01 (0.35)       5.94 (0.52)       6.59 (0.64)     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Sepal.Length Median (IQR) 5.00 (4.80, 5.20) 5.90 (5.60, 6.30) 6.50 (6.23, 6.9…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Sepal.Length Min, Max     4.3, 5.8          4.9, 7            4.9, 7.9        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> Sepal.Width  n            50                50                50              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> Sepal.Width  Mean (SD)    3.43 (0.38)       2.77 (0.31)       2.97 (0.32)     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> Sepal.Width  Median (IQR) 3.40 (3.20, 3.68) 2.80 (2.52, 3.00) 3.00 (2.80, 3.1…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">9</span> Sepal.Width  Min, Max     2.3, 4.4          2, 3.4            2.2, 3.8        </span>
-<span class="r-in"><span>    <span class="fu">continuous_table</span><span class="op">(</span>df <span class="op">=</span> <span class="va">iris</span>, <span class="va">Petal.Length</span>, <span class="va">Sepal.Length</span>, digits <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 9 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   variable     scoring      value         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="color: #BB0000;">NA</span>           <span style="color: #BB0000;">NA</span>           N = 150       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> Petal.Length n            150           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> Petal.Length Mean (SD)    3.8 (1.8)     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> Petal.Length Median (IQR) 4.3 (1.6, 5.1)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> Petal.Length Min, Max     1, 6.9        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> Sepal.Length n            150           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">7</span> Sepal.Length Mean (SD)    5.8 (0.8)     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">8</span> Sepal.Length Median (IQR) 5.8 (5.1, 6.4)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">9</span> Sepal.Length Min, Max     4.3, 7.9      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   variable scoring      A                 B                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="color: #BB0000;">NA</span>       <span style="color: #BB0000;">NA</span>           N = 276           N = 324          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> score    n            247               280              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> score    Mean (SD)    4.12 (2.23)       6.46 (3.04)      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> score    Median (IQR) 4.27 (2.59, 5.54) 6.20 (4.45, 8.74)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> score    Min, Max     -2.24, 9.89       -1.01, 14.58     </span>
+<span class="r-in"><span>    <span class="fu">continuous_table</span><span class="op">(</span><span class="va">outcome</span>, <span class="va">score</span>, digits <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   variable scoring      value         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="color: #BB0000;">NA</span>       <span style="color: #BB0000;">NA</span>           N = 600       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> score    n            527           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> score    Mean (SD)    5.4 (2.9)     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> score    Median (IQR) 5.1 (3.2, 7.2)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> score    Min, Max     -2.2, 14.6    </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
