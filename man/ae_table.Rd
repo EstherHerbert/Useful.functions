@@ -28,3 +28,8 @@ Takes a data frame of adverse events and produces the number of
 events and number and percentage of individuals with an adverse
 event.
 }
+\examples{
+  N <- dplyr::count(outcome, group, name = "N")
+  ae_table(outcome_aes, serious, related, group = group, N = N, ID = screening)
+
+}

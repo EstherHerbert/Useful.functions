@@ -14,6 +14,10 @@
 #' @param accuracy see details of `scales::percent`
 #' @param total Logical indicating whether a total column should be created
 #'
+#' @examples
+#'   N <- dplyr::count(outcome, group, name = "N")
+#'   ae_table(outcome_aes, serious, related, group = group, N = N, ID = screening)
+#'
 #' @export
 ae_table <- function (df, ..., group, ID, N, accuracy = 0.1, total = FALSE) {
 
