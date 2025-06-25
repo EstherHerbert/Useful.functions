@@ -29,5 +29,7 @@ Roxygen: list(markdown = TRUE)
 Suggests: 
     knitr,
     rmarkdown,
+    testthat (>= 3.0.0),
     xtable
 URL: https://estherherbert.github.io/Useful.functions/
+Config/testthat/edition: 3
