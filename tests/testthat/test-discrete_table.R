@@ -26,3 +26,20 @@ test_that("missing works", {
   expect_snapshot(discrete_table(outcome, sex, missing = "Unknown"))
   expect_snapshot(discrete_table(outcome, sex, missing = "Unknown", n = T))
 })
+
+test_that("total works", {
+  expect_snapshot(discrete_table(outcome, sex, total = F))
+  expect_snapshot(discrete_table(outcome, sex, group = group, total = F))
+  expect_snapshot(discrete_table(outcome, sex, group = group, total = T))
+
+})
+
+test_that("time works", {
+  expect_snapshot(discrete_table(outcome, sex, group = group, time = event_name))
+  expect_error(discrete_table(outcome, sex, time = event_name))
+})
+
+test_that("error with no variables", {
+  expect_error(discrete_table(outcome))
+  expect_error(discrete_table(outcome, group = group))
+})

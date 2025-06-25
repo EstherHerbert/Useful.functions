@@ -39,8 +39,13 @@ discrete_table <- function(df = .,
                            drop.levels = FALSE,
                            condense = FALSE) {
 
+  rlang::check_dots_unnamed()
 
   variable = lapply(rlang::quos(...), rlang::as_name)
+
+  if (rlang::is_empty(variable)) {
+    stop("No variables were specified in `...`")
+  }
 
   if (isTRUE(condense)) {
     lifecycle::deprecate_warn("0.4", "discrete_table(condense)",
@@ -49,6 +54,14 @@ discrete_table <- function(df = .,
 
   if(!missing(time) & missing(group)) {
     stop("Time can currenlty only be used with a group variable")
+  }
+
+  if(!missing(missing) && n) {
+    warning("You have specified a string for `missing` when `n = TRUE`, `missing` will be ignored")
+  }
+
+  if (!missing(total) && missing(group)) {
+    warning(paste0("You have specified `total=", total, "` without `group`, `total` will be ignored"))
   }
 
   if (missing(group)) {
