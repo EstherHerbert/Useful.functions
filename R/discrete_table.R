@@ -13,7 +13,7 @@
 #'          (`n = TRUE`) or N (`n = FALSE`)
 #' @param missing String determining what missing data will be called
 #'                (if `n = TRUE`). Default is "Missing".
-#' @param accuracy see details of [scales::percent()]
+#' @param accuracy see details of [scales::label_percent()]
 #' @param drop.levels logical indicating whether unused levels in the factors
 #'                    should be dropped. Default is `FALSE`.
 #' @param condense `r lifecycle::badge("deprecated")` `condense = TRUE` is
@@ -75,6 +75,8 @@ discrete_table <- function(df = .,
       )
   }
 
+  percent <- scales::label_percent(accuracy = accuracy)
+
   if (!missing(group) & missing(time)) {
     new <- purrr::map(
       variable, \(x) {
@@ -89,7 +91,7 @@ discrete_table <- function(df = .,
             variable = x,
             scoring = !!rlang::sym(x),
             N,
-            p = paste0(n, " (", scales::percent(n/sum(n)), ")"),
+            p = paste0(n, " (", percent(n/sum(n)), ")"),
             n = sum(n),
             .keep = 'none'
           ) %>%
@@ -119,7 +121,7 @@ discrete_table <- function(df = .,
             variable = x,
             scoring = !!rlang::sym(x),
             N,
-            p = paste0(n, " (", scales::percent(n/sum(n)), ")"),
+            p = paste0(n, " (", percent(n/sum(n)), ")"),
             n = sum(n),
             .keep = 'none'
           ) %>%
@@ -151,7 +153,7 @@ discrete_table <- function(df = .,
             variable = x,
             scoring = !!rlang::sym(x),
             N,
-            p = paste0(n, " (", scales::percent(n/sum(n)), ")"),
+            p = paste0(n, " (", percent(n/sum(n)), ")"),
             n = sum(n),
             .keep = 'none'
           ) %>%

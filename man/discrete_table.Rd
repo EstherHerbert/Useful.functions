@@ -35,7 +35,7 @@ with group)}
 \item{missing}{String determining what missing data will be called
 (if \code{n = TRUE}). Default is "Missing".}
 
-\item{accuracy}{see details of \code{\link[scales:percent_format]{scales::percent()}}}
+\item{accuracy}{see details of \code{\link[scales:label_percent]{scales::label_percent()}}}
 
 \item{drop.levels}{logical indicating whether unused levels in the factors
 should be dropped. Default is \code{FALSE}.}
