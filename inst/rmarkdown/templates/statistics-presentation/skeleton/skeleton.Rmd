@@ -1,0 +1,53 @@
+---
+title: Presentation Title 
+author: Joe Blogs
+date: 1st January 1970
+titlegraphic: location of study logo
+fontsize: 12pt
+output:
+ beamer_presentation:
+    template: template.tex
+    slide_level: 2
+    increment: true
+aspect: 169
+handout: false
+notes: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE,
+                      results = 'asis')
+
+options(xtable.comment = F, xtable.sanitize.text.function = sanitise_percent,
+        xtable.latex.environments = "", xtable.include.rownames = F,
+        xtable.floating = F)
+
+theme_set(theme_bw(base_size = 12))
+
+tables <- createWorkbook()
+```
+
+## Statistics Presentation
+
+This template produces a pdf presentation using LaTeX's [beamer](https://en.wikibooks.org/wiki/LaTeX/Presentations) document class
+
+---
+
+You can add a new slide without a title like this.
+
+::: notes
+- You can add notes like this
+- set `notes: true` in the YAML header to produce a pdf with the notes
+:::
+
+## Another slide
+### with a subtitle
+
+- you can produce slide handouts by setting `handout:true` in the YAML header
+
+```{r save-tables, include=FALSE}
+# saveWorkbook(tables, file = "filepath", overwrite = T)
+# rm(tables)
+```

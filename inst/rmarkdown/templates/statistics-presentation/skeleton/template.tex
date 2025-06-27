@@ -1,0 +1,218 @@
+\documentclass[$if(fontsize)$$fontsize$,$endif$$if(lang)$$babel-lang$,$endif$$if(handout)$handout,$endif$$for(classoption)$$classoption$$sep$,$endfor$$if(aspect)$,aspectratio=$aspect$$endif$$if(notes)$, trans$endif$]{$documentclass$}
+$if(notes)$
+\setbeameroption{show only notes}
+$endif$
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+\setbeamercolor{caption name}{fg=normal text.fg}
+\usepackage{lmodern}
+\usepackage{setspace}
+\usepackage{multirow}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\usepackage{graphicx}
+\usepackage{rotating}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage[normalem]{ulem}
+\usepackage{wasysym}
+
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+\fi
+
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+
+$if(bibliography)$
+\usepackage{biblatex}
+\addbibresource{$bibliography$}
+$endif$
+
+$if(links-as-notes)$
+% Make links footnotes instead of hotlinks:
+\renewcommand{\href}[2]{#2\footnote{\url{#1}}}
+$endif$
+
+\hypersetup{
+    colorlinks=true,  
+    allcolors=deepviolet
+    }
+
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+\setcounter{secnumdepth}{0}
+
+$if(title)$
+\title{$title$}
+$endif$
+
+$if(subtitle)$
+\subtitle{$subtitle$}
+$endif$
+
+$if(author)$
+\author{$for(author)$$author$$sep$ \and $endfor$}
+$endif$
+
+\date{$date$}
+
+$for(header-includes)$
+$header-includes$
+$endfor$
+
+% Get rid of navigation symbols.
+\setbeamertemplate{navigation symbols}{}
+
+$if(study_logo)$\titlegraphic{\includegraphics[width=0.3\paperwidth]{$study_logo$}}$endif$
+
+\setbeamertemplate{title page}[empty]
+\setbeamerfont{subtitle}{size=\small}
+\setbeamercovered{transparent}
+
+% Uni colours.
+\definecolor{deepviolet}{HTML}{440099}
+\definecolor{powderblue}{HTML}{9ADBE8}
+\setbeamercolor{frametitle}{fg=deepviolet,bg=powderblue}
+\setbeamercolor{title}{fg=deepviolet}
+\setbeamercolor{local structure}{fg=deepviolet}
+\setbeamercolor{section in toc}{fg=deepviolet,bg=white}
+\setbeamercolor{subsection in toc}{fg=powderblue,bg=white}
+\setbeamercolor{footline}{fg=deepviolet!50, bg=white}
+\setbeamercolor{block title}{fg=powderblue,bg=white}
+
+\let\Tiny=\tiny
+
+% Suppress some of Markdown's weird default vertical spacing.
+\setlength{\emergencystretch}{0em}  % prevent overfull lines
+\setlength{\parskip}{6pt}
+\linespread{1.5}
+
+% Allow for simple two-tone footlines.
+\defbeamertemplate*{footline}{my footline}{%
+    \ifnum\insertpagenumber=1
+    \hbox{%
+        \begin{beamercolorbox}[wd=\paperwidth,ht=.8ex,dp=1ex,center]{}%
+      % empty environment to raise height
+        \end{beamercolorbox}%
+    }%
+    \vskip0pt%
+    \else%
+        \Tiny{%
+            \hfill%
+		\vspace*{1pt}%
+            \insertframenumber/\inserttotalframenumber \hspace*{0.1cm}%
+            \newline%
+            \color{deepviolet}{\rule{\paperwidth}{1mm}}\newline%
+            \color{powderblue}{\rule{\paperwidth}{1mm}}%
+        }%
+    \fi%
+}
+
+\setbeamercolor{structure}{fg=blue}
+\setbeamercolor{local structure}{parent=structure}
+\setbeamercolor{item projected}{parent=item,use=item,fg=deepviolet,bg=white}
+\setbeamercolor{enumerate item}{parent=item}
+
+\setbeamertemplate{itemize item}{\color{deepviolet}$$\bullet$$}
+\setbeamertemplate{itemize subitem}{\color{deepviolet}\scriptsize{$$\bullet$$}}
+\setbeamertemplate{itemize/enumerate body end}{\vspace{.6\baselineskip}}
+
+% Automatically center images
+% ---------------------------
+% Note: this is for ![](image.png) images
+% Use "fig.align = "center" for R chunks
+
+\usepackage{etoolbox}
+
+\AtBeginDocument{%
+  \letcs\oig{@orig\string\includegraphics}%
+  \renewcommand<>\includegraphics[2][]{%
+    \only#3{%
+      {\centering\oig[{#1}]{#2}\par}%
+    }%
+  }%
+}
+
+\ifxetex
+\setbeamerfont{title}{family=\fontspec{$if(titlefont)$$titlefont$$else$serif$endif$}}
+\setbeamerfont{frametitle}{family=\fontspec{$if(titlefont)$$titlefont$$else$serif$endif$}}
+\usepackage[font=small,skip=0pt]{caption}
+ \else
+ \fi
+
+\usepackage{pgfpages}
+\mode<handout>{
+  \usetheme{default}
+  \pgfpagesuselayout{2 on 1}[a4paper,border shrink=1cm]
+}
+
+\usepackage{environ}
+\RenewEnviron{block}[1]{\framesubtitle{#1}\BODY}
+
+% Okay, and begin the actual document...
+
+\begin{document}
+$if(title)$
+{
+\setbeamertemplate{background canvas}{\includegraphics[width=\paperwidth,height=\paperheight]{Images/background.png}}
+\frame{\titlepage}
+}
+$endif$
+
+$for(include-before)$
+$include-before$
+
+$endfor$
+$if(toc)$
+\begin{frame}
+\tableofcontents[hideallsubsections]
+\end{frame}
+
+$endif$
+$body$
+
+$if(natbib)$
+$if(bibliography)$
+$if(biblio-title)$
+$if(book-class)$
+\renewcommand\bibname{$biblio-title$}
+$else$
+\renewcommand\refname{$biblio-title$}
+$endif$
+$endif$
+\begin{frame}[allowframebreaks]{$biblio-title$}
+\bibliography{$for(bibliography)$$bibliography$$sep$,$endfor$}
+\end{frame}
+
+$endif$
+$endif$
+$if(biblatex)$
+\begin{frame}[allowframebreaks]{$biblio-title$}
+\printbibliography[heading=none]
+\end{frame}
+
+$endif$
+$for(include-after)$
+$include-after$
+
+$endfor$
+
+\end{document}

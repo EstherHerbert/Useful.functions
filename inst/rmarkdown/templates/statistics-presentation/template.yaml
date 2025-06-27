@@ -1,0 +1,4 @@
+name: Statistics Presentation
+description: >
+   Template to produce a statistics presentation for Sheffield CTRU studies.
+create_dir: TRUE

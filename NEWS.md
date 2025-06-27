@@ -11,6 +11,7 @@
   * added new option `drop.levels` to drop unused levels.
 * update to statistics-report R Markdown template to allow for a landscape
   report
+* new R Markdown template for presentations
 
 # Useful.functions 0.3.0
 

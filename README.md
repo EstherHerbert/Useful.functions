@@ -4,7 +4,6 @@
 # Useful.functions
 
 <!-- badges: start -->
-
 <!-- badges: end -->
 
 This package brings together some functions I have created to perform
@@ -64,6 +63,13 @@ Both of these options will create a folder with your report name
 containing the markdown file and the templates required to generate the
 report. I recommend you render it to pdf using `rmarkdown::render`
 rather than using the knit button.
+
+### Presentation template
+
+Similar to the report template, this R Markdown template creates a pdf
+presentation using the
+[beamer](https://en.wikibooks.org/wiki/LaTeX/Presentations) document
+class in LaTeX.
 
 ### Project template
 
