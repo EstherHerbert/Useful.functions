@@ -94,6 +94,7 @@ discrete_table <- function(df = .,
     new <- purrr::map(
       variable, \(x) {
         dplyr::count(df, {{group}}, !!rlang::sym(x), .drop = F) %>%
+          tidyr::complete({{group}}, !!rlang::sym(x), fill = list(n = 0)) %>%
           dplyr::group_by({{group}}) %>%
           dplyr::mutate(
             N = paste("N =", sum(n)),
@@ -156,6 +157,8 @@ discrete_table <- function(df = .,
     new <-  purrr::map(
       variable, \(x) {
         dplyr::count(df, {{time}}, {{group}}, !!rlang::sym(x), .drop = F) %>%
+          tidyr::complete({{time}}, {{group}}, !!rlang::sym(x),
+                          fill = list(n = 0)) %>%
           dplyr::group_by({{time}}, {{group}}) %>%
           dplyr::mutate(
             N = paste("N =", sum(n)),
