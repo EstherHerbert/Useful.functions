@@ -31,7 +31,14 @@ outcome <- expand_grid(
   mutate(
     event_name = fct_relevel(event_name, c("Baseline", "6 Weeks", "12 Weeks")),
     r = sample(0:1, n(), replace = T, prob = c(0.1, 0.9)),
-    score = if_else(r == 0, NA, score)
+    score = if_else(r == 0, NA, score),
+    pain = case_when(
+      group == "A" ~ sample(c("Low", "Medium"), n(), replace = T),
+      group == "B" ~ sample(c("Low", "Medium", "High"), n(), replace = T)
+    ),
+    pain = factor(pain, levels = c("Low", "Medium", "High")),
+    r = sample(0:1, n(), replace = T, prob = c(1,99)),
+    pain = if_else(r == 0, NA, pain)
   ) %>%
   select(-r)
 

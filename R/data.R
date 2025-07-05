@@ -25,10 +25,11 @@
 #'    \item{group}{factor, treatment group A/B}
 #'    \item{sex}{factor with three levels: Male, Female, Prefer not to specify}
 #'    \item{event_name}{factor with 3 levels: Baseline, 6 Weeks, 12 Weeks}
-#'    \item{score}{double, randomly generated "score"}
 #'    \item{pet_dog}{character, "tick" variable}
 #'    \item{pet_cat}{character, "tick" variable}
 #'    \item{pet_fish}{character, "tick" variable}
+#'    \item{score}{double, randomly generated "score"}
+#'    \item{pain}{factor with 3 levels: Low, Medium, High}
 #' }
 "outcome"
 
