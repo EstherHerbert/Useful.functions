@@ -58,6 +58,8 @@ condense <- function(df, first_col = variable, second_col = scoring, third_col,
   if (!missing(third_col)) {
     out <- df %>%
       dplyr::mutate({{first_col}} := readr::parse_factor({{first_col}})) %>%
+      dplyr::group_by({{first_col}}, {{second_col}}) %>%
+      dplyr::group_modify(~dplyr::add_row(.x, .before = 1)) %>%
       dplyr::group_by({{first_col}}) %>%
       dplyr::group_modify(~dplyr::add_row(.x, .before = 1)) %>%
       dplyr::filter(is.na(dplyr::lead({{third_col}})) | !dplyr::
