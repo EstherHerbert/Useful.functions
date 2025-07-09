@@ -43,3 +43,9 @@ test_that("error with no variables", {
   expect_error(discrete_table(outcome))
   expect_error(discrete_table(outcome, group = group))
 })
+
+test_that("correct when level missing in one grouping", {
+  expect_snapshot(discrete_table(outcome, pain, group = group, drop.levels = T))
+  expect_snapshot(discrete_table(outcome, pain, group = group, time = event_name,
+                                 drop.levels = T))
+})

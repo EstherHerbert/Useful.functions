@@ -261,3 +261,39 @@
       12 12 Weeks   sex      Prefer not to specify 0 (0.0%)   0 (0.0%)   0 (0.0%)   
       13 12 Weeks   sex      Missing               1 (1.1%)   1 (0.9%)   2 (1.0%)   
 
+# correct when level missing in one grouping
+
+    Code
+      discrete_table(outcome, pain, group = group, drop.levels = T)
+    Output
+      # A tibble: 5 x 5
+        variable scoring A           B           Total      
+        <chr>    <chr>   <chr>       <chr>       <chr>      
+      1 <NA>     <NA>    N = 276     N = 324     N = 600    
+      2 pain     Low     124 (44.9%) 107 (33.0%) 231 (38.5%)
+      3 pain     Medium  147 (53.3%) 101 (31.2%) 248 (41.3%)
+      4 pain     High    0 (0.0%)    109 (33.6%) 109 (18.2%)
+      5 pain     Missing 5 (1.8%)    7 (2.2%)    12 (2.0%)  
+
+---
+
+    Code
+      discrete_table(outcome, pain, group = group, time = event_name, drop.levels = T)
+    Output
+      # A tibble: 13 x 6
+         event_name variable scoring A          B          Total     
+         <chr>      <chr>    <chr>   <chr>      <chr>      <chr>     
+       1 <NA>       <NA>     <NA>    N = 92     N = 108    N = 200   
+       2 Baseline   pain     Low     40 (43.5%) 32 (29.6%) 72 (36.0%)
+       3 Baseline   pain     Medium  51 (55.4%) 36 (33.3%) 87 (43.5%)
+       4 Baseline   pain     High    0 (0.0%)   37 (34.3%) 37 (18.5%)
+       5 Baseline   pain     Missing 1 (1.1%)   3 (2.8%)   4 (2.0%)  
+       6 6 Weeks    pain     Low     42 (45.7%) 41 (38.0%) 83 (41.5%)
+       7 6 Weeks    pain     Medium  48 (52.2%) 35 (32.4%) 83 (41.5%)
+       8 6 Weeks    pain     High    0 (0.0%)   31 (28.7%) 31 (15.5%)
+       9 6 Weeks    pain     Missing 2 (2.2%)   1 (0.9%)   3 (1.5%)  
+      10 12 Weeks   pain     Low     42 (45.7%) 34 (31.5%) 76 (38.0%)
+      11 12 Weeks   pain     Medium  48 (52.2%) 30 (27.8%) 78 (39.0%)
+      12 12 Weeks   pain     High    0 (0.0%)   41 (38.0%) 41 (20.5%)
+      13 12 Weeks   pain     Missing 2 (2.2%)   3 (2.8%)   5 (2.5%)  
+
