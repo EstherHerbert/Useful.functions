@@ -10,7 +10,6 @@ condense(
   second_col = scoring,
   third_col,
   hline = TRUE,
-  double.header = TRUE,
   indent = "quad"
 )
 }
@@ -29,9 +28,6 @@ functions.}
 
 \item{hline}{Logical indicating whether \code{"\\\\hline\\n"} should be added at the
 start of each unique value in \code{first_col}. For use with \code{\link[xtable:xtable]{xtable::xtable()}}.
-Default is \code{TRUE}.}
-
-\item{double.header}{Logical indicating whether \code{df} has a double header.
 Default is \code{TRUE}.}
 
 \item{indent}{Character indicating the type of indent to use (the default is

@@ -14,8 +14,6 @@
 #' @param hline Logical indicating whether `"\\hline\n"` should be added at the
 #'   start of each unique value in `first_col`. For use with [xtable::xtable()].
 #'   Default is `TRUE`.
-#' @param double.header Logical indicating whether `df` has a double header.
-#'   Default is `TRUE`.
 #' @param indent Character indicating the type of indent to use (the default is
 #'   `"quad"`):
 #'   - `"quad"` uses \eqn{\LaTeX}'s `\\quad` to indent the second column (and
@@ -32,7 +30,7 @@
 #'
 #' @export
 condense <- function(df, first_col = variable, second_col = scoring, third_col,
-                     hline = TRUE, double.header = TRUE, indent = "quad") {
+                     hline = TRUE, indent = "quad") {
 
   if (hline) {
     h <- "\\hline\n"
@@ -75,7 +73,8 @@ condense <- function(df, first_col = variable, second_col = scoring, third_col,
           .default = paste(indent[2], {{third_col}})
         )
       ) %>%
-      dplyr::select(-{{second_col}}, -{{third_col}})
+      dplyr::select(-{{second_col}}, -{{third_col}}) %>%
+      dplyr::filter(!dplyr::if_all(everything(), is.na))
   } else if (missing(third_col)) {
     out <- df %>%
       dplyr::mutate({{first_col}} := readr::parse_factor({{first_col}})) %>%
@@ -93,11 +92,8 @@ condense <- function(df, first_col = variable, second_col = scoring, third_col,
           .default = paste(indent[1], {{second_col}})
         )
       ) %>%
-      dplyr::select(-{{second_col}})
-  }
-
-  if (double.header) {
-    out <- out[-1,]
+      dplyr::select(-{{second_col}}) %>%
+      dplyr::filter(!dplyr::if_all(everything(), is.na))
   }
 
   out
