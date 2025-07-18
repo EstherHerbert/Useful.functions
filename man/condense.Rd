@@ -10,7 +10,7 @@ condense(
   second_col = scoring,
   third_col,
   hline = TRUE,
-  indent = "quad"
+  indent = c("quad", "hang", "space")
 )
 }
 \arguments{

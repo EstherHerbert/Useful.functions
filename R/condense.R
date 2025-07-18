@@ -30,7 +30,7 @@
 #'
 #' @export
 condense <- function(df, first_col = variable, second_col = scoring, third_col,
-                     hline = TRUE, indent = "quad") {
+                     hline = TRUE, indent = c("quad", "hang", "space")) {
 
   if (hline) {
     h <- "\\hline\n"
@@ -44,6 +44,8 @@ condense <- function(df, first_col = variable, second_col = scoring, third_col,
         {{first_col}} := as.character({{first_col}})
       )
   }
+
+  indent <- rlang::arg_match(indent)
 
   indent <- switch(
     indent,
