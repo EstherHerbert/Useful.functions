@@ -222,5 +222,10 @@ continuous_table <- function(df = .,
       dplyr::select(-scoring)
   }
 
-  return(new)
+  if (total) {
+    new <- dplyr::relocate(new, Total, .after = dplyr::last_col())
+  }
+
+  new
+
 }

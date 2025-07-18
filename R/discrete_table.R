@@ -246,6 +246,10 @@ discrete_table <- function(df = .,
       dplyr::select(-scoring)
   }
 
+  if (total) {
+    new <- dplyr::relocate(new, Total, .after = dplyr::last_col())
+  }
+
   return(new)
 
 }

@@ -127,6 +127,10 @@ ticked_table <- function (df = .,
     }
   }
 
-  return(new)
+  if (total) {
+    new <- dplyr::relocate(new, Total, .after = dplyr::last_col())
+  }
+
+  new
 
 }

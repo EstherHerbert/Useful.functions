@@ -125,6 +125,10 @@ ae_table <- function (df, ..., group, ID, N, accuracy = 0.1, total = FALSE) {
       )
   )
 
-  return(new)
+  if (total) {
+    new <- dplyr::relocate(new, Total, .after = dplyr::last_col())
+  }
+
+  new
 
 }
