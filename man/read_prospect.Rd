@@ -4,7 +4,7 @@
 \alias{read_prospect}
 \title{Reads in csv files as exported by Prospect}
 \usage{
-read_prospect(file, dictionary=lookups, convert.date=TRUE, ...)
+read_prospect(file, dictionary = lookups, convert.date = TRUE, ...)
 }
 \arguments{
 \item{file}{The file to be read in}
@@ -14,14 +14,16 @@ read_prospect(file, dictionary=lookups, convert.date=TRUE, ...)
 
 \item{convert.date}{Convert fields ending in \verb{_dt} or \verb{_date} to date format}
 
-\item{...}{arguments to be passed to \code{read.csv}}
+\item{...}{arguments to be passed to \code{\link[utils:read.table]{utils::read.csv()}}. \code{stringsAsFactors}
+is set to \code{FALSE} within \code{read_prospect()}, re-specifying it in the call
+will throw an error.}
 }
 \value{
-A data frame formatted as required
+An object of class \code{\link{data.frame}}
 }
 \description{
-Takes a .csv file exported from Prospect and reads it in to R
-along with the factor labels from the lookups.csv file produced
-by Prospect. When using this function you must first read the
-lookups.csv file into R.
+Takes a csv file exported from Prospect and reads it in to R
+along with the factor labels from the \code{lookups.csv} file produced by
+Prospect. When using this function you must first read the \code{lookups.csv}
+file into R.
 }

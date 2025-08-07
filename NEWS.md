@@ -12,6 +12,7 @@
 * update to statistics-report R Markdown template to allow for a landscape
   report
 * new R Markdown template for presentations
+* updates to documentation throughout for clarity
 
 # Useful.functions 0.3.0
 

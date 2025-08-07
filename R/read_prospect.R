@@ -1,25 +1,26 @@
 #' Reads in csv files as exported by Prospect
 #'
-#' @description Takes a .csv file exported from Prospect and reads it in to R
-#'              along with the factor labels from the lookups.csv file produced
-#'              by Prospect. When using this function you must first read the
-#'              lookups.csv file into R.
-#'
-#' @usage read_prospect(file, dictionary=lookups, convert.date=TRUE, ...)
+#' @description Takes a csv file exported from Prospect and reads it in to R
+#'  along with the factor labels from the `lookups.csv` file produced by
+#'  Prospect. When using this function you must first read the `lookups.csv`
+#'  file into R.
 #'
 #' @param file The file to be read in
 #' @param dictionary The file in which the lookups reside, default is
 #'                   `lookups`
 #' @param convert.date Convert fields ending in `_dt` or `_date` to date format
-#' @param ... arguments to be passed to `read.csv`
+#' @param ... arguments to be passed to [utils::read.csv()]. `stringsAsFactors`
+#'   is set to `FALSE` within `read_prospect()`, re-specifying it in the call
+#'   will throw an error.
 #'
-#' @return A data frame formatted as required
+#' @return An object of class [`data.frame`]
 #'
 #' @export
-read_prospect <- function(file         = .,
-                          dictionary   = lookups,
+read_prospect <- function(file,
+                          dictionary = lookups,
                           convert.date = TRUE,
                           ...) {
+
   new <- utils::read.csv(file, stringsAsFactors = FALSE, ...)
 
   if (dim(new)[1]==0) {
