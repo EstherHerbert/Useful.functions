@@ -2,9 +2,9 @@
 % Please edit documentation in R/wrangle_lookups.R
 \name{wrangle_lookups}
 \alias{wrangle_lookups}
-\title{Wrangle the Edith database spec into a sing lookups data frame}
+\title{Wrangle the Edith database specification into a single lookups data frame}
 \usage{
-wrangle_lookups(lookups, fields)
+wrangle_lookups(lookups, fields, clean = FALSE, keep = NULL)
 }
 \arguments{
 \item{lookups}{a data frame read in from the Lookups.csv file as exported
@@ -12,6 +12,17 @@ from Edith}
 
 \item{fields}{a data frame read in from the Fields.csv file as exported from
 Edith}
+
+\item{clean}{logical indicating whether field and field_label columns should
+be cleaned up:
+\itemize{
+\item removing \code{"[calculated] "} from field column
+\item removing \code{"[Calculated] "} and \code{"Calculated "} from field_label column
+\item converting field_label column to sentence case
+}}
+
+\item{keep}{optional character vector specifying additional fields to keep
+from \code{fields}}
 }
 \description{
 This function takes the Lookups and Fields tabs from the Edith database
