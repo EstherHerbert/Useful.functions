@@ -5,11 +5,11 @@
 #'
 #' @param df Data Frame
 #' @param ... Variables to be summarised
-#' @param group Variable that defines the grouping
 #' @param ID Variable that defines the individual identifier (e.g. screening
 #'           number)
 #' @param N a data frame with the group counts (typically produced using
 #'          [dplyr::count()])
+#' @param group optional, variable that defines the grouping
 #' @param accuracy see details of [scales::percent()]
 #' @param total Logical indicating whether a total column should be created
 #'
@@ -18,7 +18,7 @@
 #'   count_table(outcome_aes, serious, related, group = group, N = N, ID = screening)
 #'
 #' @export
-count_table <- function (df, ..., group, ID, N, accuracy = 0.1, total = FALSE) {
+count_table <- function (df, ..., ID, N, group, accuracy = 0.1, total = FALSE) {
 
   variables <- rlang::quos(...)
   ID <- rlang::enquo(ID)

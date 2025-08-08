@@ -4,20 +4,20 @@
 \alias{count_table}
 \title{Produce a data frame to summarise counts of events}
 \usage{
-count_table(df, ..., group, ID, N, accuracy = 0.1, total = FALSE)
+count_table(df, ..., ID, N, group, accuracy = 0.1, total = FALSE)
 }
 \arguments{
 \item{df}{Data Frame}
 
 \item{...}{Variables to be summarised}
 
-\item{group}{Variable that defines the grouping}
-
 \item{ID}{Variable that defines the individual identifier (e.g. screening
 number)}
 
 \item{N}{a data frame with the group counts (typically produced using
 \code{\link[dplyr:count]{dplyr::count()}})}
+
+\item{group}{optional, variable that defines the grouping}
 
 \item{accuracy}{see details of \code{\link[scales:percent_format]{scales::percent()}}}
 
