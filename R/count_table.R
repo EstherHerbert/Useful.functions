@@ -1,8 +1,7 @@
-#' Produce a data frame to summarise adverse event data.
+#' Produce a data frame to summarise counts of events
 #'
-#' @description Takes a data frame of adverse events and produces the number of
-#'              events and number and percentage of individuals with an adverse
-#'              event.
+#' @description Takes a data frame of events and produces the number of events
+#'   and number and percentage of individuals with at least one event.
 #'
 #' @param df Data Frame
 #' @param ... Variables to be summarised
@@ -10,16 +9,16 @@
 #' @param ID Variable that defines the individual identifier (e.g. screening
 #'           number)
 #' @param N a data frame with the group counts (typically produced using
-#'          `dplyr::count`)
-#' @param accuracy see details of `scales::percent`
+#'          [dplyr::count()])
+#' @param accuracy see details of [scales::percent()]
 #' @param total Logical indicating whether a total column should be created
 #'
 #' @examples
 #'   N <- dplyr::count(outcome, group, name = "N")
-#'   ae_table(outcome_aes, serious, related, group = group, N = N, ID = screening)
+#'   count_table(outcome_aes, serious, related, group = group, N = N, ID = screening)
 #'
 #' @export
-ae_table <- function (df, ..., group, ID, N, accuracy = 0.1, total = FALSE) {
+count_table <- function (df, ..., group, ID, N, accuracy = 0.1, total = FALSE) {
 
   variables <- rlang::quos(...)
   ID <- rlang::enquo(ID)
@@ -130,5 +129,23 @@ ae_table <- function (df, ..., group, ID, N, accuracy = 0.1, total = FALSE) {
   }
 
   new
+
+}
+
+#' Produce a data frame to summarise count data.
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' This function has been renamed to [count_table()] to reflect the fact that
+#' it can be used to summarise counts of any events.
+#'
+#' @keywords internal
+#'
+#' @export
+ae_table <- function (...) {
+
+  lifecycle::deprecate_warn("0.4", "ae_table()", "count_table()")
+  count_table(...)
 
 }
