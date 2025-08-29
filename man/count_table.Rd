@@ -4,7 +4,7 @@
 \alias{count_table}
 \title{Produce a data frame to summarise counts of events}
 \usage{
-count_table(df, ..., ID, N, group, accuracy = 0.1, total = FALSE)
+count_table(df, ..., ID, N, group, accuracy = 0.1, total = FALSE, all = FALSE)
 }
 \arguments{
 \item{df}{Data Frame}
@@ -21,7 +21,11 @@ number)}
 
 \item{accuracy}{see details of \code{\link[scales:percent_format]{scales::percent()}}}
 
-\item{total}{Logical indicating whether a total column should be created}
+\item{total}{Logical indicating whether a total column should be created,
+default is \code{FALSE}}
+
+\item{all}{logical indicating whether a row summarising all events should be
+created, default is \code{FALSE}}
 }
 \description{
 Takes a data frame of events and produces the number of events
@@ -34,5 +38,6 @@ and number and percentage of individuals with at least one event.
 
   N <- dplyr::count(outcome, name = "N")
   count_table(outcome_aes, serious, related, ID = screening, N = N)
+  count_table(outcome_aes, serious, ID = screening, N = N, all = TRUE)
 
 }

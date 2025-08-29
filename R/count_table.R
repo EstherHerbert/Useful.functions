@@ -6,12 +6,15 @@
 #' @param df Data Frame
 #' @param ... Variables to be summarised
 #' @param ID Variable that defines the individual identifier (e.g. screening
-#'           number)
+#'   number)
 #' @param N a data frame with the group counts (typically produced using
-#'          [dplyr::count()])
+#'   [dplyr::count()])
 #' @param group optional, variable that defines the grouping
 #' @param accuracy see details of [scales::percent()]
-#' @param total Logical indicating whether a total column should be created
+#' @param total Logical indicating whether a total column should be created,
+#'   default is `FALSE`
+#' @param all logical indicating whether a row summarising all events should be
+#'   created, default is `FALSE`
 #'
 #' @examples
 #'   N <- dplyr::count(outcome, group, name = "N")
@@ -20,22 +23,37 @@
 #'
 #'   N <- dplyr::count(outcome, name = "N")
 #'   count_table(outcome_aes, serious, related, ID = screening, N = N)
+#'   count_table(outcome_aes, serious, ID = screening, N = N, all = TRUE)
 #'
 #' @export
-count_table <- function (df, ..., ID, N, group, accuracy = 0.1, total = FALSE) {
+count_table <- function (df,
+                         ...,
+                         ID,
+                         N,
+                         group,
+                         accuracy = 0.1,
+                         total = FALSE,
+                         all = FALSE) {
 
   if (missing(group)) {
     total <- FALSE
   }
 
-  if(total){
+  if (total) {
     df <- df %>%
       totals({{group}})
   }
 
+  if (all) {
+    df <- dplyr::mutate(df, All = "n")
+    variables <- c("All", names(rlang::enquos(..., .named = T)))
+  } else {
+    variables <- names(rlang::enquos(..., .named = T))
+  }
+
   if(!missing(group)){
     new <- df %>%
-      tidyr::pivot_longer(cols = c(...), names_to = "variable",
+      tidyr::pivot_longer(cols = dplyr::all_of(variables), names_to = "variable",
                           values_to = "scoring",
                           values_transform = list(scoring = as.character)) %>%
       dplyr::group_by({{group}}, variable, scoring) %>%
@@ -69,7 +87,7 @@ count_table <- function (df, ..., ID, N, group, accuracy = 0.1, total = FALSE) {
       dplyr::select(-stat)
   } else {
     new <- df %>%
-      tidyr::pivot_longer(cols = c(...), names_to = "variable",
+      tidyr::pivot_longer(cols = dplyr::all_of(variables), names_to = "variable",
                           values_to = "scoring",
                           values_transform = list(scoring = as.character)) %>%
       dplyr::group_by(variable, scoring) %>%
@@ -99,11 +117,10 @@ count_table <- function (df, ..., ID, N, group, accuracy = 0.1, total = FALSE) {
       dplyr::select(-stat)
   }
 
-  order <- dplyr::select(df, ...) %>%
-    colnames()
+  order <- variables
 
   order2 <- df %>%
-    dplyr::select(...) %>%
+    dplyr::select(all_of(variables)) %>%
     dplyr::mutate(dplyr::across(dplyr::everything(), as.factor)) %>%
     as.list() %>%
     purrr::map(~levels(.)) %>%
@@ -129,7 +146,7 @@ count_table <- function (df, ..., ID, N, group, accuracy = 0.1, total = FALSE) {
   )
 
   if (total) {
-    new <- dplyr::relocate(new, Total, .after = dplyr::last_col())
+    new <- dplyr::relocate(new, matches("Total"), .after = dplyr::last_col())
   }
 
   new
