@@ -20,28 +20,27 @@
 #' @export
 count_table <- function (df, ..., ID, N, group, accuracy = 0.1, total = FALSE) {
 
-  variables <- rlang::quos(...)
-  ID <- rlang::enquo(ID)
-
-  if(!missing(group)) group <- rlang::enquo(group) else total <- FALSE
+  if (missing(group)) {
+    total <- FALSE
+  }
 
   if(total){
     df <- df %>%
-      totals(!!group)
+      totals({{group}})
   }
 
   if(!missing(group)){
     new <- df %>%
-      tidyr::pivot_longer(cols = c(!!!variables), names_to = "variable",
+      tidyr::pivot_longer(cols = c(...), names_to = "variable",
                           values_to = "scoring",
                           values_transform = list(scoring = as.character)) %>%
-      dplyr::group_by(!!group, variable, scoring) %>%
+      dplyr::group_by({{group}}, variable, scoring) %>%
       dplyr::summarise(
         events = dplyr::n(),
-        dplyr::across(!!ID, .fns = dplyr::n_distinct, .names = "individuals"),
+        dplyr::across({{ID}}, .fns = dplyr::n_distinct, .names = "individuals"),
         .groups = "drop"
       ) %>%
-      tidyr::complete(!!group, tidyr::nesting(variable, scoring),
+      tidyr::complete({{group}}, tidyr::nesting(variable, scoring),
                       fill = list(events = 0, individuals = 0)
       ) %>%
       dplyr::left_join(N) %>%
@@ -54,7 +53,7 @@ count_table <- function (df, ..., ID, N, group, accuracy = 0.1, total = FALSE) {
       tidyr::pivot_longer(events:individuals, names_to = "stat",
                           values_to = "value",
                           values_transform = list(value = as.character)) %>%
-      tidyr::unite(group, !!group, stat) %>%
+      tidyr::unite(group, {{group}}, stat) %>%
       tidyr::pivot_longer(cols = c(N, value), names_to = "stat",
                           values_to = "value") %>%
       tidyr::pivot_wider(names_from = group, values_from = value) %>%
@@ -66,13 +65,13 @@ count_table <- function (df, ..., ID, N, group, accuracy = 0.1, total = FALSE) {
       dplyr::select(-stat)
   } else {
     new <- df %>%
-      tidyr::pivot_longer(cols = c(!!!variables), names_to = "variable",
+      tidyr::pivot_longer(cols = c(...), names_to = "variable",
                           values_to = "scoring",
                           values_transform = list(scoring = as.character)) %>%
       dplyr::group_by(variable, scoring) %>%
       dplyr::summarise(
         events = dplyr::n(),
-        dplyr::across(!!ID, dplyr::n_distinct, .names = "individuals"),
+        dplyr::across({{ID}}, dplyr::n_distinct, .names = "individuals"),
         .groups = "drop"
       ) %>%
       dplyr::bind_cols(N) %>%
@@ -96,10 +95,11 @@ count_table <- function (df, ..., ID, N, group, accuracy = 0.1, total = FALSE) {
       dplyr::select(-stat)
   }
 
-  order <- sapply(variables, FUN = dplyr::quo_name)
+  order <- dplyr::select(df, ...) %>%
+    colnames()
 
   order2 <- df %>%
-    dplyr::select(!!!variables) %>%
+    dplyr::select(...) %>%
     dplyr::mutate(dplyr::across(dplyr::everything(), as.factor)) %>%
     as.list() %>%
     purrr::map(~levels(.)) %>%
