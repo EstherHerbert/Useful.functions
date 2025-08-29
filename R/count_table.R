@@ -15,7 +15,11 @@
 #'
 #' @examples
 #'   N <- dplyr::count(outcome, group, name = "N")
-#'   count_table(outcome_aes, serious, related, group = group, N = N, ID = screening)
+#'   count_table(outcome_aes, serious, related, ID = screening, N = N,
+#'               group = group)
+#'
+#'   N <- dplyr::count(outcome, name = "N")
+#'   count_table(outcome_aes, serious, related, ID = screening, N = N)
 #'
 #' @export
 count_table <- function (df, ..., ID, N, group, accuracy = 0.1, total = FALSE) {
