@@ -1,5 +1,6 @@
 # Useful.functions (development version)
 
+* `ae_table()` renamed to `count_table()`
 * new function `condense()` to condense 2/3 columns into 1
 * deprecated the use of `condense = TRUE` in `continuous_table()`, 
   `discrete_table()` and `ticked_table()`
