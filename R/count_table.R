@@ -43,7 +43,7 @@ count_table <- function (df, ..., ID, N, group, accuracy = 0.1, total = FALSE) {
       tidyr::complete({{group}}, tidyr::nesting(variable, scoring),
                       fill = list(events = 0, individuals = 0)
       ) %>%
-      dplyr::left_join(N) %>%
+      dplyr::left_join(N, by = dplyr::join_by({{group}})) %>%
       dplyr::mutate(
         individuals = paste0(individuals, " (",
                              scales::percent(individuals/N,
