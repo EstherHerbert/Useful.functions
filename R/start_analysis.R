@@ -36,8 +36,9 @@ start_analysis <- function(path, createGitignore = TRUE, rprofile = TRUE,
 
   # copy the scripts to the project
   script_source <- system.file("extdata", package = "Useful.functions")
-  file.copy(from = file.path(script_source, c("Master.R", "Read-data.R")),
+  file.copy(from = file.path(script_source, "Read-data.R"),
             file.path(path, "Programs"), overwrite = TRUE)
+  create_master(path = file.path(path, "Programs", "Master.R"))
 
 
   if(isTRUE(createGitignore)) {
@@ -70,4 +71,45 @@ start_analysis <- function(path, createGitignore = TRUE, rprofile = TRUE,
                      package = "Useful.functions", edit = FALSE)
   }
 
+}
+
+create_master <- function(path) {
+  cat(
+    "################################################################################
+## Project:
+## Program: Master.R",
+paste("##",R.version.string),
+"## Author:
+## Purpose: To load packages, set options and source scripts in the correct
+##          order.
+## Packages used:",
+paste("## Date:", format(Sys.time(), "%B %Y")),
+"################################################################################
+
+# Packages ---------------------------------------------------------------------
+
+library(tidyverse)
+library(Useful.functions)
+
+# Defaults ---------------------------------------------------------------------
+
+
+# Scripts ----------------------------------------------------------------------
+
+# Read in common functions and data
+
+# Data checks
+
+# Derivations and data-sets
+
+# Summaries
+
+# Analyses
+
+# Misc.
+
+# Reports ----------------------------------------------------------------------
+
+", sep = "\n", file = path
+  )
 }
