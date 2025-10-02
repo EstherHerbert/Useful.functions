@@ -4,7 +4,7 @@
 \alias{export_check}
 \title{Checks imported form lengths against the export note produced by prospect.}
 \usage{
-export_check(export_notes, data, save.log = FALSE, file = "")
+export_check(export_notes, data, file = "")
 }
 \arguments{
 \item{export_notes}{file path to the export note (usually in the same folder
@@ -12,10 +12,9 @@ as the exported csv files and called export_note.txt)}
 
 \item{data}{a list containing the read in data}
 
-\item{save.log}{logical, should a log of the check be saved?}
-
-\item{file}{if \code{save.log = TRUE} then the file path to which the log should
-be saved (e.g. "export-check.log").}
+\item{file}{file path to which the log should be saved (e.g.
+"export-check.log"). If left as \code{file = ""} (the default) then the log will
+not be saved.}
 }
 \value{
 nothing is returned but a message is printed to the console (or
