@@ -41,7 +41,7 @@ csv file lengths against he export note produced by prospect.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">export_check</span><span class="op">(</span><span class="va">export_notes</span>, <span class="va">data</span>, save.log <span class="op">=</span> <span class="cn">FALSE</span>, file <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">export_check</span><span class="op">(</span><span class="va">export_notes</span>, <span class="va">data</span>, file <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -57,13 +57,10 @@ as the exported csv files and called export_note.txt)</p></dd>
 <dd><p>a list containing the read in data</p></dd>
 
 
-<dt id="arg-save-log">save.log<a class="anchor" aria-label="anchor" href="#arg-save-log"></a></dt>
-<dd><p>logical, should a log of the check be saved?</p></dd>
-
-
 <dt id="arg-file">file<a class="anchor" aria-label="anchor" href="#arg-file"></a></dt>
-<dd><p>if <code>save.log = TRUE</code> then the file path to which the log should
-be saved (e.g. "export-check.log").</p></dd>
+<dd><p>file path to which the log should be saved (e.g.
+"export-check.log"). If left as <code>file = ""</code> (the default) then the log will
+not be saved.</p></dd>
 
 </dl></div>
     <div class="section level2">
