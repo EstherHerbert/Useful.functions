@@ -41,7 +41,8 @@ discrete_table <- function(df = .,
 
   rlang::check_dots_unnamed()
 
-  variable = lapply(rlang::quos(...), rlang::as_name)
+  variable <- dplyr::select(df, ...) %>%
+    names()
 
   if (rlang::is_empty(variable)) {
     stop("No variables were specified in `...`")
