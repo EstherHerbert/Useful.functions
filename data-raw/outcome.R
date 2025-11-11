@@ -14,11 +14,11 @@ outcome <- expand_grid(
                    levels = LETTERS[1:2]),
     Baseline = rnorm(n(), mean = 4, sd = 2),
     `6 Weeks` = if_else(group == "A",
-                               Baseline + rnorm(n(), mean = 0, sd = 1),
-                               Baseline + rnorm(n(), mean = 3, sd = 1)),
+                        Baseline + rnorm(n(), mean = 0, sd = 1),
+                        Baseline + rnorm(n(), mean = 3, sd = 1)),
     `12 Weeks` = if_else(group == "A",
-                                `6 Weeks` + rnorm(n(), mean = 0, sd = 1),
-                                `6 Weeks` + rnorm(n(), mean = 2, sd = 1)),
+                         `6 Weeks` + rnorm(n(), mean = 0, sd = 1),
+                         `6 Weeks` + rnorm(n(), mean = 2, sd = 1)),
     sex = sample(c("Male", "Female"), n(), replace = T),
     sex = fct_expand(sex, "Prefer not to specify"),
     r = sample(0:1, n(), replace = T, prob = c(0.01, 0.99)),
@@ -38,7 +38,9 @@ outcome <- expand_grid(
     ),
     pain = factor(pain, levels = c("Low", "Medium", "High")),
     r = sample(0:1, n(), replace = T, prob = c(1,99)),
-    pain = if_else(r == 0, NA, pain)
+    pain = if_else(r == 0, NA, pain),
+    limp_yn = factor(sample(c("Yes", "No", NA), n(), replace = T,
+                            prob = c(0.2, 0.75, 0.05)))
   ) %>%
   select(-r)
 

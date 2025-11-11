@@ -18,7 +18,7 @@
 #' A simulated data frame used in examples.
 #'
 #' @format
-#' A data frame with 600 rows and 9 columns:
+#' A data frame with 600 rows and 11 columns:
 #' \describe{
 #'    \item{site}{character, site code}
 #'    \item{screening}{character, individual id number}
@@ -30,6 +30,7 @@
 #'    \item{pet_fish}{character, "tick" variable}
 #'    \item{score}{double, randomly generated "score"}
 #'    \item{pain}{factor with 3 levels: Low, Medium, High}
+#'    \item{limp_yn}{factor with 2 levels: Yes, No}
 #' }
 "outcome"
 

@@ -1,5 +1,6 @@
 # Useful.functions (development version)
 
+* new `yn_table()` to summarise data coded yes/no
 * `export_check()` prints to the console even when saving the log and checks for
   missing forms
 * `ae_table()` renamed to `count_table()`

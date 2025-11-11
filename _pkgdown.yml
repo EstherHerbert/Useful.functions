@@ -13,6 +13,7 @@ reference:
   contents:
   - continuous_table
   - discrete_table
+  - yn_table
   - missing_table
   - ticked_table
   - count_table
