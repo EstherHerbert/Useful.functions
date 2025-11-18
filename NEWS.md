@@ -1,5 +1,6 @@
 # Useful.functions (development version)
 
+* new `np()` and `pn()` to display counts and percentages of boolean data
 * new `yn_table()` to summarise data coded yes/no
 * `export_check()` prints to the console even when saving the log and checks for
   missing forms
