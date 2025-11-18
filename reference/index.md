@@ -101,6 +101,9 @@
   : Generates a log of git commits
 - [`start_analysis()`](https://estherherbert.github.io/Useful.functions/reference/start_analysis.md)
   : Sets up the analysis folder
+- [`pn()`](https://estherherbert.github.io/Useful.functions/reference/pn.md)
+  [`np()`](https://estherherbert.github.io/Useful.functions/reference/pn.md)
+  : Count and Percentage
 
 ## Data
 

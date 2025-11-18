@@ -3,6 +3,11 @@
 ## Useful.functions (development version)
 
 - new
+  [`np()`](https://estherherbert.github.io/Useful.functions/reference/pn.md)
+  and
+  [`pn()`](https://estherherbert.github.io/Useful.functions/reference/pn.md)
+  to display counts and percentages of boolean data
+- new
   [`yn_table()`](https://estherherbert.github.io/Useful.functions/reference/yn_table.md)
   to summarise data coded yes/no
 - [`export_check()`](https://estherherbert.github.io/Useful.functions/reference/export_check.md)
