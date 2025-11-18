@@ -57,10 +57,8 @@ continuous_table <- function(df = .,
       dplyr::summarise(
         N = dplyr::n(),
         n = sum(!is.na(value)),
-        `Mean (SD)` = qwraps2::mean_sd(value, na_rm = T, denote_sd = "paren",
-                                       digits = digits, show_n = "never"),
-        `Median (IQR)` = qwraps2::median_iqr(value, na_rm = T, digits = digits,
-                                             show_n = "never"),
+        `Mean (SD)` = mean_sd(value, na_rm = T, digits = digits),
+        `Median (IQR)` = median_iqr(value, na_rm = T, digits = digits),
         `Min, Max` = paste0(
           min = round(min(value, na.rm = T), digits), ", ",
           round(max(value, na.rm = T), digits)
@@ -97,10 +95,8 @@ continuous_table <- function(df = .,
       dplyr::summarise(
         N = dplyr::n(),
         n = sum(!is.na(value)),
-        `Mean (SD)` = qwraps2::mean_sd(value, na_rm = T, denote_sd = "paren",
-                                       digits = digits, show_n = "never"),
-        `Median (IQR)` = qwraps2::median_iqr(value, na_rm = T, digits = digits,
-                                             show_n = "never"),
+        `Mean (SD)` = mean_sd(value, na_rm = T, digits = digits, show_n = F),
+        `Median (IQR)` = median_iqr(value, na_rm = T, digits = digits),
         `Min, Max` = paste0(
           round(min(value, na.rm = T), digits), ", ",
           round(max(value, na.rm = T), digits)
@@ -135,10 +131,8 @@ continuous_table <- function(df = .,
       dplyr::summarise(
         N = dplyr::n(),
         n = sum(!is.na(value)),
-        `Mean (SD)` = qwraps2::mean_sd(value, na_rm = T, denote_sd = "paren",
-                                       digits = digits, show_n = "never"),
-        `Median (IQR)` = qwraps2::median_iqr(value, na_rm = T, digits = digits,
-                                             show_n = "never"),
+        `Mean (SD)` = mean_sd(value, na_rm = T, digits = digits, show_n = F),
+        `Median (IQR)` = median_iqr(value, na_rm = T, digits = digits),
         `Min, Max` = paste0(
           min = round(min(value, na.rm = T), digits), ", ",
           round(max(value, na.rm = T), digits)

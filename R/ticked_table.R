@@ -60,8 +60,7 @@ ticked_table <- function (df = .,
       dplyr::group_by(!!group, scoring) %>%
       dplyr::summarise(
         N = paste("N =", dplyr::n()),
-        np = qwraps2::n_perc(value, digits = digits, show_denom = "never", na_rm = T,
-                             markup = "markdown")
+        np = np(value, digits = digits, na_rm = T)
       ) %>%
       tidyr::pivot_longer(-c(!!group, scoring), names_to = "stat",
                           values_to = "value") %>%
@@ -85,8 +84,7 @@ ticked_table <- function (df = .,
       dplyr::group_by(scoring) %>%
       dplyr::summarise(
         N = paste("N =", dplyr::n()),
-        np = qwraps2::n_perc(value, digits = digits, show_denom = "never", na_rm = T,
-                             markup = "markdown")
+        np = np(value, digits = digits, na_rm = T)
       ) %>%
       tidyr::pivot_longer(-scoring, names_to = "stat", values_to = "value") %>%
       dplyr::mutate(
