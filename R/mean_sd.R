@@ -1,3 +1,20 @@
+#' Mean (SD)
+#'
+#' Calculates and formats the mean and standard deviation.
+#'
+#' @param x numeric vector
+#' @param digits number of digits to round mean and standard deviation to
+#' @param na_rm remove `NA` values, default is `FALSE`
+#' @param show_n Should the denominator be shown, default is `FALSE`
+#' @param note should "SD " be written inside the brackets, default is `FALSE`
+#' @param unit optional character string giving unit, e.g., "kg"
+#'
+#' @examples
+#'   mean_sd(outcome$score, na_rm = TRUE)
+#'   mean_sd(outcome$score, na_rm = TRUE, show_n = TRUE)
+#'   mean_sd(outcome$score, na_rm = TRUE, note = TRUE)
+#'
+#' @export
 mean_sd <- function (x, digits = 2, na_rm = FALSE, show_n = FALSE,
                      note = FALSE, unit = NULL) {
 

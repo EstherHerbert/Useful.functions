@@ -1,5 +1,6 @@
 # Useful.functions (development version)
 
+* new `mean_sd()` and `median_iqr()` to summarise numeric vectors
 * new `np()` and `pn()` to display counts and percentages of boolean data
 * new `yn_table()` to summarise data coded yes/no
 * `export_check()` prints to the console even when saving the log and checks for

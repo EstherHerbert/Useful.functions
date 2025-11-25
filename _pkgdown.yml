@@ -49,6 +49,8 @@ reference:
   - start_analysis
   - np
   - pn
+  - mean_sd
+  - median_iqr
 
 - title: Data
   contents:
