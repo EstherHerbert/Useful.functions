@@ -2,6 +2,8 @@
 
 ## Useful.functions (development version)
 
+- new options `n` and `boolean` in
+  [`ticked_table()`](https://estherherbert.github.io/Useful.functions/reference/ticked_table.md)
 - new
   [`mean_sd()`](https://estherherbert.github.io/Useful.functions/reference/mean_sd.md)
   and

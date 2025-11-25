@@ -13,6 +13,8 @@ ticked_table(
   sep,
   digits = 1,
   total = TRUE,
+  n = FALSE,
+  boolean = FALSE,
   condense = FALSE
 )
 ```
@@ -44,6 +46,17 @@ ticked_table(
 
   Logical indicating whether a total column should be created
 
+- n:
+
+  Logical indicating whether the second header row should be converted
+  into a row of denominators. Helpful for when `ticked_table()` forms
+  part of a larger table. Default is `FALSE`
+
+- boolean:
+
+  Logical indicating whether the variables are already coded as
+  TRUE/FALSE or 0/1. Default is `FALSE`
+
 - condense:
 
   **\[deprecated\]** `condense = TRUE` is deprecated, use
@@ -72,4 +85,12 @@ A tibble data frame summarising the data
 #> 1 NA       N = 600    
 #> 2 pet_fish 99 (16.5%) 
 #> 3 pet_dog  201 (33.5%)
+
+  ticked_table(outcome, pet_fish, pet_dog, sep = "_", n = TRUE)
+#> # A tibble: 3 × 3
+#>   variable scoring value      
+#>   <chr>    <chr>   <chr>      
+#> 1 pet      n       600        
+#> 2 pet      fish    99 (16.5%) 
+#> 3 pet      dog     201 (33.5%)
 ```

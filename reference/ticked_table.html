@@ -48,6 +48,8 @@ ticked variables.</p>
 <span>  <span class="va">sep</span>,</span>
 <span>  digits <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  total <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  n <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  boolean <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  condense <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -81,6 +83,17 @@ variable and scoring. See ?tidyr::separate for more information.</p></dd>
 <dd><p>Logical indicating whether a total column should be created</p></dd>
 
 
+<dt id="arg-n">n<a class="anchor" aria-label="anchor" href="#arg-n"></a></dt>
+<dd><p>Logical indicating whether the second header row should be converted
+into a row of denominators. Helpful for when <code>ticked_table()</code> forms part of
+a larger table. Default is <code>FALSE</code></p></dd>
+
+
+<dt id="arg-boolean">boolean<a class="anchor" aria-label="anchor" href="#arg-boolean"></a></dt>
+<dd><p>Logical indicating whether the variables are already coded as
+TRUE/FALSE or 0/1. Default is <code>FALSE</code></p></dd>
+
+
 <dt id="arg-condense">condense<a class="anchor" aria-label="anchor" href="#arg-condense"></a></dt>
 <dd><p><a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a> <code>condense = TRUE</code> is
 deprecated, use <code><a href="condense.html">condense()</a></code> instead.</p></dd>
@@ -108,6 +121,14 @@ deprecated, use <code><a href="condense.html">condense()</a></code> instead.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> <span style="color: #BB0000;">NA</span>       N = 600    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> pet_fish 99 (16.5%) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> pet_dog  201 (33.5%)</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="fu">ticked_table</span><span class="op">(</span><span class="va">outcome</span>, <span class="va">pet_fish</span>, <span class="va">pet_dog</span>, sep <span class="op">=</span> <span class="st">"_"</span>, n <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3 × 3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   variable scoring value      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> pet      n       600        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> pet      fish    99 (16.5%) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> pet      dog     201 (33.5%)</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
