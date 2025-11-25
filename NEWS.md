@@ -1,5 +1,6 @@
 # Useful.functions (development version)
 
+* new options `n` and `boolean` in `ticked_table()`
 * new `mean_sd()` and `median_iqr()` to summarise numeric vectors
 * new `np()` and `pn()` to display counts and percentages of boolean data
 * new `yn_table()` to summarise data coded yes/no

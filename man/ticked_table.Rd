@@ -11,6 +11,8 @@ ticked_table(
   sep,
   digits = 1,
   total = TRUE,
+  n = FALSE,
+  boolean = FALSE,
   condense = FALSE
 )
 }
@@ -28,6 +30,13 @@ variable and scoring. See ?tidyr::separate for more information.}
 
 \item{total}{Logical indicating whether a total column should be created}
 
+\item{n}{Logical indicating whether the second header row should be converted
+into a row of denominators. Helpful for when \code{ticked_table()} forms part of
+a larger table. Default is \code{FALSE}}
+
+\item{boolean}{Logical indicating whether the variables are already coded as
+TRUE/FALSE or 0/1. Default is \code{FALSE}}
+
 \item{condense}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{condense = TRUE} is
 deprecated, use \code{\link[=condense]{condense()}} instead.}
 }
@@ -42,5 +51,7 @@ ticked variables.
   ticked_table(outcome, pet_cat, pet_dog, group = group, sep = "_")
 
   ticked_table(outcome, pet_fish, pet_dog)
+
+  ticked_table(outcome, pet_fish, pet_dog, sep = "_", n = TRUE)
 
 }
