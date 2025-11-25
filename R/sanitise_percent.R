@@ -11,7 +11,13 @@
 #'
 #' @export
 sanitise_percent <- function(str) {
+
   result <- gsub("%", "\\%", str, fixed = TRUE)
+  result <- gsub(">", "$>$", result, fixed = TRUE)
+  result <- gsub("<", "$<$", result, fixed = TRUE)
+  result <- gsub("\u2265", "$\\geq$", result, fixed = TRUE)
+  result <- gsub("\u2264", "$\\leq$", result, fixed = TRUE)
+  result <- gsub("&", "\\&", result, fixed = TRUE)
 
   return(result)
 }
