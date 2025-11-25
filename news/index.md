@@ -3,6 +3,11 @@
 ## Useful.functions (development version)
 
 - new
+  [`mean_sd()`](https://estherherbert.github.io/Useful.functions/reference/mean_sd.md)
+  and
+  [`median_iqr()`](https://estherherbert.github.io/Useful.functions/reference/median_iqr.md)
+  to summarise numeric vectors
+- new
   [`np()`](https://estherherbert.github.io/Useful.functions/reference/pn.md)
   and
   [`pn()`](https://estherherbert.github.io/Useful.functions/reference/pn.md)

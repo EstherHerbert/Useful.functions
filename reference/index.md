@@ -104,6 +104,10 @@
 - [`pn()`](https://estherherbert.github.io/Useful.functions/reference/pn.md)
   [`np()`](https://estherherbert.github.io/Useful.functions/reference/pn.md)
   : Count and Percentage
+- [`mean_sd()`](https://estherherbert.github.io/Useful.functions/reference/mean_sd.md)
+  : Mean (SD)
+- [`median_iqr()`](https://estherherbert.github.io/Useful.functions/reference/median_iqr.md)
+  : Median (IQR)
 
 ## Data
 

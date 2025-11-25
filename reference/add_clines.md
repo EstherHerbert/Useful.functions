@@ -43,7 +43,7 @@ xtab <- xtable::xtable(head(iris))
 
 xtable::print.xtable(xtab, add.to.row = add_clines(., rows = c(2, 3), cols = "3-4"))
 #> % latex table generated in R 4.5.2 by xtable 1.8-4 package
-#> % Tue Nov 18 16:59:16 2025
+#> % Tue Nov 25 15:21:21 2025
 #> \begin{table}[ht]
 #> \centering
 #> \begin{tabular}{rrrrrl}
