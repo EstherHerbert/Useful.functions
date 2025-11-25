@@ -37,6 +37,6 @@ median_iqr(x, digits = 2, na_rm = FALSE, show_n = FALSE, note = FALSE)
 #> [1] "5.11 (3.24, 7.22)"
   median_iqr(outcome$score, na_rm = TRUE, show_n = TRUE)
 #> [1] "527; 5.11 (3.24, 7.22)"
-  median_iqr(outcome$score, na_rm = T, note = TRUE)
+  median_iqr(outcome$score, na_rm = TRUE, note = TRUE)
 #> [1] "5.11 (IQR 3.24, 7.22)"
 ```

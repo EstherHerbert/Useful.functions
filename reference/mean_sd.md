@@ -48,6 +48,6 @@ mean_sd(
 #> [1] "5.36 (2.93)"
   mean_sd(outcome$score, na_rm = TRUE, show_n = TRUE)
 #> [1] "527; 5.36 (2.93)"
-  mean_sd(outcome$score, na_rm = T, note = TRUE)
+  mean_sd(outcome$score, na_rm = TRUE, note = TRUE)
 #> [1] "5.36 (SD 2.93)"
 ```

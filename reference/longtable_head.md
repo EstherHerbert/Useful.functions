@@ -52,7 +52,7 @@ xtable::print.xtable(xtab, tabular.environment = "longtable", floating = FALSE,
                      hline.after = c(-1,0),
                      add.to.row = longtable_head(xtab))
 #> % latex table generated in R 4.5.2 by xtable 1.8-4 package
-#> % Tue Nov 25 15:21:25 2025
+#> % Tue Nov 25 16:08:44 2025
 #> \begin{longtable}{rrrrrl}
 #>   \hline
 #>  & Sepal.Length & Sepal.Width & Petal.Length & Petal.Width & Species \\ 
