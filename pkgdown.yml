@@ -2,7 +2,7 @@ pandoc: 3.1.11
 pkgdown: 2.2.0
 pkgdown_sha: ~
 articles: {}
-last_built: 2025-11-25T16:55Z
+last_built: 2025-12-11T11:20Z
 urls:
   reference: https://estherherbert.github.io/Useful.functions/reference
   article: https://estherherbert.github.io/Useful.functions/articles
