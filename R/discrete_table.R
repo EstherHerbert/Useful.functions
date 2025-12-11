@@ -58,11 +58,13 @@ discrete_table <- function(df = .,
   }
 
   if(!missing(missing) && n) {
-    warning("You have specified a string for `missing` when `n = TRUE`, `missing` will be ignored")
+    warning(paste("You have specified a string for `missing` when `n = TRUE`,",
+                  "`missing` will be ignored"))
   }
 
   if (!missing(total) && missing(group)) {
-    warning(paste0("You have specified `total=", total, "` without `group`, `total` will be ignored"))
+    warning(paste0("You have specified `total=", total,
+                   "` without `group`, `total` will be ignored"))
   }
 
   if (missing(group)) {
@@ -78,7 +80,13 @@ discrete_table <- function(df = .,
   if(!n){
     df <- df %>%
       dplyr::mutate(
-        dplyr::across(c(...), ~forcats::fct_na_value_to_level(.x, level = missing))
+        dplyr::across(c(...), function(x) {
+          if(any(is.na(x))) {
+            forcats::fct_na_value_to_level(x, level = missing)
+          } else {
+            x
+          }
+        })
       )
   }
 
@@ -197,13 +205,13 @@ discrete_table <- function(df = .,
   }
 
   if(missing(time)){
-      new <- new %>%
-        dplyr::mutate(
-          dplyr::across(c(variable, scoring),
-                        ~dplyr::if_else(scoring == "N", NA_character_,
-                                        as.character(.x)))
-        ) %>%
-        dplyr::arrange(!is.na(variable))
+    new <- new %>%
+      dplyr::mutate(
+        dplyr::across(c(variable, scoring),
+                      ~dplyr::if_else(scoring == "N", NA_character_,
+                                      as.character(.x)))
+      ) %>%
+      dplyr::arrange(!is.na(variable))
   } else {
     order3 <- df %>%
       dplyr::mutate({{time}} := as.factor({{time}})) %>%
@@ -211,16 +219,16 @@ discrete_table <- function(df = .,
       purrr::map(levels) %>%
       .[[1]]
 
-      new <- new %>%
-        dplyr::mutate(
-          {{time}} := readr::parse_factor({{time}}, c("N", order3)),
-        ) %>%
-        dplyr::arrange({{time}}) %>%
-        dplyr::mutate(
-          dplyr::across(c({{time}}, variable, scoring),
-                        ~dplyr::if_else(scoring == "N", NA_character_,
-                                        as.character(.x)))
-        )
+    new <- new %>%
+      dplyr::mutate(
+        {{time}} := readr::parse_factor({{time}}, c("N", order3)),
+      ) %>%
+      dplyr::arrange({{time}}) %>%
+      dplyr::mutate(
+        dplyr::across(c({{time}}, variable, scoring),
+                      ~dplyr::if_else(scoring == "N", NA_character_,
+                                      as.character(.x)))
+      )
   }
 
   if(condense & !n){
@@ -230,7 +238,7 @@ discrete_table <- function(df = .,
       dplyr::group_modify(~dplyr::add_row(.x, .before = 1)) %>%
       dplyr::mutate(
         variable = dplyr::if_else(is.na(scoring), as.character(variable),
-                           paste("  ", scoring))
+                                  paste("  ", scoring))
       ) %>%
       dplyr::select(-scoring) %>%
       .[-1,]
@@ -242,7 +250,7 @@ discrete_table <- function(df = .,
     new <- new %>%
       dplyr::mutate(
         variable = dplyr::if_else(scoring == "n", as.character(variable),
-                           paste("  ", scoring))
+                                  paste("  ", scoring))
       ) %>%
       dplyr::select(-scoring)
   }
