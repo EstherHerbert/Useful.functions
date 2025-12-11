@@ -6,12 +6,18 @@
 #' @param lines either a numeric vector of row numbers or `"multirow"`. If the latter then the function will check which lines start with a cell which uses `\multirow`.
 #'
 #' @export
-prevent_pagebreak <- function(pxtab, lines){
+prevent_pagebreak <- function(pxtab, lines = "quad"){
 
   tab <- str_split(pxtab, "\n")[[1]]
 
   if(lines == "multirow"){
-    lines <- str_which(tab, regex("^\\\\multirow"))
+    lines <- str_which(tab, regex("^\\\\multirow")) - 1
+  } else if(lines == "qquad"){
+    lines <- str_which(tab, regex("\\\\qquad")) - 1
+  } else if(lines == "quad"){
+    lines <- str_which(tab, regex("\\\\quad")) - 1
+  } else if(lines == "hang"){
+    lines <- str_which(tab, regex("\\\\hang")) - 1
   }
 
   tab[lines] <- str_remove(tab[lines], " $")
