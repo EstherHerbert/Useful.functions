@@ -4,7 +4,7 @@
 \alias{prevent_pagebreak}
 \title{Preventing page breaks when using in long tables exported from \code{xtable()}}
 \usage{
-prevent_pagebreak(pxtab, lines)
+prevent_pagebreak(pxtab, lines = "quad")
 }
 \arguments{
 \item{pxtab}{the output from a call to \code{print.xtable}}

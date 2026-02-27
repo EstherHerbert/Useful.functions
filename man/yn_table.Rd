@@ -4,7 +4,7 @@
 \alias{yn_table}
 \title{Produce a data frame to summarise discrete variables coded as Yes/No}
 \usage{
-yn_table(df = ., ..., group, digits = 1, total = TRUE, show_denom = TRUE)
+yn_table(df = ., ..., group, time, digits = 1, total = TRUE, show_denom = TRUE)
 }
 \arguments{
 \item{df}{Data Frame}
@@ -12,6 +12,9 @@ yn_table(df = ., ..., group, digits = 1, total = TRUE, show_denom = TRUE)
 \item{...}{Variables to be summarised}
 
 \item{group}{Optional variable that defines the grouping}
+
+\item{time}{Optional variable for repeated measures (currently must me used
+with group)}
 
 \item{digits}{Number of digits to display percentages to, default is 1}
 
@@ -32,6 +35,7 @@ values.
 yn_table(outcome, limp_yn, group = group)
 yn_table(outcome, limp_yn, group = group, total = FALSE)
 yn_table(outcome, limp_yn, show_denom = FALSE)
+yn_table(outcome, limp_yn, group = group, time = event_name, total = F)
 
 
 }

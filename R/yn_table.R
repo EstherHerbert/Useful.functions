@@ -8,6 +8,8 @@
 #' @param df Data Frame
 #' @param ... Variables to be summarised
 #' @param group Optional variable that defines the grouping
+#' @param time Optional variable for repeated measures (currently must me used
+#'   with group)
 #' @param digits Number of digits to display percentages to, default is 1
 #' @param total Logical indicating whether a total column should be created
 #' @param show_denom Logical, should the denominator for each variable be shown.
@@ -19,12 +21,14 @@
 #' yn_table(outcome, limp_yn, group = group)
 #' yn_table(outcome, limp_yn, group = group, total = FALSE)
 #' yn_table(outcome, limp_yn, show_denom = FALSE)
+#' yn_table(outcome, limp_yn, group = group, time = event_name, total = F)
 #'
 #'
 #' @export
 yn_table <- function (df = .,
                       ...,
                       group,
+                      time,
                       digits = 1,
                       total = TRUE,
                       show_denom = TRUE){
@@ -40,7 +44,7 @@ yn_table <- function (df = .,
       totals({{group}})
   }
 
-  if(!missing(group)){
+  if(!missing(group) & missing(time)){
     new <- df %>%
       dplyr::select({{group}}, ...) %>%
       tidyr::pivot_longer(-{{group}}, names_to = "scoring",
@@ -56,6 +60,26 @@ yn_table <- function (df = .,
       tidyr::pivot_wider(names_from = {{group}}, values_from = value) %>%
       dplyr::mutate(
         scoring = dplyr::if_else(stat == "N", "N", scoring)
+      ) %>%
+      dplyr::select(-stat) %>%
+      .[!duplicated(.),]
+  } else if(!missing(group) & !missing(time)) {
+    new <- df %>%
+      dplyr::select({{group}}, {{time}}, ...) %>%
+      tidyr::pivot_longer(-c({{group}}, {{time}}), names_to = "scoring",
+                          values_to = "value") %>%
+      dplyr::summarise(
+        N = paste("N =", dplyr::n()),
+        np = np(value == "Yes", digits = digits, na_rm = T,
+                show_denom = show_denom),
+        .by = c({{group}}, {{time}}, scoring)
+      ) %>%
+      tidyr::pivot_longer(-c({{group}}, {{time}}, scoring), names_to = "stat",
+                          values_to = "value") %>%
+      tidyr::pivot_wider(names_from = {{group}}, values_from = value) %>%
+      dplyr::mutate(
+        dplyr::across(c({{time}}, scoring),
+                      \(x) dplyr::if_else(stat == "N", "N", x))
       ) %>%
       dplyr::select(-stat) %>%
       .[!duplicated(.),]
@@ -81,20 +105,42 @@ yn_table <- function (df = .,
   order <- dplyr::select(df, ...) %>%
     colnames()
 
-  new <- new %>%
-    dplyr::mutate(
-      scoring = readr::parse_factor(scoring, c("N", order))
-    ) %>%
-    dplyr::arrange(scoring)%>%
-    dplyr::mutate(
-      scoring = dplyr::if_else(scoring == "N", NA_character_,
-                               as.character(scoring))
-    )
+  if(!missing(time)) {
+    order2 <- df %>%
+      dplyr::mutate({{time}} := as.factor({{time}})) %>%
+      dplyr::pull({{time}}) %>%
+      levels()
+
+    new <- new %>%
+      dplyr::mutate(
+        {{time}} := readr::parse_factor({{time}}, c("N", order2)),
+        scoring = readr::parse_factor(scoring, c("N", order)),
+      ) %>%
+      dplyr::arrange({{time}}, scoring) %>%
+      dplyr::mutate(
+        dplyr::across(c(scoring, {{time}}),
+                      ~dplyr::if_else(scoring == "N", NA_character_,
+                                      as.character(.x)))
+      )
+  } else {
+    new <- new %>%
+      dplyr::mutate(
+        scoring = readr::parse_factor(scoring, c("N", order))
+      ) %>%
+      dplyr::arrange(scoring)%>%
+      dplyr::mutate(
+        scoring = dplyr::if_else(scoring == "N", NA_character_,
+                                 as.character(scoring))
+      )
+  }
+
+
 
   new <- new %>%
     dplyr::mutate(
       variable = scoring,
-      scoring = dplyr::case_match(scoring, NA ~ NA, .default = "")) %>%
+      scoring = dplyr::case_match(scoring, NA ~ NA, .default = "")
+    ) %>%
     dplyr::relocate(variable, .before = 1)
 
   return(new)
