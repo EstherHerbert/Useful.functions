@@ -28,8 +28,8 @@ iris2 <- split_colnames(iris, sep = "\\.")
 
 xtab <- xtable::xtable(iris2)
 xtable::print.xtable(xtab, add.to.row = merge_colnames(xtab))
-#> % latex table generated in R 4.5.2 by xtable 1.8-4 package
-#> % Thu Dec 11 11:21:07 2025
+#> % latex table generated in R 4.5.2 by xtable 1.8-8 package
+#> % Thu Mar  5 13:13:53 2026
 #> \begin{table}[ht]
 #> \centering
 #> \begin{tabular}{rlllll}

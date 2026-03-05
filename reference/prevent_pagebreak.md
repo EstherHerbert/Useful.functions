@@ -8,7 +8,7 @@ specified lines of output from `print.xtable`.
 ## Usage
 
 ``` r
-prevent_pagebreak(pxtab, lines)
+prevent_pagebreak(pxtab, lines = "quad")
 ```
 
 ## Arguments

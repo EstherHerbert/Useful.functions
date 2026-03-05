@@ -7,7 +7,7 @@ values.
 ## Usage
 
 ``` r
-yn_table(df = ., ..., group, digits = 1, total = TRUE, show_denom = TRUE)
+yn_table(df = ., ..., group, time, digits = 1, total = TRUE, show_denom = TRUE)
 ```
 
 ## Arguments
@@ -23,6 +23,11 @@ yn_table(df = ., ..., group, digits = 1, total = TRUE, show_denom = TRUE)
 - group:
 
   Optional variable that defines the grouping
+
+- time:
+
+  Optional variable for repeated measures (currently must me used with
+  group)
 
 - digits:
 
@@ -62,5 +67,13 @@ yn_table(outcome, limp_yn, show_denom = FALSE)
 #>   <chr>    <chr>   <chr>    
 #> 1 NA       NA      N = 600  
 #> 2 limp_yn  ""      113 (20%)
+yn_table(outcome, limp_yn, group = group, time = event_name, total = F)
+#> # A tibble: 4 × 5
+#>   variable event_name scoring B              A            
+#>   <chr>    <chr>      <chr>   <chr>          <chr>        
+#> 1 NA       NA         NA      N = 108        N = 92       
+#> 2 limp_yn  Baseline   ""      19/100 (19%)   11/86 (12.8%)
+#> 3 limp_yn  6 Weeks    ""      19/104 (18.3%) 26/86 (30.2%)
+#> 4 limp_yn  12 Weeks   ""      21/103 (20.4%) 17/86 (19.8%)
 
 ```
