@@ -51,8 +51,8 @@ xtab <- xtable::xtable(iris, caption = "Iris Data")
 xtable::print.xtable(xtab, tabular.environment = "longtable", floating = FALSE,
                      hline.after = c(-1,0),
                      add.to.row = longtable_head(xtab))
-#> % latex table generated in R 4.5.2 by xtable 1.8-8 package
-#> % Thu Mar  5 13:13:52 2026
+#> % latex table generated in R 4.5.3 by xtable 1.8-8 package
+#> % Tue Mar 31 10:49:49 2026
 #> \begin{longtable}{rrrrrl}
 #>   \hline
 #>  & Sepal.Length & Sepal.Width & Petal.Length & Petal.Width & Species \\ 
