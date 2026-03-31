@@ -12,7 +12,7 @@
 #'
 #' @examples
 #'   pn(outcome$limp_yn == "Yes", note = TRUE)
-#'   np(outcome$limp_yn == "Yes", show_denom = TRUE, na_rm = T)
+#'   np(outcome$limp_yn == "Yes", show_denom = TRUE, na_rm = TRUE)
 #'
 #'
 #' @export
