@@ -63,9 +63,14 @@ diagPlot.lm <- function(model, plot = FALSE, ...) {
 #' @export
 diagPlot.lme <- function(model, plot = FALSE, ...) {
 
+  response <- with(attributes(terms(model)),
+                   as.character(variables[response+1]))
+
+  response <- rlang::sym(response)
+
   aug <- broom.mixed::augment(model) %>%
     dplyr::mutate(
-      .residfixed = score - .fixed
+      .residfixed = {{response}} - .fixed
     )
 
   tid <- broom.mixed::tidy(model, effects = "ran_vals")
