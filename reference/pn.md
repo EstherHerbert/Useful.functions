@@ -43,7 +43,7 @@ np(x, digits = 1, na_rm = FALSE, show_denom = FALSE, paren = "(")
 ``` r
   pn(outcome$limp_yn == "Yes", note = TRUE)
 #> [1] "18.8% (n = 113)"
-  np(outcome$limp_yn == "Yes", show_denom = TRUE, na_rm = T)
+  np(outcome$limp_yn == "Yes", show_denom = TRUE, na_rm = TRUE)
 #> [1] "113/565 (20%)"
 
 ```
