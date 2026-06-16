@@ -12,7 +12,7 @@ diagPlot(model, ...)
 \item{...}{arguments to pass to methods}
 }
 \value{
-returns a \code{gtable}
+returns a \code{patchwork} object
 }
 \description{
 \code{diagPlot} is a generic function used to produce diagnostic plots for the

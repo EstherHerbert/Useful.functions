@@ -7,7 +7,7 @@
 #' @param model a model object for which diagnostic plots are required
 #' @param ... arguments to pass to methods
 #'
-#' @returns returns a `gtable`
+#' @returns returns a `patchwork` object
 #'
 #' @export
 diagPlot <- function(model, ...){
@@ -16,11 +16,13 @@ diagPlot <- function(model, ...){
 
 #' @export
 diagPlot.default <- function(model, ...){
-  cat("no method exists for this object")
+  message("no method currently exists for this object")
 }
 
 #' @export
-diagPlot.lm <- function(model, plot = FALSE, ...) {
+diagPlot.lm <- function(model, ...) {
+
+  model <- broom::augment(model)
 
   p1 <- ggplot2::ggplot(model, ggplot2::aes(.fitted, .resid)) +
     ggplot2::geom_point() +
@@ -30,38 +32,33 @@ diagPlot.lm <- function(model, plot = FALSE, ...) {
                   title = "Residual vs Fitted Plot") +
     ggplot2::theme_bw()
 
-  p2 <- ggplot2::ggplot(model, ggplot2::aes(sample = .stdresid)) +
+  p2 <- ggplot2::ggplot(model, ggplot2::aes(sample = .std.resid)) +
     ggplot2::geom_qq() +
     ggplot2::geom_qq_line(lty = "dashed") +
     ggplot2::labs(x = "Theoretical Quantiles", y = "Standardized Residuals",
                   title = "Normal Q-Q") +
     ggplot2::theme_bw()
 
-  p3 <- ggplot2::ggplot(model, ggplot2::aes(.fitted, sqrt(abs(.stdresid)))) +
+  p3 <- ggplot2::ggplot(model, ggplot2::aes(.fitted, sqrt(abs(.std.resid)))) +
     ggplot2::geom_point(na.rm = TRUE) +
     ggplot2::stat_smooth(method = "loess", na.rm = TRUE) +
     ggplot2::labs(x = "Fitted Value", y = expression(sqrt("|Standardized residuals|")),
                   title = "Scale-Location") +
     ggplot2::theme_bw()
 
-  p4 <- ggplot2::ggplot(model, ggplot2::aes(.hat, .stdresid)) +
+  p4 <- ggplot2::ggplot(model, ggplot2::aes(.hat, .std.resid)) +
     ggplot2::geom_point(na.rm = TRUE) +
     ggplot2::stat_smooth(method = "loess", na.rm = TRUE) +
     ggplot2::labs(x = "Leverage", y = "Standardized Residuals",
                   title = "Residual vs Leverage Plot") +
     ggplot2::theme_bw()
 
-  plots <- gridExtra::arrangeGrob(grobs = list(p1, p2, p3, p4),
-                       layout_matrix = matrix(c(1,3,2,4), nrow = 2))
-
-  if(plot) plot(plots)
-
-  return(plots)
+  p1 + p2 + p3 + p4
 
 }
 
 #' @export
-diagPlot.lme <- function(model, plot = FALSE, ...) {
+diagPlot.lme <- function(model, ...) {
 
   response <- with(attributes(terms(model)),
                    as.character(variables[response+1]))
@@ -102,12 +99,7 @@ diagPlot.lme <- function(model, plot = FALSE, ...) {
     ggplot2::labs(x = "Quantiles of standard normal", y = "Subject level residuals") +
     ggplot2::theme_bw()
 
-  plots <- gridExtra::arrangeGrob(grobs = list(p1, p2, p3, p4),
-                       layout_matrix = matrix(c(1,2,3,4), nrow = 2))
-
-  if(plot) plot(plots)
-
-  return(plots)
+  p1 + p2 + p3 + p4
 
 }
 
