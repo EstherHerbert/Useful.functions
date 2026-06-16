@@ -31,6 +31,7 @@ a factor vector the same length as `x` with factor levels wrapped
 ## Examples
 
 ``` r
+
 nt_yorks <- factor(c("Beningbrough Hall (Historic House)",
                      "Braithwaite Hall (Historic Property)",
                      "Brimham Rocks (Countryside)",

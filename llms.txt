@@ -12,6 +12,7 @@ installed*
 Install the latest release with the following code:
 
 ``` r
+
 install.packages('devtools')
 devtools::install_github("EstherHerbert/Useful.functions@*release")
 library(Useful.functions)

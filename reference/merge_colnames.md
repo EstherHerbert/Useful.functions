@@ -23,13 +23,14 @@ a list with components 'pos' and 'command'
 ## Examples
 
 ``` r
+
 iris2 <- split_colnames(iris, sep = "\\.")
 #> Warning: invalid factor level, NA generated
 
 xtab <- xtable::xtable(iris2)
 xtable::print.xtable(xtab, add.to.row = merge_colnames(xtab))
-#> % latex table generated in R 4.5.3 by xtable 1.8-8 package
-#> % Tue Mar 31 13:43:19 2026
+#> % latex table generated in R 4.6.0 by xtable 1.8-8 package
+#> % Tue Jun 16 16:09:59 2026
 #> \begin{table}[ht]
 #> \centering
 #> \begin{tabular}{rlllll}

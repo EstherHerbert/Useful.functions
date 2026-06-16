@@ -24,4 +24,4 @@ diagPlot(model, ...)
 
 ## Value
 
-returns a `gtable`
+returns a `patchwork` object
