@@ -18,5 +18,10 @@ Useful links:
 \author{
 \strong{Maintainer}: Esther Herbert \email{E.Herbert@sheffield.ac.uk}
 
+Authors:
+\itemize{
+  \item Esther Herbert \email{E.Herbert@sheffield.ac.uk}
+}
+
 }
 \keyword{internal}

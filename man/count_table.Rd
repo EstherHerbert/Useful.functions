@@ -19,7 +19,7 @@ number)}
 
 \item{group}{optional, variable that defines the grouping}
 
-\item{accuracy}{see details of \code{\link[scales:percent_format]{scales::percent()}}}
+\item{accuracy}{see details of \code{\link[scales:percent]{scales::percent()}}}
 
 \item{total}{Logical indicating whether a total column should be created,
 default is \code{FALSE}}

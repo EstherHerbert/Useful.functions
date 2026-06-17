@@ -14,7 +14,7 @@ read_prospect(file, dictionary = lookups, convert.date = TRUE, ...)
 
 \item{convert.date}{Convert fields ending in \verb{_dt} or \verb{_date} to date format}
 
-\item{...}{arguments to be passed to \code{\link[utils:read.table]{utils::read.csv()}}. \code{stringsAsFactors}
+\item{...}{arguments to be passed to \code{\link[utils:read.csv]{utils::read.csv()}}. \code{stringsAsFactors}
 is set to \code{FALSE} within \code{read_prospect()}, re-specifying it in the call
 will throw an error.}
 }
