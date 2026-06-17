@@ -11,3 +11,7 @@ Useful links:
 ## Author
 
 **Maintainer**: Esther Herbert <E.Herbert@sheffield.ac.uk>
+
+Authors:
+
+- Esther Herbert <E.Herbert@sheffield.ac.uk>
