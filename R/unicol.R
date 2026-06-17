@@ -34,10 +34,9 @@ get_unicol <- function(names, tints = 1) {
   missing <- dplyr::anti_join(options, unicol, by = c("Colour.name", "Tint"))
 
   if(nrow(missing) > 0) {
-
-    warning("Not all colours were available in the tints given. Missing ",
-            "colours are: ", paste(apply(missing, 1, paste, collapse = ": "),
-                                   collapse = "; "), call. = FALSE)
+    cli::cli_warn(c(
+    "Not all colours were available in the tints given. Missing colours are:",
+    " " = "{apply(missing, 1, paste, collapse = ': ')}"))
   }
 
   return(out)

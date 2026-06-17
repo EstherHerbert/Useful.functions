@@ -182,8 +182,8 @@
     Code
       discrete_table(outcome, sex, missing = "Unknown", n = T)
     Condition
-      Warning in `discrete_table()`:
-      You have specified a string for `missing` when `n = TRUE`, `missing` will be ignored
+      Warning:
+      You have specified `missing` when `n = TRUE`, `missing` will be ignored
     Output
       # A tibble: 5 x 3
         variable scoring               value      
@@ -199,8 +199,8 @@
     Code
       discrete_table(outcome, sex, total = F)
     Condition
-      Warning in `discrete_table()`:
-      You have specified `total=FALSE` without `group`, `total` will be ignored
+      Warning:
+      You have specified `total` as `FALSE` without `group`, `total` will be ignored
     Output
       # A tibble: 5 x 3
         variable scoring               value      

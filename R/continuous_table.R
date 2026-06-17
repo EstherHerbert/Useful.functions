@@ -36,8 +36,8 @@ continuous_table <- function(df = .,
   }
 
   if(!missing(time) & missing(group)) {
-    stop("Time can currenlty only be used with a group variable")
-  }
+    cli::cli_abort("{.arg time} can currenlty only be used when {.arg group} is specified")
+      }
 
   if (missing(group)) {
     total <- FALSE

@@ -28,7 +28,10 @@ add_clines <- function(xtab, rows = "multirow", cols, check.column) {
   if (length(rows) == 1) {
     if (rows == "multirow") {
       if (missing(check.column)) {
-        stop("when rows is 'multirow' a check.column name or number must be given")
+        cli::cli_abort(c(
+          "{.arg check.column} not specified",
+          "i" = "{.arg check.column} must be specified when {.arg rows} is {.str multirow}"
+        ))
       }
       rows <- str_which(xtab[, check.column], "\\\\multirow") - 1
     }

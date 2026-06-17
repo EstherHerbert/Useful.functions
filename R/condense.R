@@ -52,7 +52,7 @@ condense <- function(df, first_col = variable, second_col = scoring, third_col,
     quad = c("\\quad", "\\qquad\\quad"),
     hang = c("\\hangindent2em\\hangafter0", "\\hangindent4em\\hangafter0"),
     space = c("    ", "        "),
-    stop("indent must be one of `quad`, `hang` or `space`")
+    rlang::arg_match(indent)
   )
 
   if (!missing(third_col)) {
@@ -83,7 +83,7 @@ condense <- function(df, first_col = variable, second_col = scoring, third_col,
       dplyr::group_by({{first_col}}) %>%
       dplyr::group_modify(~dplyr::add_row(.x, .before = 1)) %>%
       dplyr::filter(is.na(dplyr::lead({{second_col}})) |
-               !dplyr::lead({{second_col}}) %in% c("n", "")) %>%
+                      !dplyr::lead({{second_col}}) %in% c("n", "")) %>%
       dplyr::ungroup() %>%
       dplyr::mutate(
         {{first_col}} := forcats::fct_na_level_to_value({{first_col}}),

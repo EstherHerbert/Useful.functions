@@ -11,11 +11,11 @@ git_log <- function(filename = file_stamp("git_log", ".csv")) {
 
   if (suppressWarnings(shell("git rev-parse --is-inside-work-tree", shell = "cmd",
             intern = TRUE)) != "true") {
-    stop("The working directory is not a git repository.")
+    cli::cli_abort("The working directory is not a git repository.")
   }
 
   if (Sys.info()[['sysname']] != "Windows") {
-    stop("This function only works on Windows operating systems.")
+    cli::cli_abort("This function only works on Windows operating systems.")
   }
 
   call <- paste0("git log --pretty=format:\"%h,%(decorate:prefix=,suffix=,",

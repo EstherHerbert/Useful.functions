@@ -16,7 +16,7 @@ diagPlot <- function(model, ...){
 
 #' @export
 diagPlot.default <- function(model, ...){
-  message("no method currently exists for this object")
+  cli::cli_alert_danger("no method currently exists for this object")
 }
 
 #' @export

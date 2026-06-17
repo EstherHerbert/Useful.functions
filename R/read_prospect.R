@@ -24,7 +24,7 @@ read_prospect <- function(file,
   new <- utils::read.csv(file, stringsAsFactors = FALSE, ...)
 
   if (dim(new)[1]==0) {
-    message(paste("File", file, "has no rows."))
+   cli::cli_alert_warning("File {.file {file}} has no rows")
     return(new)
   }
 
@@ -43,11 +43,11 @@ read_prospect <- function(file,
   if (!"form_name" %in% names(new)) {
     if ("parent_form" %in% names(new)) {
       if (!"subform_name" %in% names(new)) {
-        message("No subform name in data")
+        cli::cli_alert_warning("File {.file {file}} appears to be a sub-form but {.var subform_name} is not present in the data")
         return(new)
       }
       if (!new$parent_form[1] %in% dictionary$form) {
-        message("Form not listed in dictionary")
+        cli::cli_alert_warning("File {.file {file}} is not listed in {.arg dictionary}")
         return(new)
       }
       L <- dplyr::filter(dictionary,
@@ -55,14 +55,13 @@ read_prospect <- function(file,
                          subform == new$subform_name[1],
                          field %in% names(new),
                          !is.na(code))
-    }
-    else {
-      message("Form name not given in data")
+    } else {
+      cli::cli_alert_warning("File {.file {file}} does not contain {.var form_name}")
       return(new)
     }
   } else {
     if (!new$form_name[1] %in% dictionary$form) {
-      message("Form not listed in dictionary")
+      cli::cli_alert_warning("File {.file {file}} is not listed in {.arg dictionary}")
       return(new)
     }
     L <- dplyr::filter(dictionary,
@@ -99,6 +98,8 @@ read_prospect <- function(file,
       new[, dates] <- lapply(new[, dates], as.Date, format = "%Y-%m-%d")
     }
   }
+
+  cli::cli_alert_success("File {.file {file}} was successfully read in")
 
   return(new)
 }

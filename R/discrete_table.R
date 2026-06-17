@@ -45,7 +45,7 @@ discrete_table <- function(df = .,
     names()
 
   if (rlang::is_empty(variable)) {
-    stop("No variables were specified in `...`")
+    cli::cli_abort("No variables were specified in {.arg ...}")
   }
 
   if (isTRUE(condense)) {
@@ -54,17 +54,18 @@ discrete_table <- function(df = .,
   }
 
   if(!missing(time) & missing(group)) {
-    stop("Time can currenlty only be used with a group variable")
+    cli::cli_abort("{.arg time} can currenlty only be used when {.arg group} is
+                   specified")
   }
 
   if(!missing(missing) && n) {
-    warning(paste("You have specified a string for `missing` when `n = TRUE`,",
-                  "`missing` will be ignored"))
+    cli::cli_warn("You have specified {.arg missing} when {.arg n = TRUE},
+                  {.arg missing} will be ignored")
   }
 
   if (!missing(total) && missing(group)) {
-    warning(paste0("You have specified `total=", total,
-                   "` without `group`, `total` will be ignored"))
+    cli::cli_warn("You have specified {.arg total} as {.arg {total}} without
+                  {.arg group}, {.arg total} will be ignored")
   }
 
   if (missing(group)) {

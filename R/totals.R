@@ -41,7 +41,7 @@ totals <- function(df = .,
         )
       )
   } else {
-    stop("totals only takes one or two column arguments")
+    cli::cli_abort("{.arg totals} only takes one or two column arguments")
   }
 
   return(out)

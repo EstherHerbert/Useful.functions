@@ -23,7 +23,8 @@ Imports:
     scales,
     stringr,
     lifecycle,
-    patchwork
+    patchwork,
+    cli
 Roxygen: list(markdown = TRUE)
 Suggests: 
     knitr,
